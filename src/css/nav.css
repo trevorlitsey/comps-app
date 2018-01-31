@@ -1,0 +1,32 @@
+.nav {
+	background: rgba(247, 247, 247, .9);
+	color: rgb(0, 0, 0);
+	margin: 10px;
+}
+
+.nav ul {
+	list-style: none;
+	padding: 10px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 20px), 1fr, 1fr;
+	grid-auto-flow: column;
+	font-weight: bold;
+	font-size: 1.2rem;
+	justify-content: space-between;
+}
+
+.nav li {
+	padding: 0 10px;
+	border-right: 1px solid black; 
+	border-left: 1px solid black; 
+}
+
+.nav ul ul {
+	display: flex;
+	padding: 0;
+}
+
+.sign-in {
+	padding: 0 10px;
+}
+
