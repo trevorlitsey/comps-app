@@ -1,0 +1,13 @@
+.container__info {
+	text-align: center;
+	width: 320px;
+	margin: 20px auto;
+	padding: 5px;
+	background: white;
+	box-shadow: 2px 2px 2px rgb(187, 187, 187);
+}
+
+.container__info p {
+	font-size: .7rem;
+	color: rgb(119, 119, 119);
+}

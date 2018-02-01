@@ -5,14 +5,14 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './css/style.css';
 
 import Main from './components/Main';
-import RequestForm from './components/RequestForm';
+import Request from './components/Request';
 
 const Root = () => {
 	return(
 		<BrowserRouter>
 			<Switch>
 				<Route exact path="/" component={Main} />
-				<Route exact path="/venue/:venueId" component={RequestForm}/>
+				<Route exact path="/venue/:venueId" component={Request}/>
 			</Switch>
 		</BrowserRouter>
 	)

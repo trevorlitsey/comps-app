@@ -1,10 +1,8 @@
 .form-container {
-	min-width: 200px;
-	min-width: 250px;
+	width: 320px;
 	margin: 20px auto;
 	padding: 30px;
 	background: white;
-	border-radius: 10px;
 	box-shadow: 2px 2px 2px rgb(187, 187, 187);
 }
 
@@ -14,6 +12,7 @@
 }
 
 .form {
+	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr;
@@ -49,4 +48,11 @@
 .button--submit:hover {
 	cursor: pointer;
 	background: rgb(219, 219, 219);
+}
+
+button:disabled:hover,
+button[disabled]:hover{
+	/* do nothing */
+	cursor: not-allowed;
+	background: rgb(255, 255, 255);
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Redirect } from 'react-router'
-import { Link } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
 
 const history = createBrowserHistory()
@@ -30,7 +29,6 @@ class WelcomeForm extends React.Component {
 
 		return (
 			<div className="form-container">
-				<h2 className="lobster">CompList.org</h2>
 				<form className="form" onSubmit={this.goToVenue.bind(this)}>
 					<input type="textbox" name="code" placeholder="enter code" ref={ (input) => { this.venue = input } }></input>
 					<button className="button--submit" type="submit">submit >></button>
