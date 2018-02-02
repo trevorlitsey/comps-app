@@ -4,14 +4,16 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import './css/style.css';
 
-import Main from './components/Main';
-import Request from './components/Request';
+import Landing from './components/pages/Landing';
+import Request from './components/pages/Request';
+import SignUp from './components/pages/SignUp';
 
 const Root = () => {
 	return(
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/" component={Main} />
+				<Route exact path="/" component={Landing} />
+				<Route exact path="/signup" component={SignUp} />
 				<Route exact path="/venue/:venueId" component={Request}/>
 			</Switch>
 		</BrowserRouter>

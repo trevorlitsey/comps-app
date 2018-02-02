@@ -30,7 +30,7 @@ class WelcomeForm extends React.Component {
 		return (
 			<div className="form-container">
 				<form className="form" onSubmit={this.goToVenue.bind(this)}>
-					<input type="textbox" name="code" placeholder="enter code" ref={ (input) => { this.venue = input } }></input>
+					<input type="textbox" name="code" placeholder="enter code" ref={ (input) => { this.venue = input } } required></input>
 					<button className="button--submit" type="submit">submit >></button>
 				</form>
 				{fireRedirect && (
