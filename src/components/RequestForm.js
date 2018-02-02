@@ -42,6 +42,7 @@ class RequestForm extends React.Component {
 		return (
 				<div className="form-container">
 				<form className="form" onSubmit={this.handleSubmit.bind(this)} onKeyUp={this.checkValidation.bind(this)}>
+					<label className="label__title">{this.props.venue}:</label>
 					<input className="required" type="textbox" name="guestName" placeholder="Guest Name (First Last)" ref={ (input) => { this.guestName = input } } required></input>
 					<input type="textbox" name="guestEmail" placeholder="Guest Email" ref={ (input) => { this.guestEmail = input } } required></input>
 					<input type="textbox" name="numberOfTickets" placeholder="Number of tickets" ref={ (input) => { this.numberOfTickets = input } } required></input>

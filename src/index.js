@@ -6,15 +6,15 @@ import './css/style.css';
 
 import Landing from './components/pages/Landing';
 import Request from './components/pages/Request';
-import SignUp from './components/pages/SignUp';
+import Admin from './components/pages/Admin';
 
 const Root = () => {
 	return(
 		<BrowserRouter>
 			<Switch>
 				<Route exact path="/" component={Landing} />
-				<Route exact path="/signup" component={SignUp} />
-				<Route exact path="/venue/:venueId" component={Request}/>
+				<Route exact path="/request/:venueId" component={Request} />
+				<Route exact path="/venue/:venueId" component={Admin}/>
 			</Switch>
 		</BrowserRouter>
 	)

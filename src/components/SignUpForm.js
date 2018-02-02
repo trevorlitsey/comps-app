@@ -32,8 +32,7 @@ class SignUpForm extends React.Component {
 
 	}
 
-	handleSubmit(e) {
-		e.preventDefault();
+	componentWillMount() {
 
 		// todo, make thank you for submitting form
 		console.log('submitting!!');
@@ -45,6 +44,9 @@ class SignUpForm extends React.Component {
 		});
 		console.log(this.ref);
 		
+	}
+
+	componentWillUnmount() {
 		base.removeBinding(this.ref);
 	}
 
@@ -54,14 +56,9 @@ class SignUpForm extends React.Component {
 		const isEnabled = bandName && email && emailConfirm && password && passwordConfirm && (email === emailConfirm) && (password === passwordConfirm);
 
 		return (
-				<div className="form-container">
-				<form className="form" onSubmit={this.handleSubmit.bind(this)} onKeyUp={this.checkValidation.bind(this)}>
-					<input type="textbox" 	name="bandName" 				placeholder="Band/Venue name" 	ref={ (input) => { this.bandName = input } } required></input>
-					<input type="textbox" 	name="email" 						placeholder="Email" 						ref={ (input) => { this.email = input } } required></input>
-					<input type="textbox" 	name="emailConfirm" 		placeholder="Confirm Email" 		ref={ (input) => { this.emailConfirm = input } } required></input>
-					<input type="password" 	name="password"	 				placeholder="Password" 					ref={ (input) => { this.password = input } } required></input>
-					<input type="password" 	name="passwordConfirm"	placeholder="Confirm Password" 	ref={ (input) => { this.passwordConfirm = input } } required></input>
-					<button className="button--submit" type="submit" disabled={!isEnabled}>submit >></button>
+			<div className="form-container">
+				<form className="form" onKeyUp={this.checkValidation.bind(this)}>
+					<button className="button--submit" onClick={() => this.authenticate('google')}>Sign in with Google >></button>
 				</form>
 			</div>
 		)
