@@ -1,61 +1,93 @@
 import React from 'react';
-import base from 're-base';
+import { Link } from 'react-router-dom';
 
 import Banner from '../Banner';
-import SignUpForm from '../SignUpForm';
+import LogInForm from '../LogInForm';
+
+import base, { auth, provider } from '../../base.js';
 
 class Admin extends React.Component {
 
 	constructor() {
 		super();
 
-		this.state = {
-			uid: '',
-			owner: ''
-		}
+		this.logIn = this.logIn.bind(this);
+		this.logOut = this.logOut.bind(this);
 
+		this.state = {
+			owner: '',
+			username: '',
+			user: null,
+		}
+	}
+
+	componentDidMount() {
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+				this.setState({ user });
+			} 
+		});
+	}
+
+	logIn() {
+		console.log('running');
+		
+		auth.signInWithPopup(provider)
+			.then((result) => {
+				const user = result.user;
+				console.log(user);
+				
+				this.setState({ user });
+			});
+	}
+
+	logOut() {
+		auth.signOut()
+    .then(() => {
+      this.setState({
+        user: null
+      });
+    });
 	}
 
 	renderLogin() {
 		return (
 			<div className="container">
-				<Banner text="Sign Up:"/>
-				<SignUpForm />
+				<Banner text="Sign In:"/>
+				<LogInForm logIn={this.logIn} />
 			</div>
 		)
 	}
 
-
 	render() {
-
-		const logout = <button onClick={this.logout}>Log Out!</button>
+		const logout = <button className="button--logout" onClick={this.logOut}>{'Log Out >>'}</button>
 
 		// check if not logged in
-		if (!this.state.uid) {
+		if (!this.state.user) {
 			return <div>{this.renderLogin()}</div>
 		}
-	
+
 		// check if user is owner of store
 		if(this.state.uid !== this.state.owner) {
 			return(
-				<div>
-					<p>Sorry you aren't the owner of this store!</p>
+			<div className="container">
+				<div className="container__info">
+					<p>Sorry, you are not an admin of this band or venue! Click <Link to={`/`}>here</Link> to request comps.</p>
 					{logout}
 				</div>
+			</div>
 			)
 		}
 
 		return (
-			<div>
+			<div className="container">
 				<Banner text="Admin:" />
-				{logout}
+				<div className="container__info">
+					{logout}
+				</div>
 			</div>
 		)
-
 	}
-
-
-
 }
 
 export default Admin;

@@ -29,7 +29,6 @@ class RequestForm extends React.Component {
 		e.preventDefault();
 
 		// todo, make thank you for submitting form
-
 		console.log('submitting!!');
 
 	}
