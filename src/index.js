@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './css/style.css';
 
 import Landing from './components/pages/Landing';
+import SignUp from './components/pages/SignUp';
 import Request from './components/pages/Request';
 import Admin from './components/pages/Admin';
 
@@ -13,6 +14,7 @@ const Root = () => {
 		<BrowserRouter>
 			<Switch>
 				<Route exact path="/" component={Landing} />
+				<Route exact  path="/signup" component={SignUp} />
 				<Route exact path="/request/:venueId" component={Request} />
 				<Route exact path="/admin/:venueId" component={Admin}/>
 			</Switch>

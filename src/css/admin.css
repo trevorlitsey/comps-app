@@ -1,0 +1,42 @@
+.event--container {
+	display: flex;
+}
+
+.event--info {
+	font-size: 1rem;
+	display: block;
+	width: 100%;
+	padding: 8px;
+	margin-top: 2px;
+	display: flex;
+	align-items: center;
+	font-size: .8rem;
+}
+
+.event--button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 8px;
+	width: 40px;
+	padding: 5px;
+	margin-top: 2px;
+}
+
+.event--button:hover {
+	cursor: pointer;
+}
+
+.event--button::before {
+	content: 'x';
+}
+
+.form-container input[type="text"] {
+	font-family: 'Lato', sans-serif;
+	font-size: .8rem;
+}
+
+.new-date::placeholder {
+	font-family: 'Lato', sans-serif;
+	 font-size: .8rem;
+}

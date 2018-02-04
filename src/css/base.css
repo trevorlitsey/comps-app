@@ -26,3 +26,7 @@ html, body {
 	justify-content: center;
 	align-items: center;
 }
+
+.space-md {
+	height: 20px;
+}
