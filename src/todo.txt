@@ -1,0 +1,21 @@
+TODO
+
+Admin:
+- enable admin to sign in without url param for venue
+- let user know that login is only for admins
+
+--signin
+- inlcude link for user to request if on page by accident
+
+--info
+- prevent user from setting non-unique access code
+
+--events
+- let user create new events and edit old ones
+
+--toggle
+- let user toggle over between venue info and managing requests
+- let user show/hide past events
+
+Landing:
+- implement server query for finding venue by access code
