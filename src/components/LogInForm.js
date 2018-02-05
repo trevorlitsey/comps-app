@@ -1,7 +1,5 @@
 import React from 'react';
 
-import base from '../base';
-
 class LogInForm extends React.Component {
 
 	render() {

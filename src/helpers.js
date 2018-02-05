@@ -1,7 +1,6 @@
-import { database, auth, provider }  from './base'
-import firebase from 'firebase';
+import { database }  from './base'
 
-export function findVenueOwner(id) {	
+export function findVenueOwner(id = '') {	
 	return database
 		.child('venues')
 		.orderByChild('id')

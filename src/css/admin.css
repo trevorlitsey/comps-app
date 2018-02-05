@@ -1,3 +1,9 @@
+.container--admin {
+	width: 320px;
+	margin: 0 auto;
+}
+
+
 .event--container {
 	display: flex;
 }

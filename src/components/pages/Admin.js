@@ -5,10 +5,12 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import Nav from '../Nav';
+import Toggle from '../Toggle';
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 
-import base, { auth, provider } from '../../base';
+import { auth, provider } from '../../base';
 import { findVenueOwner } from '../../helpers'
 
 class Admin extends React.Component {
@@ -33,12 +35,15 @@ class Admin extends React.Component {
 			const owner = findVenueOwner(this.props.match.params.venueId);
 			owner.once('value', snap => {
 				
-				const venue = snap.val()[Object.keys(snap.val())[0]];
-				
-				this.setState({
-					user,
-					venue
-				 });
+				if (snap.val()) {
+					
+					const venue = snap.val()[Object.keys(snap.val())[0]];
+					
+					this.setState({
+						user,
+						venue
+					});
+				}
 			});
 			
 			if (user) {
@@ -76,10 +81,9 @@ class Admin extends React.Component {
 	renderEvent(key) {
 		
 		const { date, title } = this.state.venue.events[key];
-		console.log({ date, title });
 		
 		return(
-			<div className="event--container">
+			<div className="event--container" key={key}>
 				<div className="event--info">{date} {title}</div>
 				<div className="event--button"></div>
 			</div>
@@ -114,11 +118,12 @@ class Admin extends React.Component {
 		}
 
 		return (
-			<div className="container">
+			<div className="container--admin">
 				<Banner text="Edit Info:" />
+				<Toggle text1="Edit venue info" text2="Manage comp requests" />
 				<div className="form-container">
 					<label>Edit band/venue name:</label>
-					<input type="textbox" value={this.state.venue.name}></input>
+					<input type="textbox" defaultValue={this.state.venue.name}></input>
 					<div className="space-md"></div>
 					<label>Edit band/venue passcode:</label>
 					<input type="textbox" placeholder="(set this to invite users)"></input>
@@ -129,8 +134,6 @@ class Admin extends React.Component {
 					<label>Add new event:</label>
 					<DatePicker className="new-date" selected={this.state.startDate} onChange={this.handleChange} />
 					<input className="new-date" type="textbox" placeholder="hollywood bowl"></input>
-					<div className="space-md"></div>
-					<label>Pending comp requests:</label>
 				</div>
 				<div className="container__info">
 					{logout}
