@@ -1,12 +1,27 @@
 .container--admin {
-	width: 320px;
-	margin: 0 auto;
+	margin: 0 10px;
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
 
+.subcontainer--info {
+	/* grid-area: info; */
+}
+
+.subcontainer--pending {
+	/* grid-area: pending; */
+}
+
+.subcontainer--done {
+
+}
 
 .event--container {
 	display: flex;
 }
+
+/* info */
 
 .event--info {
 	font-size: 1rem;
@@ -45,4 +60,8 @@
 .new-date::placeholder {
 	font-family: 'Lato', sans-serif;
 	 font-size: .8rem;
+}
+
+.ant-calendar-picker-input .ant-input {
+	width: 100%;
 }

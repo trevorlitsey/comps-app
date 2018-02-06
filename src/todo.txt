@@ -4,7 +4,6 @@ Admin:
 - enable admin to sign in without url param for venue
 - let user know that login is only for admins
 
---signin
 - inlcude link for user to request if on page by accident
 
 --info

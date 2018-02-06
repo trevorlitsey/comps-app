@@ -8,15 +8,17 @@ import Landing from './components/pages/Landing';
 import SignUp from './components/pages/SignUp';
 import Request from './components/pages/Request';
 import Admin from './components/pages/Admin';
+import LogIn from './components/pages/LogIn';
 
 const Root = () => {
 	return(
 		<BrowserRouter>
 			<Switch>
 				<Route exact path="/" component={Landing} />
-				<Route exact  path="/signup" component={SignUp} />
+				<Route exact path="/signup" component={SignUp} />
 				<Route exact path="/request/:venueId" component={Request} />
-				<Route path="/admin" component={Admin}/>
+				<Route exact path="/login" component={LogIn}/>
+				<Route exact path="/admin/:venueId" component={Admin}/>
 			</Switch>
 		</BrowserRouter>
 	)

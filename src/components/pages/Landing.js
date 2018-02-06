@@ -7,11 +7,9 @@ import Info from '../Info';
 
 class Landing extends React.Component {
 
-
 	render() {
 		return (
 			<div className="container">
-				<Nav />
 				<Banner text="CompList.org" />
 				<WelcomeForm />
 				<Info />
