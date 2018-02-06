@@ -1,7 +1,6 @@
 TODO
 
 Admin:
-- enable admin to sign in without url param for venue
 - let user know that login is only for admins
 
 - inlcude link for user to request if on page by accident
@@ -13,7 +12,6 @@ Admin:
 - let user create new events and edit old ones
 
 --toggle
-- let user toggle over between venue info and managing requests
 - let user show/hide past events
 
 Landing:

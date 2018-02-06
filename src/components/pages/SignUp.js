@@ -63,9 +63,7 @@ class SignUp extends React.Component {
 
 
 	signUp(name) {
-
-		// TODO: check if user is already signed in
-
+		// check if user is signed up already
 		if (firebase.auth().currentUser) {
 			const user = firebase.auth().currentUser;
 			const { uid } = user;

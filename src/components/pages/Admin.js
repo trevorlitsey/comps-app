@@ -45,6 +45,7 @@ class Admin extends React.Component {
 	}
 
 	renderLogin() {
+		const text = '';
 		return (
 			<div className="container">
 				<Nav />
