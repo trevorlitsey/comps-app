@@ -2,15 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { DatePicker, Input, Button, Divider } from 'antd';
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
+import uniqid from 'uniqid';
+
+// epoch?
 
 import Nav from '../Nav';
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 import EventForm from '../EventForm';
 
-import { auth, provider } from '../../base';
+import base, { auth, provider } from '../../base';
 import { findOwnerByVenue, togLog } from '../../helpers'
 
 class Admin extends React.Component {
@@ -24,21 +25,25 @@ class Admin extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 
 		this.state = {
-			startDate: moment(),
 			venue: '',
 			user: '',
 		}
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		auth.onAuthStateChanged((user) => {
 			this.setState({ user });
 		});
-		const owner = findOwnerByVenue(this.props.match.params.venueId);
-		owner.once('value', snap => {
-			const venue = snap.val()[Object.keys(snap.val())[0]];
-			this.setState({ venue });
+
+		this.ref = base.syncState(`venues/${this.props.match.params.venueId}`
+			, {
+				context: this,
+				state: 'venue'
 		});
+	}
+	
+	componentWillUnmount() {
+		base.removeBinding(this.ref);
 	}
 
 	toggleLogin() {
@@ -62,23 +67,21 @@ class Admin extends React.Component {
 		return(
 			<div className="event--container" key={key}>
 				<div className="event--info">{date} {title}</div>
-				<div className="event--button"></div>
+				<div className="event--button" onClick={() => this.removeEvent(key)}></div>
 			</div>
 		)
 	}
 
-	addEvent() {
-		console.log(this.date, this.name);
-		
-		// database.child('venues').child(venueId).set({
-		// 	name,
-		// 	owner: uid
-		// }).then(() => {	
-		// 	history.push('/signup');				
-		// 	this.setState({
-		// 		fireRedirect: `admin/${venueId}`
-		// 	});
-		// });
+	addEvent(formObj) {
+		const venue = {...this.state.venue};
+		venue.events[uniqid()] = formObj;
+		this.setState({ venue });
+	}
+
+	removeEvent(key) {
+		const venue = {...this.state.venue};
+		venue.events[key] = null;
+		this.setState({ venue });
 	}
 
 	handleChange(date) {
@@ -114,7 +117,7 @@ class Admin extends React.Component {
 							<label>Manage events:</label>
 							{Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
-							<EventForm />
+							<EventForm addEvent={this.addEvent}/>
 							<Divider />
 						</div>
 					</div>

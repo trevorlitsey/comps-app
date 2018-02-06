@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import './css/style.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import Landing from './components/pages/Landing';
 import SignUp from './components/pages/SignUp';
