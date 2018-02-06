@@ -11,8 +11,9 @@ html, body {
 	margin: 0;
 	height: 100vh;
 	width: 100vw;
-	overflow: hidden;
 	background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+	background-repeat: no-repeat;
+  background-attachment: fixed;
 	/* background: rgb(236, 236, 236); */
 }
 *, *:before, *:after { box-sizing: inherit; }

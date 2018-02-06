@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { DatePicker, Input } from 'antd';
+import { DatePicker, Input, Button, Divider } from 'antd';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import Nav from '../Nav';
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
+import EventForm from '../EventForm';
 
 import { auth, provider } from '../../base';
 import { findOwnerByVenue, togLog } from '../../helpers'
@@ -19,6 +20,7 @@ class Admin extends React.Component {
 
 		this.toggleLogin = this.toggleLogin.bind(this);
 		this.renderEvent = this.renderEvent.bind(this);
+		this.addEvent = this.addEvent.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 
 		this.state = {
@@ -56,15 +58,27 @@ class Admin extends React.Component {
 	}
 
 	renderEvent(key) {
-		
 		const { date, title } = this.state.venue.events[key];
-		
 		return(
 			<div className="event--container" key={key}>
 				<div className="event--info">{date} {title}</div>
 				<div className="event--button"></div>
 			</div>
 		)
+	}
+
+	addEvent() {
+		console.log(this.date, this.name);
+		
+		// database.child('venues').child(venueId).set({
+		// 	name,
+		// 	owner: uid
+		// }).then(() => {	
+		// 	history.push('/signup');				
+		// 	this.setState({
+		// 		fireRedirect: `admin/${venueId}`
+		// 	});
+		// });
 	}
 
 	handleChange(date) {
@@ -96,12 +110,12 @@ class Admin extends React.Component {
 							<label>Edit band/venue passcode:</label>
 							<input type="textbox" placeholder="(set this to invite users)"></input>
 							<div className="space-md"></div>
+							<Divider />
 							<label>Manage events:</label>
 							{Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
-							<label>Add new event:</label>
-							<DatePicker size="large" className="new-date" selected={this.state.startDate} onChange={this.handleChange} />
-							<Input size="large" className="new-date" type="textbox" placeholder="Name of event"></Input>
+							<EventForm />
+							<Divider />
 						</div>
 					</div>
 					<div className="subcontainer--pending">
