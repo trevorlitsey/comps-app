@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { DatePicker, Input, Button, Divider } from 'antd';
+import { Divider } from 'antd';
 import uniqid from 'uniqid';
 
 // epoch?
@@ -11,8 +11,8 @@ import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 import EventForm from '../EventForm';
 
-import base, { auth, provider } from '../../base';
-import { findOwnerByVenue, togLog } from '../../helpers'
+import base, { auth } from '../../base';
+import { togLog } from '../../helpers'
 
 class Admin extends React.Component {
 
@@ -22,7 +22,7 @@ class Admin extends React.Component {
 		this.toggleLogin = this.toggleLogin.bind(this);
 		this.renderEvent = this.renderEvent.bind(this);
 		this.addEvent = this.addEvent.bind(this);
-		this.handleChange = this.handleChange.bind(this);
+		this.updateVenueInfo = this.updateVenueInfo.bind(this);
 
 		this.state = {
 			venue: '',
@@ -52,7 +52,6 @@ class Admin extends React.Component {
 	}
 
 	renderLogin() {
-		const text = '';
 		return (
 			<div className="container">
 				<Nav />
@@ -74,6 +73,7 @@ class Admin extends React.Component {
 
 	addEvent(formObj) {
 		const venue = {...this.state.venue};
+		if (!venue.events) venue.events = {};
 		venue.events[uniqid()] = formObj;
 		this.setState({ venue });
 	}
@@ -84,11 +84,11 @@ class Admin extends React.Component {
 		this.setState({ venue });
 	}
 
-	handleChange(date) {
-    this.setState({
-      startDate: date
-    });
-  }
+	updateVenueInfo(e) {
+		const venue = {...this.state.venue};
+		venue[e.target.name] = e.target.value;
+		this.setState({ venue });
+	}
 
 	render() {
 		
@@ -108,14 +108,14 @@ class Admin extends React.Component {
 						<Banner text="Edit Info:" />
 						<div className="form-container">
 							<label>Edit band/venue name:</label>
-							<input type="textbox" defaultValue={this.state.venue.name}></input>
+							<input type="textbox" defaultValue={this.state.venue.name} name="name" onChange={this.updateVenueInfo}></input>
 							<div className="space-md"></div>
 							<label>Edit band/venue passcode:</label>
-							<input type="textbox" placeholder="(set this to invite users)"></input>
+							<input type="textbox" defaultValue={this.state.venue.code} name="code" onChange={this.updateVenueInfo}></input>
 							<div className="space-md"></div>
 							<Divider />
 							<label>Manage events:</label>
-							{Object.keys(this.state.venue.events).map(this.renderEvent)}
+							{this.state.venue.events && Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
 							<EventForm addEvent={this.addEvent}/>
 							<Divider />

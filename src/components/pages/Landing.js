@@ -1,9 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import Nav from '../Nav';
 import Banner from '../Banner';
 import WelcomeForm from '../WelcomeForm';
-import Info from '../Info';
 
 class Landing extends React.Component {
 
@@ -12,7 +11,10 @@ class Landing extends React.Component {
 			<div className="container">
 				<Banner text="CompList.org" />
 				<WelcomeForm />
-				<Info />
+				<div className="container__info">
+					<p>CompList.org is a free site for requesting and organizing comp ticket requests for bands, venues, birthday parties, anything.</p>
+					<p>If you have a code, enter it above. To sign in as a band or venue, click <Link to={`/login`}>here</Link>.</p>
+				</div>
 			</div>
 		)
 	}

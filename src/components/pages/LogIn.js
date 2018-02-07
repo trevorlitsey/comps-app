@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 import LogInForm from '../LogInForm';
 
@@ -21,7 +22,7 @@ class LogIn extends React.Component {
 	}
 
 	toggleLogin() {
-		const user = togLog();
+		togLog();
 		auth.onAuthStateChanged(user => {
 			if (user) {
 				this.setState({ user });
@@ -42,6 +43,9 @@ class LogIn extends React.Component {
 		return (
 			<div className="container">
 				<LogInForm toggleLogin={this.toggleLogin} />
+				<div className="container__info">
+					<p>Log in manage band/venue comp requests. To sign up, click <Link to={`/signup`}>here</Link>.</p>
+				</div>
 				{fireRedirect && (
 					<Redirect to={fireRedirect}/>
 				)}

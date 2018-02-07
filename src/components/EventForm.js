@@ -1,10 +1,7 @@
 import React from 'react'
-import { DatePicker, Form, Input, Button, Label } from 'antd';
+import { DatePicker, Form, Input, Button } from 'antd';
+
 const FormItem = Form.Item;
-
-<form onSubmit={this.addEvent}>
-
-</form>
 
 class EventForm extends React.Component {
 
@@ -13,7 +10,15 @@ class EventForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
       if (!err) {
-				const date = values.date._d;
+				
+				const dateObj = values.date._d;
+				const year = dateObj.getFullYear() + 1;
+				const month = dateObj.getMonth();
+				const day = dateObj.getDay();
+				const date = `${year}/${month}/${day}`
+				
+				console.log(date);
+				
 				const title = values.title;
 				this.props.addEvent({ date, title });	
 			}
@@ -28,7 +33,10 @@ class EventForm extends React.Component {
 					{getFieldDecorator('date', {
 						rules: [{ required: true, message: 'Please input a date!' }],
 					})(
-						<DatePicker placeholder="Event date" />
+						<DatePicker 
+							style={{ width: '100%' }} 
+							placeholder="Event date" 
+						/>
 					)}
 				</FormItem>
 				<FormItem>

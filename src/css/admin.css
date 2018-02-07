@@ -25,12 +25,11 @@
 
 .event--info {
 	font-size: 1rem;
-	display: block;
+	font-weight: 500;
 	width: 100%;
+	word-wrap: break-word;
 	padding: 8px;
 	margin-top: 2px;
-	display: flex;
-	align-items: center;
 	font-size: .8rem;
 }
 

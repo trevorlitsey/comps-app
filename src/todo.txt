@@ -18,3 +18,7 @@ Admin:
 
 Landing:
 - implement server query for finding venue by access code
+
+Login:
+- what happens if user tries to sign in and they don't have an account?
+- eventually do email / password login, too..
