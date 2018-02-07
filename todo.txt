@@ -2,6 +2,7 @@ TODO
 
 Admin:
 - let user know that login is only for admins
+- have user click to bring up field for editing venue info
 
 - inlcude link for user to request if on page by accident
 
@@ -9,7 +10,7 @@ Admin:
 - prevent user from setting non-unique access code
 
 --events
-- fix date 
+- let user sort by date
 - let user edit existing events
 - warn user if date submitted is similar to an old one
 
@@ -22,3 +23,6 @@ Landing:
 Login:
 - what happens if user tries to sign in and they don't have an account?
 - eventually do email / password login, too..
+
+Register:
+- generate venue passcode

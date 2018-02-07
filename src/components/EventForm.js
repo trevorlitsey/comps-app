@@ -34,7 +34,7 @@ class EventForm extends React.Component {
 						rules: [{ required: true, message: 'Please input a date!' }],
 					})(
 						<DatePicker 
-							style={{ width: '100%' }} 
+							size="large"
 							placeholder="Event date" 
 						/>
 					)}
@@ -43,7 +43,10 @@ class EventForm extends React.Component {
 				{getFieldDecorator('title', {
 					rules: [{ required: true, message: 'Please include an event name!' }],
 				})(
-					<Input placeholder="Event name" />
+					<Input 
+						size="large" 
+						placeholder="Event name" 
+					/>
 				)}
 				</FormItem>
 				<FormItem>

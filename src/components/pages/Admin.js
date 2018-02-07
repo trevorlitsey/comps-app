@@ -13,17 +13,16 @@ import EventForm from '../EventForm';
 import PendingComps from '../PendingComps';
 
 import base, { auth } from '../../base';
-import { togLog } from '../../helpers'
 
 class Admin extends React.Component {
 
 	constructor() {
 		super();
 
-		this.toggleLogin = this.toggleLogin.bind(this);
 		this.renderEvent = this.renderEvent.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.updateVenueInfo = this.updateVenueInfo.bind(this);
+		this.updateComp = this.updateComp.bind(this);
 
 		this.state = {
 			venue: '',
@@ -47,17 +46,12 @@ class Admin extends React.Component {
 		base.removeBinding(this.ref);
 	}
 
-	toggleLogin() {
-		const user = togLog(this.state.user);		
-		this.setState({ user });
-	}
-
 	renderLogin() {
 		return (
 			<div className="container">
 				<Nav />
 				<Banner text="Log In:"/>
-				<LogInForm toggleLogin={this.toggleLogin} />
+				<LogInForm />
 			</div>
 		)
 	}
@@ -88,6 +82,12 @@ class Admin extends React.Component {
 	updateVenueInfo(e) {
 		const venue = {...this.state.venue};
 		venue[e.target.name] = e.target.value;
+		this.setState({ venue });
+	}
+
+	updateComp(key, newStatus) {
+		const venue = {...this.state.venue};
+		venue.comps[key].status = newStatus;
 		this.setState({ venue });
 	}
 
@@ -122,7 +122,7 @@ class Admin extends React.Component {
 							<Divider />
 						</div>
 					</div>
-					<PendingComps pending={this.state.venue.comps} events={this.state.venue.events} />
+					<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
 					<div className="subcontainer--done">
 						<Banner text="Done:" />
 						<div className="form-container">

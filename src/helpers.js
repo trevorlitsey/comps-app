@@ -1,4 +1,5 @@
 import { auth, provider, database } from './base'
+import firebase from 'firebase';
 
 export function findOwnerByVenue(id) {
 	return database
@@ -14,16 +15,19 @@ export function findVenueByOwner(user) {
 		.equalTo(user.uid)
 }
 
-export function	togLog(user) {
-	if (!user) {
+export function	logIn(user) {
+		if (firebase.auth().currentUser) {
+			return firebase.auth().currentUser;
+		}
 		auth.signInWithPopup(provider)
 			.then(result => {
 				return result.user;				
 			});
-	} else {
-		auth.signOut()
-		.then(() => {
-				return null
-		});
-	}
+}
+
+export function logOut() {
+	auth.signOut()
+	.then(() => {
+			return null
+	});
 }

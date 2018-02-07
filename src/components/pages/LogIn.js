@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import LogInForm from '../LogInForm';
 
 import { auth } from '../../base';
-import { togLog, findVenueByOwner } from '../../helpers';
+import { logIn, findVenueByOwner } from '../../helpers';
 import { Redirect } from 'react-router';
 
 class LogIn extends React.Component {
@@ -12,7 +12,7 @@ class LogIn extends React.Component {
 	constructor() {
 		super();
 
-		this.toggleLogin = this.toggleLogin.bind(this);
+		this.logInAndRedirect = this.logInAndRedirect.bind(this);
 
 		this.state = {
 			user: '',
@@ -21,8 +21,8 @@ class LogIn extends React.Component {
 
 	}
 
-	toggleLogin() {
-		togLog();
+	logInAndRedirect() {
+		logIn();
 		auth.onAuthStateChanged(user => {
 			if (user) {
 				this.setState({ user });
@@ -42,7 +42,7 @@ class LogIn extends React.Component {
 		const fireRedirect = this.state.fireRedirect;
 		return (
 			<div className="container">
-				<LogInForm toggleLogin={this.toggleLogin} />
+				<LogInForm toggleLogin={this.logInAndRedirect} />
 				<div className="container__info">
 					<p>Log in manage band/venue comp requests. To sign up, click <Link to={`/signup`}>here</Link>.</p>
 				</div>
