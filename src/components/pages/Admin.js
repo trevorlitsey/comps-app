@@ -10,6 +10,7 @@ import Nav from '../Nav';
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 import EventForm from '../EventForm';
+import PendingComps from '../PendingComps';
 
 import base, { auth } from '../../base';
 import { togLog } from '../../helpers'
@@ -121,12 +122,7 @@ class Admin extends React.Component {
 							<Divider />
 						</div>
 					</div>
-					<div className="subcontainer--pending">
-						<Banner text="Pending:" />
-						<div className="form-container">
-							<p>none yet!</p>
-						</div>
-					</div>
+					<PendingComps pending={this.state.venue.comps} events={this.state.venue.events} />
 					<div className="subcontainer--done">
 						<Banner text="Done:" />
 						<div className="form-container">

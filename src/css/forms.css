@@ -1,9 +1,12 @@
 .form-container {
-	width: 320px;
 	margin: 20px auto;
 	padding: 30px;
 	background: white;
 	box-shadow: 2px 2px 2px rgb(187, 187, 187);
+}
+
+.width-320 {
+	width: 320px;
 }
 
 .form-container h2 {
