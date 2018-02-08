@@ -12,21 +12,16 @@ class LogIn extends React.Component {
 	constructor() {
 		super();
 
-		this.logInAndRedirect = this.logInAndRedirect.bind(this);
-
 		this.state = {
-			user: '',
 			fireRedirect: ''
 		}
 
 	}
 
-	logInAndRedirect() {
-		logIn();
+	componentWillMount() {
 		auth.onAuthStateChanged(user => {
 			if (user) {
-				this.setState({ user });
-				const venue = findVenueByOwner(this.state.user);
+				const venue = findVenueByOwner(user);
 				venue.once('value', snap => {
 					const obj = snap.val()
 					const key = Object.keys(obj)[0];
@@ -42,7 +37,7 @@ class LogIn extends React.Component {
 		const fireRedirect = this.state.fireRedirect;
 		return (
 			<div className="container">
-				<LogInForm toggleLogin={this.logInAndRedirect} />
+				<LogInForm />
 				<div className="container__info">
 					<p>Log in manage band/venue comp requests. To sign up, click <Link to={`/signup`}>here</Link>.</p>
 				</div>

@@ -9,6 +9,7 @@ import uniqid from 'uniqid';
 import Nav from '../Nav';
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
+import EventInfo from '../EventInfo';
 import EventForm from '../EventForm';
 import PendingComps from '../PendingComps';
 import ApprovedComps from '../ApprovedComps';
@@ -80,9 +81,9 @@ class Admin extends React.Component {
 		this.setState({ venue });
 	}
 
-	updateVenueInfo(e) {
+	updateVenueInfo(prop, value) {
 		const venue = {...this.state.venue};
-		venue[e.target.name] = e.target.value;
+		venue[prop] = value;
 		this.setState({ venue });
 	}
 
@@ -109,12 +110,7 @@ class Admin extends React.Component {
 					<div className="subcontainer--info">
 						<Banner text="Edit Info:" />
 						<div className="form-container">
-							<label>Edit band/venue name:</label>
-							<input type="textbox" defaultValue={this.state.venue.name} name="name" onChange={this.updateVenueInfo}></input>
-							<div className="space-md"></div>
-							<label>Edit band/venue passcode:</label>
-							<input type="textbox" defaultValue={this.state.venue.code} name="code" onChange={this.updateVenueInfo}></input>
-							<div className="space-md"></div>
+							<EventInfo venue={this.state.venue} />
 							<Divider />
 							<label>Manage events:</label>
 							{this.state.venue.events && Object.keys(this.state.venue.events).map(this.renderEvent)}

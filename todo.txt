@@ -1,6 +1,7 @@
 TODO
 
 Admin:
+- hook up new event form to actually edit data, and add validators
 - let user know that login is only for admins
 - have user click to bring up field for editing venue info
 
@@ -10,7 +11,7 @@ Admin:
 - prevent user from setting non-unique access code
 
 --events
-- let user sort by date
+- let user sort by date/event etc.
 - let user edit existing events
 - warn user if date submitted is similar to an old one
 

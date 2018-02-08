@@ -17,8 +17,6 @@ class EventForm extends React.Component {
 				const day = dateObj.getDay();
 				const date = `${year}/${month}/${day}`
 				
-				console.log(date);
-				
 				const title = values.title;
 				this.props.addEvent({ date, title });	
 			}
