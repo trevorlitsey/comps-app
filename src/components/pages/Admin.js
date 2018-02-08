@@ -11,6 +11,7 @@ import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 import EventForm from '../EventForm';
 import PendingComps from '../PendingComps';
+import ApprovedComps from '../ApprovedComps';
 
 import base, { auth } from '../../base';
 
@@ -126,7 +127,7 @@ class Admin extends React.Component {
 					<div className="subcontainer--done">
 						<Banner text="Done:" />
 						<div className="form-container">
-							<p>none yet!</p>
+						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events}/>
 						</div>
 					</div>
 				</div>

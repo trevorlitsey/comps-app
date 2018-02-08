@@ -15,12 +15,14 @@ export function findVenueByOwner(user) {
 		.equalTo(user.uid)
 }
 
-export function	logIn(user) {
+export function	logIn() {
 		if (firebase.auth().currentUser) {
 			return firebase.auth().currentUser;
 		}
 		auth.signInWithPopup(provider)
 			.then(result => {
+				console.log('here');
+				
 				return result.user;				
 			});
 }
