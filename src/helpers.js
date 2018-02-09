@@ -30,11 +30,6 @@ export function findVenueByName(input) {
 		.endAt(input + '\uf8ff')
 }
 
-export function StringToXML(str) {
-	//code for IE
-	return (new DOMParser()).parseFromString(str, "text/xml");
-}
-
 export function logIn() {
 	if (firebase.auth().currentUser) {
 		return firebase.auth().currentUser;

@@ -8,7 +8,7 @@ class Request extends React.Component {
 		return (
 			<div className="container section">
 				<Banner text="Request:" />
-				<RequestForm venue={this.props.match.params.venueId} />
+				<RequestForm venue={this.props.match.params.venueSlug} />
 			</div>
 		)
 	}

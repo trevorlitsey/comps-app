@@ -2,19 +2,21 @@ import React from 'react'
 import { Redirect } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
 import { database } from '../base';
-import { findVenueByName, StringToXML } from '../helpers';
-import { AutoComplete } from 'antd';
+import { findVenueByName } from '../helpers';
+import { Icon, Button, Input, AutoComplete } from 'antd';
+const Option = AutoComplete.Option;
 
-const HtmlToReactParser = require('html-to-react').Parser;
-const htmlToReactParser = new HtmlToReactParser();
 const history = createBrowserHistory()
 
-// hat tip to https://gist.github.com/verticalgrain/195468e69f2ac88f3d9573d285b09764 for redirection workflow
+// redirect flow from https://gist.github.com/verticalgrain/195468e69f2ac88f3d9573d285b09764
 
 class WelcomeForm extends React.Component {
 
 	constructor() {
 		super();
+
+		this.goToVenue = this.goToVenue.bind(this);
+		this.handleSearch = this.handleSearch.bind(this);
 
 		this.state = {
 			fireRedirect: '',
@@ -23,48 +25,57 @@ class WelcomeForm extends React.Component {
 		}
 	}
 
-	goToVenue(e) {
-		e.preventDefault();
-
+	goToVenue(url) {
 		history.push('/');
-		this.setState({ fireRedirect: `/request/${this.venue.value}` })
+		this.setState({ fireRedirect: `/${url}` })
 	}
 
-	handleChange(e) {
-		const venue = findVenueByName(this.venue.value);
-		venue.on('value', snap => {
-			if (!snap.val() || !this.venue.value) return this.setState({ html: '' });
+	handleSearch(input) {
+		const results = findVenueByName(input);
+		results.on('value', snap => {
+			if (!snap.val() || !input) return this.setState({ venues: [] });
 			const venues = Object.keys(snap.val()).map(key => snap.val()[key]);
-			console.log(venues);
-
-			const html = venues.map(v => `<li value="${v.id}">${v.name}</li>`).join('');
-			this.setState({ html });
-			console.log(html);
-
+			this.setState({ venues })
 		})
+	}
 
-		// database.child('venues').once('value', snap => console.log(snap.val()));
-
-		// todo: populate dropdown menu with regex filtered results
-
+	renderOption(venue) {
+		return (
+			<Option key={venue.slug} text={venue.name}>
+				{venue.name}
+			</Option>
+		);
 	}
 
 	render() {
 
-		const from = '/'
-		const { fireRedirect } = this.state
-		const html = htmlToReactParser.parse(this.state.html);
+		const from = '/';
+		const { venues, fireRedirect } = this.state
 
 		return (
 			<div className="form-container">
-				<form className="form" onSubmit={this.goToVenue.bind(this)} onChange={this.handleChange.bind(this)}>
-					<input type="textbox" name="code" placeholder="search band/venues" ref={(input) => { this.venue = input }}></input>
-					<ul>
-						{html}
-					</ul>
-				</form>
+				<div className="global-search-wrapper" style={{ width: 300 }}>
+					<AutoComplete
+						className="global-search"
+						size="large"
+						style={{ width: '100%' }}
+						dataSource={this.state.venues ? this.state.venues.map(this.renderOption) : []}
+						onSelect={this.goToVenue}
+						onSearch={this.handleSearch}
+						placeholder="input here"
+						optionLabelProp="text"
+					>
+						<Input
+							suffix={(
+								<Button className="search-btn" size="large" type="primary">
+									<Icon type="search" />
+								</Button>
+							)}
+						/>
+					</AutoComplete>
+				</div>
 				{fireRedirect && (
-					<Redirect to={from || this.state.fireRedirect} />
+					<Redirect to={this.state.fireRedirect || from} />
 				)}
 			</div>
 		)
