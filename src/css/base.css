@@ -43,6 +43,10 @@ html, body {
 	box-shadow: 2px 2px 2px rgb(187, 187, 187);
 }
 
+.margin-auto {
+	margin: 0 auto;
+}
+
 .space-md {
 	height: 20px;
 }

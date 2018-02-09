@@ -8,7 +8,7 @@ class Landing extends React.Component {
 
 	render() {
 		return (
-			<div className="container">
+			<div className="container width-320 margin-auto">
 				<Banner text="CompList.org" />
 				<WelcomeForm />
 				<div className="container__info">

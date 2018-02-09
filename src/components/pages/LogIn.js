@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import LogInForm from '../LogInForm';
 
 import { auth } from '../../base';
-import { logIn, findVenueByOwner } from '../../helpers';
+import { findVenueByOwner } from '../../helpers';
 import { Redirect } from 'react-router';
 
 class LogIn extends React.Component {
@@ -42,7 +42,7 @@ class LogIn extends React.Component {
 					<p>Log in manage band/venue comp requests. To sign up, click <Link to={`/signup`}>here</Link>.</p>
 				</div>
 				{fireRedirect && (
-					<Redirect to={fireRedirect}/>
+					<Redirect to={fireRedirect} />
 				)}
 			</div>
 		)

@@ -6,8 +6,8 @@ import RequestForm from '../RequestForm';
 class Request extends React.Component {
 	render() {
 		return (
-			<div className="container">
-				<Banner text="Request:"/>
+			<div className="container section">
+				<Banner text="Request:" />
 				<RequestForm venue={this.props.match.params.venueId} />
 			</div>
 		)

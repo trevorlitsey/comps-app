@@ -15,6 +15,7 @@ import PendingComps from '../PendingComps';
 import ApprovedComps from '../ApprovedComps';
 
 import base, { auth } from '../../base';
+import { findVenueByOwner } from '../../helpers';
 
 class Admin extends React.Component {
 
@@ -34,16 +35,23 @@ class Admin extends React.Component {
 
 	componentWillMount() {
 		auth.onAuthStateChanged((user) => {
-			this.setState({ user });
+			if (user) {
+				this.setState({ user });
+				const venue = findVenueByOwner(user);
+				venue.once('value', snap => {
+					this.setState({ venue: snap.val()[Object.keys(snap.val())[0]] });
+				})
+			}
 		});
 
 		this.ref = base.syncState(`venues/${this.props.match.params.venueId}`
 			, {
 				context: this,
 				state: 'venue'
-		});
+			});
+
 	}
-	
+
 	componentWillUnmount() {
 		base.removeBinding(this.ref);
 	}
@@ -52,7 +60,7 @@ class Admin extends React.Component {
 		return (
 			<div className="container">
 				<Nav />
-				<Banner text="Log In:"/>
+				<Banner text="Log In:" />
 				<LogInForm />
 			</div>
 		)
@@ -60,7 +68,7 @@ class Admin extends React.Component {
 
 	renderEvent(key) {
 		const { date, title } = this.state.venue.events[key];
-		return(
+		return (
 			<div className="event--container" key={key}>
 				<div className="event--info">{date} {title}</div>
 				<div className="event--button" onClick={() => this.removeEvent(key)}></div>
@@ -69,53 +77,51 @@ class Admin extends React.Component {
 	}
 
 	addEvent(formObj) {
-		const venue = {...this.state.venue};
+		const venue = { ...this.state.venue };
 		if (!venue.events) venue.events = {};
 		venue.events[uniqid()] = formObj;
 		this.setState({ venue });
 	}
 
 	removeEvent(key) {
-		const venue = {...this.state.venue};
+		const venue = { ...this.state.venue };
 		venue.events[key] = null;
 		this.setState({ venue });
 	}
 
-	updateVenueInfo(prop, value) {
-		const venue = {...this.state.venue};
-		venue[prop] = value;
+	updateVenueInfo(venue) {
 		this.setState({ venue });
 	}
 
 	updateComp(key, newStatus) {
-		const venue = {...this.state.venue};
+		const venue = { ...this.state.venue };
 		venue.comps[key].status = newStatus;
 		this.setState({ venue });
 	}
 
 	render() {
-		
+
 		const logout = <button className="button--logout" onClick={this.logOut}>{'Log Out >>'}</button>
 
 		// check if not logged in
 		if (!this.state.user) {
 			return <div>{this.renderLogin()}</div>
 		}
-		
+
 		// check if user is owner of store
-		if(this.state.venue && this.state.user.uid === this.state.venue.owner) {
+		if (this.state.venue && this.state.user.uid === this.state.venue.owner) {
 			return (
 				<div className="container--admin">
-					<Nav user={this.state.user} toggleLogin={this.toggleLogin}/>
+					<Nav user={this.state.user} toggleLogin={this.toggleLogin} />
 					<div className="subcontainer--info">
 						<Banner text="Edit Info:" />
 						<div className="form-container">
-							<EventInfo venue={this.state.venue} />
+							<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
 							<Divider />
 							<label>Manage events:</label>
 							{this.state.venue.events && Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
-							<EventForm addEvent={this.addEvent}/>
+							<EventForm addEvent={this.addEvent} />
 							<Divider />
 						</div>
 					</div>
@@ -123,19 +129,19 @@ class Admin extends React.Component {
 					<div className="subcontainer--done">
 						<Banner text="Done:" />
 						<div className="form-container">
-						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events}/>
+							<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
 						</div>
 					</div>
 				</div>
 			)
 		}
 
-		return(
+		return (
 			<div className="container">
-			<div className="container__info">
-			<p>Sorry, you are not an admin of this band or venue! Click <Link to={`/`}>here</Link> to request comps.</p>
-			{logout}
-			</div>
+				<div className="container__info">
+					<p>Sorry, you are not an admin of this band or venue! Click <Link to={`/`}>here</Link> to request comps.</p>
+					{logout}
+				</div>
 			</div>
 		)
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Radio } from 'antd';
+import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
 
 class EventInfo extends React.Component {
@@ -8,12 +8,15 @@ class EventInfo extends React.Component {
 		e.preventDefault();
 
 		this.props.form.validateFields((err, values) => {
-      if (!err) {
-				
-				const name = values.name;
-				const slug = values.slug;
-				const code = values.code;
-				
+			if (!err) {
+
+				const venue = { ...this.props.venue };
+
+				Object.keys(values).forEach(key => {
+					if (venue[key] !== values[key]) venue[key] = values[key];
+				});
+
+				this.props.updateVenueInfo(venue);
 			}
 		});
 	}
@@ -22,39 +25,39 @@ class EventInfo extends React.Component {
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<Form layout="horizontal" onSubmit={this.handleSubmit}>
-					<FormItem label="Name:">
+				<FormItem label="Name:">
 					{getFieldDecorator('name', {
 						rules: [{ required: true, message: 'Please enter a name' }],
+						initialValue: this.props.venue.name
 					})(
-						<Input 
-						placeholder="Please input a venue name"
-						defaultValue={this.props.venue.name} 
+						<Input
+							placeholder="Please input a venue name"
 						/>
 					)}
-					</FormItem>
-					<FormItem label="URL:">
-						{getFieldDecorator('slug', {
-							rules: [{ required: true, message: 'Please enter a url' }],
-						})(
-						<Input 
-							placeholder={'your-url'} 
-							defaultValue={this.props.venue.slug} 
+				</FormItem>
+				<FormItem label="URL:">
+					{getFieldDecorator('slug', {
+						rules: [{ required: true, message: 'Please enter a url' }],
+						initialValue: this.props.venue.slug
+					})(
+						<Input
+							placeholder={'your-url'}
 							addonBefore="complist.org/request/"
-							ref={ (input) => { this.slug = input } }
+							ref={(input) => { this.slug = input }}
 						/>
 					)}
-					</FormItem>
-					<FormItem
+				</FormItem>
+				<FormItem
 					label="Passcode"
-					>
+				>
 					{getFieldDecorator('code', {
 						rules: [{ required: true, message: 'Please enter a passcode' }],
+						initialValue: this.props.venue.code
 					})(
-					<Input 
-						placeholder={'yoUrPassC0de'} 
-						defaultValue={this.props.venue.code} 
-						ref={ (input) => { this.code = input } }
-					/>
+						<Input
+							placeholder={'yoUrPassC0de'}
+							ref={(input) => { this.code = input }}
+						/>
 					)}
 				</FormItem>
 				<FormItem>
