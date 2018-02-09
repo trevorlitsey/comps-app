@@ -30,6 +30,13 @@ export function findVenueByName(input) {
 		.endAt(input + '\uf8ff')
 }
 
+export function findVenueBySlug(slug) {
+	return database
+		.child('venues')
+		.orderByChild('slug')
+		.equalTo(slug)
+}
+
 export function logIn() {
 	if (firebase.auth().currentUser) {
 		return firebase.auth().currentUser;

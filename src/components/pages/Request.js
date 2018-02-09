@@ -3,12 +3,14 @@ import React from 'react'
 import Banner from '../Banner';
 import RequestForm from '../RequestForm';
 
+import getEventsBySlug from '../../helpers';
+
 class Request extends React.Component {
 	render() {
 		return (
-			<div className="container section">
+			<div className="container width-320 margin-auto">
 				<Banner text="Request:" />
-				<RequestForm venue={this.props.match.params.venueSlug} />
+				<RequestForm venueSlug={this.props.match.params.venueSlug} />
 			</div>
 		)
 	}

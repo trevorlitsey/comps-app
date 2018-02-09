@@ -1,56 +1,129 @@
 import React from 'react'
+import { Form, Input, Select, InputNumber, Button } from 'antd';
+import { findVenueBySlug } from '../helpers';
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 class RequestForm extends React.Component {
 
 	constructor() {
 		super();
 
+		this.renderEvent = this.renderEvent.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+
 		this.state = {
-			guestName: '',
-			guestEmail: '',
-			numberOfTickets: '',
-			requesterEmail: ''
+			venue: ''
 		}
+
 	}
 
-	checkValidation(e) {
+	componentWillMount() {
+		const venuePromise = findVenueBySlug(this.props.venueSlug)
+		venuePromise.once('value', snap => {
+			const venue = snap.val()[Object.keys(snap.val())[0]];
+			this.setState({ venue });
+		})
+	}
 
-		const guestName = this.guestName.value;
-		const guestEmail = this.guestEmail.value;
-		const numberOfTickets = this.numberOfTickets.value;
-		const requesterEmail = this.requesterEmail.value;
+	renderEvent(key) {
+		const event = this.state.venue.events[key];
+		console.log(key);
+		console.log(event);
 
-		this.setState({ guestName, guestEmail, numberOfTickets, requesterEmail });
 
+		return (
+			<Option key={key} value={key}>{event.date} {event.title}</Option>
+		)
 	}
 
 
 	handleSubmit(e) {
 		e.preventDefault();
 
-		// todo, make thank you for submitting form
-		console.log('submitting!!');
+		this.props.form.validateFields((err, values) => {
+			if (!err) {
+				console.log('Received values of form: ', values);
+				// todo, enter user info into firebase
+
+
+				// todo, make thank you for submitting form
+			}
+		});
+
 
 	}
 
 	render() {
+		const { getFieldDecorator } = this.props.form;
+		const events = { ...this.state.venue.events };
 
-		const { guestName, guestEmail, numberOfTickets, requesterEmail } = this.state;
-		const isEnabled = guestName.length > 0 && guestEmail.length > 0 && numberOfTickets.length > 0 && !isNaN(parseInt(numberOfTickets, 10));
+		const noEvents = <Option>no events are currently listed for this venue</Option>
 
 		return (
-				<div className="form-container">
-				<form className="form" onSubmit={this.handleSubmit.bind(this)} onKeyUp={this.checkValidation.bind(this)}>
-					<label className="label__title">{this.props.venue}:</label>
-					<input className="required" type="textbox" name="guestName" placeholder="Guest Name (First Last)" ref={ (input) => { this.guestName = input } } required></input>
-					<input type="textbox" name="guestEmail" placeholder="Guest Email" ref={ (input) => { this.guestEmail = input } } required></input>
-					<input type="textbox" name="numberOfTickets" placeholder="Number of tickets" ref={ (input) => { this.numberOfTickets = input } } required></input>
-					<input type="textbox" name="requesterEmail" placeholder="Requester email (optional)" ref={ (input) => { this.requesterEmail = input } }></input>
-					<button className="button--submit" type="submit" disabled={!isEnabled}>submit >></button>
-				</form>
+			<div className="form-container">
+				<Form onSubmit={this.handleSubmit}>
+					<FormItem
+						label="Guest name: "
+						margin={0}
+					>
+						{getFieldDecorator('guestName', {
+							rules: [{ required: true, message: 'Please enter a name!' }],
+						})(
+							<Input />
+						)}
+					</FormItem>
+					<FormItem
+						label="Guest email (optional): "
+					>
+						{getFieldDecorator('guestEmail')(
+							<Input />
+						)}
+					</FormItem>
+					<FormItem
+						label="Event: "
+					>
+						{getFieldDecorator('event', {
+							rules: [{ required: true, message: 'Please select an event' }],
+						})(
+							<Select
+								placeholder="Select event"
+							>
+								{events ? Object.keys(events).map(this.renderEvent) : noEvents}
+							</Select>
+						)}
+					</FormItem>
+					<FormItem
+						label="Number of Tickets: "
+					>
+						{getFieldDecorator('input-number', {
+							rules: [{ required: true, message: 'Please imput a number!' }],
+							initialValue: 2
+						})(
+							<InputNumber min={1} max={10} />
+						)}
+					</FormItem>
+					<FormItem
+						label="Requester email: "
+					>
+						{getFieldDecorator('requesterEmail', {
+							rules: [{ required: true, message: 'Please enter an email' }],
+						}
+						)(
+							<Input />
+						)}
+					</FormItem>
+					<FormItem>
+						<Button type="primary" htmlType="submit">
+							Submit
+          </Button>
+					</FormItem>
+				</Form>
 			</div>
 		)
 	}
 }
+
+RequestForm = Form.create()(RequestForm);
 
 export default RequestForm;
