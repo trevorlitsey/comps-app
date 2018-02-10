@@ -43,6 +43,14 @@ html, body {
 	box-shadow: 2px 2px 2px rgb(187, 187, 187);
 }
 
+.width-320 {
+	width: 320px;
+}
+
+.width-420 {
+	width: 420px;
+}
+
 .margin-auto {
 	margin: 0 auto;
 }

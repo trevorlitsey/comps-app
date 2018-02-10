@@ -34,8 +34,9 @@ class RequestForm extends React.Component {
 			if (!err) {
 				// enter comp info into firebase
 				values.status = "p";
+				values.key = uniqid()
 
-				insertComp(values, uniqid(), this.props.venue.id)
+				insertComp(values, values.key, this.props.venue.id)
 
 				// todo, make thank you for submitting form
 			}

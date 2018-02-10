@@ -5,10 +5,6 @@
 	box-shadow: 2px 2px 2px rgb(187, 187, 187);
 }
 
-.width-320 {
-	width: 320px;
-}
-
 .form-container h2 {
 	font-size: 2rem;
 	font-weight: bold;
@@ -83,4 +79,36 @@ button[disabled]:hover{
 .button--logout:hover {
 	cursor: pointer;
 	background: rgb(219, 219, 219);
+}
+
+.global-search-wrapper {
+  padding-right: 50px;
+}
+
+/* landing search box */
+
+.global-search {
+  width: 100%;
+}
+
+.global-search.ant-select-auto-complete .ant-select-selection--single {
+  margin-right: -46px;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input:not(:last-child) {
+  padding-right: 62px;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix {
+  right: 0;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.global-search-item-count {
+  position: absolute;
+  right: 16px;
 }
