@@ -61,7 +61,7 @@ class EventInfo extends React.Component {
 					)}
 				</FormItem>
 				<FormItem>
-					<Button type="default" htmlType="submit">Update Venue Info</Button>
+					<Button type="primary" htmlType="submit">Update Venue Info</Button>
 				</FormItem>
 			</Form>
 		)

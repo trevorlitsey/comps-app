@@ -3,7 +3,9 @@ import { Redirect } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
 import { database } from '../base';
 import { findVenueByName } from '../helpers';
-import { Icon, Button, Input, AutoComplete } from 'antd';
+import { Form, Icon, Button, Input, AutoComplete } from 'antd';
+
+const FormItem = Form.Item;
 const Option = AutoComplete.Option;
 
 const history = createBrowserHistory()
@@ -17,6 +19,7 @@ class WelcomeForm extends React.Component {
 
 		this.goToVenue = this.goToVenue.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 
 		this.state = {
 			fireRedirect: '',
@@ -30,9 +33,8 @@ class WelcomeForm extends React.Component {
 		this.setState({ fireRedirect: `/${url}` })
 	}
 
+	// handles autocomplete results
 	handleSearch(value) {
-		console.log('searching');
-
 		const results = findVenueByName(value);
 		results.on('value', snap => {
 			if (!snap.val() || !value) return this.setState({ venues: [] });
@@ -41,9 +43,23 @@ class WelcomeForm extends React.Component {
 		})
 	}
 
+	handleSubmit(e) {
+		if (e) e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+			if (!err) {
+				this.props.form.setFields({
+					venueName: {
+						value: '',
+						errors: [new Error(`no results found for ${values.venueName}`)],
+					},
+				});
+			}
+		});
+	}
+
 	renderOption(venue) {
 		return (
-			<Option key={venue.slug} text={venue.name}>
+			<Option key={venue.slug} text={venue.name} >
 				{venue.name}
 			</Option>
 		);
@@ -53,39 +69,51 @@ class WelcomeForm extends React.Component {
 
 		const from = '/';
 		const { venues, fireRedirect } = this.state
+		const { getFieldDecorator } = this.props.form;
 
 		return (
 			<div className="form-container width-420">
 				<div className="global-search-wrapper" style={{ width: 300, margin: '0 auto' }}>
-					<AutoComplete
-						className="global-search"
-						size="large"
-						style={{ width: '100%' }}
-						dataSource={this.state.venues ? this.state.venues.map(this.renderOption) : []}
-						onSelect={this.goToVenue}
-						onSearch={this.handleSearch}
-						placeholder="search bands/venues"
-						optionLabelProp="text"
-					>
-						<Input
-							suffix={(
-								<Button
-									className="search-btn"
+					<Form onSubmit={this.handleSubmit}>
+						<FormItem>
+							{getFieldDecorator('venueName')(
+								<AutoComplete
+									className="global-search"
 									size="large"
-									type="primary"
+									style={{ width: '100%' }}
+									dataSource={this.state.venues ? this.state.venues.map(this.renderOption) : []}
+									onSelect={this.goToVenue}
+									onSearch={this.handleSearch}
+									placeholder="search bands/venues"
+									optionLabelProp="text"
 								>
-									<Icon type="search" />
-								</Button>
+									<Input
+										suffix={(
+											<Button
+												onClick={this.handleSubmit}
+												className="search-btn"
+												size="large"
+												type="primary"
+											>
+												<Icon type="search" />
+											</Button>
+										)}
+									/>
+								</AutoComplete>
 							)}
-						/>
-					</AutoComplete>
+						</FormItem>
+					</Form>
 				</div>
-				{fireRedirect && (
-					<Redirect to={this.state.fireRedirect || from} />
-				)}
-			</div>
+				{
+					fireRedirect && (
+						<Redirect to={this.state.fireRedirect || from} />
+					)
+				}
+			</div >
 		)
 	}
 }
+
+WelcomeForm = Form.create()(WelcomeForm);
 
 export default WelcomeForm;

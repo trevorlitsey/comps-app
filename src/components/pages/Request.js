@@ -23,6 +23,8 @@ class Request extends React.Component {
 	componentWillMount() {
 		const venuePromise = findVenueBySlug(this.props.match.params.venueSlug)
 		venuePromise.once('value', snap => {
+			if (!snap.val()) return;
+			// TODO: redirect user to 'page not found'
 			const venue = snap.val()[Object.keys(snap.val())[0]];
 			this.setState({ venue });
 		})

@@ -9,47 +9,48 @@ class EventForm extends React.Component {
 		e.preventDefault();
 
 		this.props.form.validateFields((err, values) => {
-      if (!err) {
-				
+			if (!err) {
+
 				const dateObj = values.date._d;
 				const year = dateObj.getFullYear() + 1;
 				const month = dateObj.getMonth();
 				const day = dateObj.getDay();
 				const date = `${year}/${month}/${day}`
-				
+
 				const title = values.title;
-				this.props.addEvent({ date, title });	
+				this.props.addEvent({ date, title });
 			}
 		});
 	}
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		return(
+		return (
 			<Form layout="inline" onSubmit={this.handleSubmit}>
 				<FormItem>
 					{getFieldDecorator('date', {
 						rules: [{ required: true, message: 'Please input a date!' }],
 					})(
-						<DatePicker 
+						<DatePicker
 							size="large"
-							placeholder="Event date" 
+							placeholder="Event date"
 						/>
 					)}
 				</FormItem>
 				<FormItem>
-				{getFieldDecorator('title', {
-					rules: [{ required: true, message: 'Please include an event name!' }],
-				})(
-					<Input 
-						size="large" 
-						placeholder="Event name" 
-					/>
-				)}
+					{getFieldDecorator('title', {
+						rules: [{ required: true, message: 'Please include an event name!' }],
+					})(
+						<Input
+							size="large"
+							placeholder="Event name"
+						/>
+					)}
 				</FormItem>
 				<FormItem>
 					<Button
 						htmlType="submit"
+						type="primary"
 					>
 						Add Event
 					</Button>

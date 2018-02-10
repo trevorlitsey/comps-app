@@ -25,7 +25,7 @@ html, body {
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr;
 	justify-content: center;
-	align-items: center;
+
 }
 
 .container {

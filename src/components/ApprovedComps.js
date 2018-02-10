@@ -4,15 +4,17 @@ import { Menu, Icon, Dropdown, List, Avatar } from 'antd';
 class ApprovedComps extends React.Component {
 	render() {
 
-		const approved = Object.keys(this.props.comps).map(key => {
+		const approved = [];
+		Object.keys(this.props.comps).map(key => {
 			if (this.props.comps[key].status === "a") {
-				return { ...this.props.comps[key] }
+				approved.push({ ...this.props.comps[key] })
 			}
 		});
 
-		const denied = Object.keys(this.props.comps).map(key => {
+		const denied = [];
+		Object.keys(this.props.comps).map(key => {
 			if (this.props.comps[key].status === "d") {
-				return { ...this.props.comps[key] }
+				denied.push({ ...this.props.comps[key] });
 			}
 		});
 
@@ -41,7 +43,7 @@ class ApprovedComps extends React.Component {
 		);
 
 		return (
-			<div>
+			<div className="form-container">
 				<Dropdown overlay={sort} trigger={['click']}>
 					<a className="ant-dropdown-link" href="#">
 						Sort <Icon type="down" />

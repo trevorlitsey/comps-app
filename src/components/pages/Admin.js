@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { Divider } from 'antd';
 import uniqid from 'uniqid';
 
-// epoch?
-
-import Nav from '../Nav';
+import AdminRadio from '../AdminRadio'
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 import EventInfo from '../EventInfo';
@@ -26,10 +24,12 @@ class Admin extends React.Component {
 		this.addEvent = this.addEvent.bind(this);
 		this.updateVenueInfo = this.updateVenueInfo.bind(this);
 		this.updateComp = this.updateComp.bind(this);
+		this.changeView = this.changeView.bind(this);
 
 		this.state = {
 			venue: '',
 			user: '',
+			view: 'pending'
 		}
 	}
 
@@ -59,7 +59,6 @@ class Admin extends React.Component {
 	renderLogin() {
 		return (
 			<div className="container">
-				<Nav />
 				<Banner text="Log In:" />
 				<LogInForm />
 			</div>
@@ -99,6 +98,11 @@ class Admin extends React.Component {
 		this.setState({ venue });
 	}
 
+	changeView(view) {
+		this.setState({ view })
+
+	}
+
 	render() {
 
 		const logout = <button className="button--logout" onClick={this.logOut}>{'Log Out >>'}</button>
@@ -110,11 +114,29 @@ class Admin extends React.Component {
 
 		// check if user is owner of store
 		if (this.state.venue && this.state.user.uid === this.state.venue.owner) {
-			return (
-				<div className="container--admin">
-					<Nav user={this.state.user} toggleLogin={this.toggleLogin} />
-					<div className="subcontainer--info">
-						<Banner text="Edit Info:" />
+
+			const { view } = this.state;
+
+			if (view === "pending") {
+				return (
+					<div className="container--admin">
+						<AdminRadio changeView={this.changeView} />
+						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
+					</div>
+				)
+			}
+			else if (view === "done") {
+				return (
+					<div className="container--admin">
+						<AdminRadio changeView={this.changeView} />
+						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
+					</div>
+				)
+			}
+			else if (view === "info") {
+				return (
+					<div className="container--admin">
+						<AdminRadio changeView={this.changeView} />
 						<div className="form-container">
 							<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
 							<Divider />
@@ -125,17 +147,11 @@ class Admin extends React.Component {
 							<Divider />
 						</div>
 					</div>
-					<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
-					<div className="subcontainer--done">
-						<Banner text="Done:" />
-						<div className="form-container">
-							<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
-						</div>
-					</div>
-				</div>
-			)
+				)
+			}
 		}
 
+		// else
 		return (
 			<div className="container">
 				<div className="container__info">
@@ -144,7 +160,6 @@ class Admin extends React.Component {
 				</div>
 			</div>
 		)
-
 	}
 }
 
