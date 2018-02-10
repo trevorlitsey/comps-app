@@ -18,7 +18,7 @@ const Root = () => {
 				<Route exact path="/" component={Landing} />
 				<Route exact path="/signup" component={SignUp} />
 				<Route exact path="/:venueSlug" component={Request} />
-				<Route exact path="/login" component={LogIn} />
+				<Route exact path="/admin/login" component={LogIn} />
 				<Route exact path="/admin/:venueId" component={Admin} />
 				<Route exact path="/:venueSlug/admin" component={Admin} />
 			</Switch>

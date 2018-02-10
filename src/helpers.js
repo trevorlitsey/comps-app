@@ -37,14 +37,18 @@ export function findVenueBySlug(slug) {
 		.equalTo(slug)
 }
 
+export function insertComp(values, compId, venueId) {
+	database.child('venues').child(venueId).child('comps').child(compId).set({
+		...values
+	});
+}
+
 export function logIn() {
 	if (firebase.auth().currentUser) {
 		return firebase.auth().currentUser;
 	}
 	auth.signInWithPopup(provider)
 		.then(result => {
-			console.log('here');
-
 			return result.user;
 		});
 }

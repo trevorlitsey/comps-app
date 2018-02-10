@@ -9,7 +9,7 @@ class PendingComps extends React.Component {
 
 		const comps = Object.keys(this.props.comps).map(key => {
 			if (this.props.comps[key].status === "p") {
-				return {...this.props.comps[key]}
+				return { ...this.props.comps[key] }
 			}
 		});
 

@@ -1,8 +1,12 @@
 import React from 'react'
+import uniqid from 'uniqid';
 import { Form, Input, Select, InputNumber, Button } from 'antd';
-import { findVenueBySlug } from '../helpers';
+import { insertComp } from '../helpers';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
+
+
 
 class RequestForm extends React.Component {
 
@@ -12,25 +16,10 @@ class RequestForm extends React.Component {
 		this.renderEvent = this.renderEvent.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 
-		this.state = {
-			venue: ''
-		}
-
-	}
-
-	componentWillMount() {
-		const venuePromise = findVenueBySlug(this.props.venueSlug)
-		venuePromise.once('value', snap => {
-			const venue = snap.val()[Object.keys(snap.val())[0]];
-			this.setState({ venue });
-		})
 	}
 
 	renderEvent(key) {
-		const event = this.state.venue.events[key];
-		console.log(key);
-		console.log(event);
-
+		const event = this.props.venue.events[key];
 
 		return (
 			<Option key={key} value={key}>{event.date} {event.title}</Option>
@@ -43,9 +32,10 @@ class RequestForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
-				// todo, enter user info into firebase
+				// enter comp info into firebase
+				values.status = "p";
 
+				insertComp(values, uniqid(), this.props.venue.id)
 
 				// todo, make thank you for submitting form
 			}
@@ -56,7 +46,7 @@ class RequestForm extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const events = { ...this.state.venue.events };
+		const events = { ...this.props.venue.events };
 
 		const noEvents = <Option>no events are currently listed for this venue</Option>
 
@@ -84,7 +74,7 @@ class RequestForm extends React.Component {
 						label="Event: "
 					>
 						{getFieldDecorator('event', {
-							rules: [{ required: true, message: 'Please select an event' }],
+							rules: [{ required: true, message: 'please select an event' }],
 						})(
 							<Select
 								placeholder="Select event"
@@ -96,8 +86,8 @@ class RequestForm extends React.Component {
 					<FormItem
 						label="Number of Tickets: "
 					>
-						{getFieldDecorator('input-number', {
-							rules: [{ required: true, message: 'Please imput a number!' }],
+						{getFieldDecorator('quant', {
+							rules: [{ required: true, message: 'please imput a number' }],
 							initialValue: 2
 						})(
 							<InputNumber min={1} max={10} />
@@ -107,7 +97,7 @@ class RequestForm extends React.Component {
 						label="Requester email: "
 					>
 						{getFieldDecorator('requesterEmail', {
-							rules: [{ required: true, message: 'Please enter an email' }],
+							rules: [{ required: true, message: 'please enter an email' }],
 						}
 						)(
 							<Input />

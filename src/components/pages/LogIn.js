@@ -25,8 +25,8 @@ class LogIn extends React.Component {
 				venue.once('value', snap => {
 					const obj = snap.val()
 					const key = Object.keys(obj)[0];
-					const slug = obj[key].slug;
-					const fireRedirect = `/admin/${slug}`;
+					const id = obj[key].id;
+					const fireRedirect = `/admin/${id}`;
 					this.setState({ fireRedirect });
 				});
 			}
