@@ -13,18 +13,13 @@ class PendingComps extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 
 		this.state = {
-			sort: '',
-			filer: ''
+			sortState: "true",
+			filter: ''
 		}
 	}
 
 	handleClick(e) {
-		// this.props.sortComps(e.key)
-		// if (direction) {
-		// 	const pending = Object.keys(this.props.comps)
-		// 		.map(id => this.props.comps[id])
-		// 		.filter(comp => comp.status === "p");
-		// }
+		this.setState({ sortState: e.key })
 	}
 
 	render() {
@@ -33,13 +28,23 @@ class PendingComps extends React.Component {
 			.map(id => this.props.comps[id])
 			.filter(comp => comp.status === "p");
 
+		if (this.state.sortState === "true") {
+			pending.sort((compA, compB) => {
+				return this.props.events[compA.event].date - this.props.events[compB.event].date;
+			})
+		} else {
+			pending.sort((compA, compB) => {
+				return this.props.events[compB.event].date - this.props.events[compA.event].date;
+			})
+		}
+
 		const sort = (
 			<Menu onClick={this.handleClick}>
-				<Menu.Item key={true}>
-					By date (old-new)
+				<Menu.Item key={"true"}>
+					By date (present-future)
 				</Menu.Item>
-				<Menu.Item key={false}>
-					By date (new-old)
+				<Menu.Item key={"false"}>
+					By date (future-present)
 				</Menu.Item>
 			</Menu>
 		);
