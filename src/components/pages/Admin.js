@@ -50,6 +50,21 @@ class Admin extends React.Component {
 				state: 'venue'
 			});
 
+		// check page last viewed
+		const localStorageRef = localStorage.getItem(`view-${this.props.match.params.venueId}`);
+
+		if (localStorageRef) {
+			// update app component's order state
+			console.log(JSON.parse(localStorageRef));
+
+			this.setState({ view: JSON.parse(localStorageRef) })
+		}
+	}
+
+	componentWillUpdate(nextProps, nextState) {
+		// store current view in local storage
+		localStorage.setItem(`view-${this.props.match.params.venueId}`,
+			JSON.stringify(nextState.view));
 	}
 
 	componentWillUnmount() {
@@ -121,7 +136,7 @@ class Admin extends React.Component {
 			if (view === "pending") {
 				return (
 					<div className="container--admin">
-						<AdminRadio changeView={this.changeView} />
+						<AdminRadio defaultView={this.state.view} changeView={this.changeView} />
 						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
 					</div>
 				)
@@ -129,7 +144,7 @@ class Admin extends React.Component {
 			else if (view === "done") {
 				return (
 					<div className="container--admin">
-						<AdminRadio changeView={this.changeView} />
+						<AdminRadio defaultView={this.state.view} changeView={this.changeView} />
 						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
 					</div>
 				)
@@ -137,7 +152,7 @@ class Admin extends React.Component {
 			else if (view === "info") {
 				return (
 					<div className="container--admin">
-						<AdminRadio changeView={this.changeView} />
+						<AdminRadio defaultView={this.state.view} changeView={this.changeView} />
 						<div className="form-container">
 							<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
 							<Divider />
