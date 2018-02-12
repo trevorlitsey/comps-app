@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Icon, Dropdown, List, Avatar } from 'antd';
+import { Menu, Icon, Dropdown } from 'antd';
 
 import CompsListApproved from './CompsListApproved';
 
@@ -11,7 +11,7 @@ class ApprovedComps extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 
 		this.state = {
-			sortState: "true",
+			sortState: "eventDate-asc",
 			filter: ''
 		}
 	}
@@ -26,14 +26,14 @@ class ApprovedComps extends React.Component {
 		const approved = compsArray.filter(comp => comp.status === "a")
 		const denied = compsArray.filter(comp => comp.status === "d")
 
-		if (this.state.sortState === "true") {
+		if (this.state.sortState === "eventDate-asc") {
 			approved.sort((compA, compB) => {
 				return this.props.events[compA.event].date - this.props.events[compB.event].date;
 			})
 			denied.sort((compA, compB) => {
 				return this.props.events[compA.event].date - this.props.events[compB.event].date;
 			})
-		} else {
+		} else if (this.state.sortState === "eventDate-desc") {
 			approved.sort((compA, compB) => {
 				return this.props.events[compB.event].date - this.props.events[compA.event].date;
 			})
@@ -44,10 +44,10 @@ class ApprovedComps extends React.Component {
 
 		const sort = (
 			<Menu onClick={this.handleClick}>
-				<Menu.Item key={"true"}>
+				<Menu.Item key={"eventDate-asc"}>
 					Event date (asc)
 				</Menu.Item>
-				<Menu.Item key={"false"}>
+				<Menu.Item key={"eventDate-desc"}>
 					Event date (desc)
 				</Menu.Item>
 			</Menu>

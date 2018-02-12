@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Icon, Dropdown, List, Avatar } from 'antd';
+import { List, Avatar } from 'antd';
 
 import { formatDateFromEpoch } from '../helpers';
 

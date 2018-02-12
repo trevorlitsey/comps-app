@@ -62,7 +62,7 @@ class Request extends React.Component {
 				</div>
 			)
 		}
-		else if (this.state.code && this.state.venue && this.state.code == this.state.venue.code) {
+		else if (this.state.code && this.state.venue && this.state.code === this.state.venue.code) {
 			return (
 				<div className="container width-320 margin-auto">
 					<Banner text="Request" />

@@ -9,52 +9,66 @@ class PendingComps extends React.Component {
 		super();
 
 		this.handleClick = this.handleClick.bind(this);
+		this.renderEventOption = this.renderEventOption.bind(this);
 
 		this.state = {
-			sortState: "true",
+			sortState: "eventDate-asc",
 			filter: ''
 		}
 	}
 
 	handleClick(e) {
+		console.log(e.key);
+
 		this.setState({ sortState: e.key })
+	}
+
+	renderEventOption(key) {
+		return (
+			<Menu.Item key={key}>
+				{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
+			</Menu.Item>
+		)
 	}
 
 	render() {
 
-		const pending = Object.keys(this.props.comps)
+		let pending = Object.keys(this.props.comps)
 			.map(id => this.props.comps[id])
 			.filter(comp => comp.status === "p");
 
-		if (this.state.sortState === "true") {
+		if (!this.state.sortState || this.state.sortState === "eventDate-asc") {
+			// default
 			pending.sort((compA, compB) => {
 				return this.props.events[compA.event].date - this.props.events[compB.event].date;
 			})
-		} else {
+		} else if (this.state.sortState === "eventDate-desc") {
+			// sort by event, descending
 			pending.sort((compA, compB) => {
 				return this.props.events[compB.event].date - this.props.events[compA.event].date;
 			})
+		} else {
+			// filter by event
+			pending = pending.filter(comp => comp.event === this.state.sortState);
 		}
 
 		const sort = (
 			<Menu onClick={this.handleClick}>
-				<Menu.Item key={"true"}>
+				<Menu.Item key={"eventDate-asc"}>
 					By date (present-future)
 				</Menu.Item>
-				<Menu.Item key={"false"}>
+				<Menu.Item key={"eventDate-desc"}>
 					By date (future-present)
 				</Menu.Item>
 			</Menu>
 		);
 
 		const filter = (
-			<Menu>
-				<Menu.Item key="0">
-					Event One
+			<Menu onClick={this.handleClick}>
+				<Menu.Item key="eventDate-asc">
+					All
 				</Menu.Item>
-				<Menu.Item key="1">
-					Event 2
-				</Menu.Item>
+				{Object.keys(this.props.events).map(this.renderEventOption)}
 			</Menu>
 		);
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
-import { database } from '../base';
 import { findVenueByName } from '../helpers';
 import { Form, Icon, Button, Input, AutoComplete } from 'antd';
 
@@ -81,7 +80,7 @@ class WelcomeForm extends React.Component {
 									className="global-search"
 									size="large"
 									style={{ width: '100%' }}
-									dataSource={this.state.venues ? this.state.venues.map(this.renderOption) : []}
+									dataSource={venues ? venues.map(this.renderOption) : []}
 									onSelect={this.goToVenue}
 									onSearch={this.handleSearch}
 									placeholder="search bands/venues"

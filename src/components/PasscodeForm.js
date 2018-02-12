@@ -16,7 +16,7 @@ class PasscodeForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				if (values.code != this.props.venue.code) {
+				if (values.code !== this.props.venue.code) {
 					this.props.form.setFields({
 						code: {
 							value: '',

@@ -90,10 +90,11 @@ class Admin extends React.Component {
 		)
 	}
 
-	addEvent(formObj) {
+	addEvent(formObj, id = uniqid()) {
 		const venue = { ...this.state.venue };
 		if (!venue.events) venue.events = {};
-		venue.events[uniqid()] = formObj;
+		formObj.id = id;
+		venue.events[id] = formObj;
 		this.setState({ venue });
 	}
 

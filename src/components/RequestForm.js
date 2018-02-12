@@ -1,6 +1,6 @@
 import React from 'react'
 import uniqid from 'uniqid';
-import { Form, Input, Select, InputNumber, Button, Row } from 'antd';
+import { Form, Input, Select, InputNumber, Button } from 'antd';
 import { insertComp } from '../helpers';
 
 const FormItem = Form.Item;
