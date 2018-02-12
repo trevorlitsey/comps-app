@@ -11,12 +11,9 @@ class EventForm extends React.Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 
+				// convert date to epoch and record title
 				const dateObj = values.date._d;
-				const year = dateObj.getFullYear() + 1;
-				const month = dateObj.getMonth();
-				const day = dateObj.getDay();
-				const date = `${year}/${month}/${day}`
-
+				const date = dateObj.getTime();
 				const title = values.title;
 				this.props.addEvent({ date, title });
 				this.props.form.resetFields();

@@ -1,19 +1,72 @@
 import React from 'react'
-import { List, Avatar } from 'antd';
+import { Menu, Dropdown, Icon, List, Avatar } from 'antd';
+
+import { formatDateFromEpoch } from '../helpers';
 
 import SortFilter from './SortFilter';
 
 class PendingComps extends React.Component {
 
+	constructor() {
+		super();
+
+		this.handleClick = this.handleClick.bind(this);
+
+		this.state = {
+			sort: '',
+			filer: ''
+		}
+	}
+
+	handleClick(e) {
+		// this.props.sortComps(e.key)
+		// if (direction) {
+		// 	const pending = Object.keys(this.props.comps)
+		// 		.map(id => this.props.comps[id])
+		// 		.filter(comp => comp.status === "p");
+		// }
+	}
+
 	render() {
 
 		const pending = Object.keys(this.props.comps)
 			.map(id => this.props.comps[id])
-			.filter(comp => comp.status === "p")
+			.filter(comp => comp.status === "p");
+
+		const sort = (
+			<Menu onClick={this.handleClick}>
+				<Menu.Item key={true}>
+					By date (old-new)
+				</Menu.Item>
+				<Menu.Item key={false}>
+					By date (new-old)
+				</Menu.Item>
+			</Menu>
+		);
+
+		const filter = (
+			<Menu>
+				<Menu.Item key="0">
+					Event One
+				</Menu.Item>
+				<Menu.Item key="1">
+					Event 2
+				</Menu.Item>
+			</Menu>
+		);
 
 		return (
 			<div className="form-container">
-				<SortFilter />
+				<Dropdown overlay={sort} trigger={['click']}>
+					<a className="ant-dropdown-link" href="#">
+						Sort <Icon type="down" />
+					</a>
+				</Dropdown>
+				<Dropdown overlay={filter} trigger={['click']}>
+					<a className="ant-dropdown-link" href="#" style={{ 'marginLeft': 8 }}>
+						Filter <Icon type="down" />
+					</a>
+				</Dropdown>
 				<List
 					itemLayout="horizontal"
 					dataSource={pending}
@@ -22,7 +75,7 @@ class PendingComps extends React.Component {
 							<List.Item.Meta
 								avatar={comp ? <Avatar size="small" icon="user" /> : ''}
 								title={comp ? comp.guestName : ''}
-								description={comp ? `${this.props.events[comp.event].date} | ${this.props.events[comp.event].title}` : ''}
+								description={comp ? `${formatDateFromEpoch(this.props.events[comp.event].date)} | ${this.props.events[comp.event].title}` : 'none yet!'}
 							/>
 							<div>{comp.quant} tickets (? left)</div>
 						</List.Item>

@@ -13,7 +13,7 @@ import PendingComps from '../PendingComps';
 import ApprovedComps from '../ApprovedComps';
 
 import base, { auth } from '../../base';
-import { findVenueByOwner } from '../../helpers';
+import { findVenueByOwner, formatDateFromEpoch } from '../../helpers';
 
 class Admin extends React.Component {
 
@@ -84,7 +84,7 @@ class Admin extends React.Component {
 		const { date, title } = this.state.venue.events[key];
 		return (
 			<div className="event--container" key={key}>
-				<div className="event--info">{date} {title}</div>
+				<div className="event--info">{formatDateFromEpoch(date)} {title}</div>
 				<div className="event--button" onClick={() => this.removeEvent(key)}></div>
 			</div>
 		)
@@ -107,11 +107,9 @@ class Admin extends React.Component {
 		this.setState({ venue });
 	}
 
-	updateComp(key, newStatus) {
-		console.log(key);
-
+	updateComp(id, newStatus) {
 		const venue = { ...this.state.venue };
-		venue.comps[key].status = newStatus;
+		venue.comps[id].status = newStatus;
 		this.setState({ venue });
 	}
 

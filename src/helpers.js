@@ -45,6 +45,14 @@ export function insertComp(values, compId, venueId) {
 	});
 }
 
+export function formatDateFromEpoch(epoch) {
+	const dateObj = new Date(epoch)
+	const year = dateObj.getFullYear();
+	const month = dateObj.getMonth() + 1;
+	const day = dateObj.getDate();
+	return `${year}.${month}.${day}`;
+}
+
 export function logIn() {
 	if (firebase.auth().currentUser) {
 		return firebase.auth().currentUser;

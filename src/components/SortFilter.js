@@ -3,14 +3,21 @@ import React from 'react'
 import { Menu, Dropdown, Icon } from 'antd';
 
 class SortFilter extends React.Component {
+
+	handleClick(e) {
+		console.log(e.key);
+
+		this.props.sortComps('hi')
+	}
+
 	render() {
 		const sort = (
-			<Menu>
-				<Menu.Item key="0">
-					<a href="http://www.alipay.com/">By date (old-new)</a>
+			<Menu onClick={this.handleClick}>
+				<Menu.Item key={true}>
+					By date (old-new)
 				</Menu.Item>
-				<Menu.Item key="1">
-					<a href="http://www.taobao.com/">By date (new-old)</a>
+				<Menu.Item key={false}>
+					By date (new-old)
 				</Menu.Item>
 			</Menu>
 		);

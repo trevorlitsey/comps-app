@@ -2,6 +2,7 @@ import React from 'react'
 import { Menu, Icon, Dropdown, List, Avatar } from 'antd';
 
 import SortFilter from './SortFilter';
+import CompsListApproved from './CompsListApproved';
 
 class ApprovedComps extends React.Component {
 	render() {
@@ -13,36 +14,8 @@ class ApprovedComps extends React.Component {
 		return (
 			<div className="form-container">
 				<SortFilter />
-				<List
-					itemLayout="horizontal"
-					header="Approved"
-					dataSource={approved}
-					renderItem={comp => (
-						<List.Item actions={comp ? [<a onClick={() => this.props.updateComp(comp.key, 'p')}>undo</a>] : ''}>
-							<List.Item.Meta
-								avatar={comp ? <Avatar size="small" icon="user" /> : ''}
-								title={comp ? comp.guestName : 'none yet!'}
-								description={comp ? `${this.props.events[comp.event].date} ${this.props.events[comp.event].title}` : ''}
-							/>
-							<div>{comp.quant} tickets</div>
-						</List.Item>
-					)}
-				/>
-				<List
-					itemLayout="horizontal"
-					header="Denied"
-					dataSource={denied}
-					renderItem={comp => (
-						<List.Item actions={comp ? [<a onClick={() => this.props.updateComp(comp.key, 'p')}>undo</a>] : ''}>
-							<List.Item.Meta
-								avatar={comp ? <Avatar size="small" icon="user" /> : ''}
-								title={comp ? comp.guestName : 'none yet!'}
-								description={comp ? `${this.props.events[comp.event].date} ${this.props.events[comp.event].title}` : ''}
-							/>
-							<div>{comp.quant} tickets</div>
-						</List.Item>
-					)}
-				/>
+				<CompsListApproved events={this.props.events} comps={approved} updateComp={this.props.updateComp} />
+				<CompsListApproved events={this.props.events} comps={denied} updateComp={this.props.updateComp} />
 			</div>
 		)
 	}
