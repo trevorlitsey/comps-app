@@ -37,9 +37,11 @@ export function findVenueBySlug(slug) {
 		.equalTo(slug)
 }
 
-export function insertComp(values, compId, venueId) {
+export function insertComp(values, compId, venueId, date = Date.now()) {
 	values.id = compId;
-	values.status = "p";
+	values.status = 'p';
+	values.requestDate = date;
+	if (!values.guestEmail) values.guestEmail = '';
 	database.child('venues').child(venueId).child('comps').child(compId).set({
 		...values
 	});

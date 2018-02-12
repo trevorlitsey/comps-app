@@ -3,8 +3,6 @@ import { Menu, Dropdown, Icon, List, Avatar } from 'antd';
 
 import { formatDateFromEpoch } from '../helpers';
 
-import SortFilter from './SortFilter';
-
 class PendingComps extends React.Component {
 
 	constructor() {
