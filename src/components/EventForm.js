@@ -19,6 +19,7 @@ class EventForm extends React.Component {
 
 				const title = values.title;
 				this.props.addEvent({ date, title });
+				this.props.form.resetFields();
 			}
 		});
 	}

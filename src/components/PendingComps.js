@@ -1,6 +1,8 @@
 import React from 'react'
 import { List, Avatar } from 'antd';
 
+import SortFilter from './SortFilter';
+
 class PendingComps extends React.Component {
 
 	render() {
@@ -12,12 +14,11 @@ class PendingComps extends React.Component {
 			}
 		});
 
-		console.log(pending);
-
 
 		return (
 			<div className="subcontainer--pending">
 				<div className="form-container">
+					<SortFilter />
 					<List
 						itemLayout="horizontal"
 						dataSource={pending}
