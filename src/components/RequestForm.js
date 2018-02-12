@@ -1,12 +1,10 @@
 import React from 'react'
 import uniqid from 'uniqid';
-import { Form, Input, Select, InputNumber, Button } from 'antd';
+import { Form, Input, Select, InputNumber, Button, Row } from 'antd';
 import { insertComp } from '../helpers';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
-
 
 class RequestForm extends React.Component {
 
@@ -15,7 +13,6 @@ class RequestForm extends React.Component {
 
 		this.renderEvent = this.renderEvent.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-
 	}
 
 	renderEvent(key) {
@@ -33,19 +30,15 @@ class RequestForm extends React.Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				// enter comp info into firebase
-				values.status = "p";
-				values.key = uniqid()
-
-				insertComp(values, values.key, this.props.venue.id)
-
+				insertComp(values, uniqid(), this.props.venue.id)
 				// todo, make thank you for submitting form
+				this.props.formSubmitted(true);
 			}
 		});
-
-
 	}
 
 	render() {
+
 		const { getFieldDecorator } = this.props.form;
 		const events = { ...this.props.venue.events };
 
@@ -53,64 +46,58 @@ class RequestForm extends React.Component {
 
 		return (
 			<div className="form-container">
-				<Form onSubmit={this.handleSubmit}>
+				<Form onSubmit={this.handleSubmit} style={{ justify: 'space-between' }}>
 					<FormItem
-						label="Guest name: "
 						margin={0}
 					>
 						{getFieldDecorator('guestName', {
-							rules: [{ required: true, message: 'Please enter a name!' }],
+							rules: [{ required: true, message: 'Please enter a name' }],
 						})(
-							<Input />
+							<Input size="large" placeholder="Guest name" />
 						)}
 					</FormItem>
-					<FormItem
-						label="Guest email (optional): "
-					>
+					<FormItem>
 						{getFieldDecorator('guestEmail')(
-							<Input />
+							<Input size="large" placeholder="Guest email (optional)" />
 						)}
 					</FormItem>
-					<FormItem
-						label="Event: "
-					>
+					<FormItem>
+						{getFieldDecorator('requesterEmail', {
+							rules: [{ required: true, message: 'please enter an email' }],
+						}
+						)(
+							<Input size="large" placeholder="Requester email" />
+						)}
+					</FormItem>
+					<FormItem>
 						{getFieldDecorator('event', {
 							rules: [{ required: true, message: 'please select an event' }],
 						})(
 							<Select
+								size="large"
 								placeholder="Select event"
 							>
 								{events ? Object.keys(events).map(this.renderEvent) : noEvents}
 							</Select>
 						)}
-					</FormItem>
-					<FormItem
-						label="Number of Tickets: "
-					>
+					</FormItem >
+					<FormItem>
+						<span className="ant-form-text">Number of tickets:</span>
 						{getFieldDecorator('quant', {
-							rules: [{ required: true, message: 'please imput a number' }],
+							rules: [{ required: true, message: 'please input a number' }],
 							initialValue: 2
 						})(
-							<InputNumber min={1} max={10} />
+							<InputNumber size="large" min={1} max={10} />
 						)}
-					</FormItem>
-					<FormItem
-						label="Requester email: "
-					>
-						{getFieldDecorator('requesterEmail', {
-							rules: [{ required: true, message: 'please enter an email' }],
-						}
-						)(
-							<Input />
-						)}
+
 					</FormItem>
 					<FormItem>
-						<Button type="primary" htmlType="submit">
+						<Button type="primary" htmlType="submit" style={{ width: '100%' }}>
 							Submit
           </Button>
 					</FormItem>
 				</Form>
-			</div>
+			</div >
 		)
 	}
 }

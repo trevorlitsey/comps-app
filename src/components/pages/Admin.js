@@ -93,6 +93,8 @@ class Admin extends React.Component {
 	}
 
 	updateComp(key, newStatus) {
+		console.log(key);
+
 		const venue = { ...this.state.venue };
 		venue.comps[key].status = newStatus;
 		this.setState({ venue });
@@ -100,7 +102,6 @@ class Admin extends React.Component {
 
 	changeView(view) {
 		this.setState({ view })
-
 	}
 
 	render() {

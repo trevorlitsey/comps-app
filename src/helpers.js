@@ -38,6 +38,8 @@ export function findVenueBySlug(slug) {
 }
 
 export function insertComp(values, compId, venueId) {
+	values.id = compId;
+	values.status = "p";
 	database.child('venues').child(venueId).child('comps').child(compId).set({
 		...values
 	});

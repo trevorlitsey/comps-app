@@ -6,9 +6,9 @@ class PendingComps extends React.Component {
 	render() {
 
 		const pending = [];
-		Object.keys(this.props.comps).map(key => {
-			if (this.props.comps[key].status === "p") {
-				pending.push({ ...this.props.comps[key] });
+		Object.keys(this.props.comps).map(id => {
+			if (this.props.comps[id].status === "p") {
+				pending.push({ ...this.props.comps[id] });
 			}
 		});
 
@@ -22,7 +22,7 @@ class PendingComps extends React.Component {
 						itemLayout="horizontal"
 						dataSource={pending}
 						renderItem={comp => (
-							<List.Item actions={comp ? [<a onClick={() => this.props.updateComp(comp.key, 'a')}>approve</a>, <a onClick={() => this.props.updateComp(comp.key, 'd')}>deny</a>] : ''}>
+							<List.Item actions={comp ? [<a onClick={() => this.props.updateComp(comp.id, 'a')}>approve</a>, <a onClick={() => this.props.updateComp(comp.id, 'd')}>deny</a>] : ''}>
 								<List.Item.Meta
 									avatar={comp ? <Avatar size="small" icon="user" /> : ''}
 									title={comp ? comp.guestName : ''}
