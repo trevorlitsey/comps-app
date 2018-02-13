@@ -1,6 +1,8 @@
 import React from 'react'
 import { Menu, Icon, Dropdown } from 'antd';
 
+import { formatDateFromEpoch } from '../helpers';
+
 import CompsListApproved from './CompsListApproved';
 
 class ApprovedComps extends React.Component {
@@ -9,6 +11,7 @@ class ApprovedComps extends React.Component {
 		super();
 
 		this.handleClick = this.handleClick.bind(this);
+		this.renderEventOption = this.renderEventOption.bind(this);
 
 		this.state = {
 			sortState: "eventDate-asc",
@@ -20,26 +23,30 @@ class ApprovedComps extends React.Component {
 		this.setState({ sortState: e.key })
 	}
 
+	renderEventOption(key) {
+		return (
+			<Menu.Item key={key}>
+				{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
+			</Menu.Item>
+		)
+	}
+
 	render() {
 
 		const compsArray = Object.keys(this.props.comps).map(id => this.props.comps[id]);
-		const approved = compsArray.filter(comp => comp.status === "a")
-		const denied = compsArray.filter(comp => comp.status === "d")
+		let approved = compsArray.filter(comp => comp.status === "a")
+		let denied = compsArray.filter(comp => comp.status === "d")
 
 		if (this.state.sortState === "eventDate-asc") {
-			approved.sort((compA, compB) => {
-				return this.props.events[compA.event].date - this.props.events[compB.event].date;
-			})
-			denied.sort((compA, compB) => {
-				return this.props.events[compA.event].date - this.props.events[compB.event].date;
-			})
+			approved.sort((compA, compB) => this.props.events[compA.event].date - this.props.events[compB.event].date)
+			denied.sort((compA, compB) => this.props.events[compA.event].date - this.props.events[compB.event].date)
 		} else if (this.state.sortState === "eventDate-desc") {
-			approved.sort((compA, compB) => {
-				return this.props.events[compB.event].date - this.props.events[compA.event].date;
-			})
-			denied.sort((compA, compB) => {
-				return this.props.events[compB.event].date - this.props.events[compA.event].date;
-			})
+			approved.sort((compA, compB) => this.props.events[compB.event].date - this.props.events[compA.event].date)
+			denied.sort((compA, compB) => this.props.events[compB.event].date - this.props.events[compA.event].date)
+		} else {
+			// filter by event
+			approved = approved.filter(comp => comp.event === this.state.sortState);
+			denied = denied.filter(comp => comp.event === this.state.sortState);
 		}
 
 		const sort = (
@@ -54,25 +61,23 @@ class ApprovedComps extends React.Component {
 		);
 
 		const filter = (
-			<Menu>
-				<Menu.Item key="0">
-					Event One
+			<Menu onClick={this.handleClick}>
+				<Menu.Item key="eventDate-asc">
+					All
 				</Menu.Item>
-				<Menu.Item key="1">
-					Event 2
-				</Menu.Item>
+				{Object.keys(this.props.events).map(this.renderEventOption)}
 			</Menu>
 		);
 
 		return (
 			<div className="form-container">
 				<Dropdown overlay={sort} trigger={['click']}>
-					<a className="ant-dropdown-link" href="#">
+					<a className="ant-dropdown-link">
 						Sort <Icon type="down" />
 					</a>
 				</Dropdown>
 				<Dropdown overlay={filter} trigger={['click']}>
-					<a className="ant-dropdown-link" href="#" style={{ 'marginLeft': 8 }}>
+					<a className="ant-dropdown-link" style={{ 'marginLeft': 8 }}>
 						Filter <Icon type="down" />
 					</a>
 				</Dropdown>

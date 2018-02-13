@@ -3,7 +3,7 @@ import { DatePicker, Form, Input, Button } from 'antd';
 
 const FormItem = Form.Item;
 
-class EventForm extends React.Component {
+class AddEventForm extends React.Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
@@ -58,6 +58,6 @@ class EventForm extends React.Component {
 	}
 }
 
-EventForm = Form.create({})(EventForm);
+AddEventForm = Form.create({})(AddEventForm);
 
-export default EventForm;
+export default AddEventForm;

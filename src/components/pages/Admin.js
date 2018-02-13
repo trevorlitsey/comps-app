@@ -8,7 +8,8 @@ import AdminRadio from '../AdminRadio'
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 import EventInfo from '../EventInfo';
-import EventForm from '../EventForm';
+import AddEventForm from '../AddEventForm';
+import EditEventForm from '../EditEventForm';
 import PendingComps from '../PendingComps';
 import ApprovedComps from '../ApprovedComps';
 
@@ -23,13 +24,15 @@ class Admin extends React.Component {
 		this.renderEvent = this.renderEvent.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.updateVenueInfo = this.updateVenueInfo.bind(this);
+		this.handleEventUpdate = this.handleEventUpdate.bind(this);
 		this.updateComp = this.updateComp.bind(this);
 		this.changeView = this.changeView.bind(this);
 
 		this.state = {
 			venue: '',
 			user: '',
-			view: 'pending'
+			view: 'pending',
+			eventToEdit: ''
 		}
 	}
 
@@ -82,12 +85,26 @@ class Admin extends React.Component {
 
 	renderEvent(key) {
 		const { date, title } = this.state.venue.events[key];
-		return (
-			<div className="event--container" key={key}>
-				<div className="event--info">{formatDateFromEpoch(date)} {title}</div>
-				<div className="event--button" onClick={() => this.removeEvent(key)}></div>
-			</div>
-		)
+		if (this.state.eventToEdit === key) {
+			return (
+				<EditEventForm key={key} event={this.state.venue.events[this.state.eventToEdit]} />
+			)
+		} else {
+			return (
+				<div className="event--container" key={key}>
+					<div className="event--info">{formatDateFromEpoch(date)} {title}</div>
+					<div className="event--button" onClick={() => this.updateEventToEdit(key)}><a>edit</a></div>
+				</div>
+			)
+		}
+	}
+
+	updateEventToEdit(eventToEdit) {
+		this.setState({ eventToEdit })
+	}
+
+	handleEventUpdate(key) {
+		// TODO: record new info
 	}
 
 	addEvent(formObj, id = uniqid()) {
@@ -158,8 +175,7 @@ class Admin extends React.Component {
 							<label>Manage events:</label>
 							{this.state.venue.events && Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
-							<EventForm addEvent={this.addEvent} />
-							<Divider />
+							<AddEventForm addEvent={this.addEvent} />
 						</div>
 					</div>
 				)

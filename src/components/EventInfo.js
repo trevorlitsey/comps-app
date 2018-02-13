@@ -32,6 +32,7 @@ class EventInfo extends React.Component {
 					})(
 						<Input
 							placeholder="Please input a venue name"
+							size="large"
 						/>
 					)}
 				</FormItem>
@@ -42,6 +43,7 @@ class EventInfo extends React.Component {
 					})(
 						<Input
 							placeholder={'your-url'}
+							size="large"
 							addonBefore="complist.org/request/"
 							ref={(input) => { this.slug = input }}
 						/>
@@ -56,6 +58,7 @@ class EventInfo extends React.Component {
 					})(
 						<Input
 							placeholder={'yoUrPassC0de'}
+							size="large"
 							ref={(input) => { this.code = input }}
 						/>
 					)}

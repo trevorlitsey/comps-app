@@ -18,8 +18,6 @@ class PendingComps extends React.Component {
 	}
 
 	handleClick(e) {
-		console.log(e.key);
-
 		this.setState({ sortState: e.key })
 	}
 
@@ -39,14 +37,10 @@ class PendingComps extends React.Component {
 
 		if (!this.state.sortState || this.state.sortState === "eventDate-asc") {
 			// default
-			pending.sort((compA, compB) => {
-				return this.props.events[compA.event].date - this.props.events[compB.event].date;
-			})
+			pending.sort((compA, compB) => this.props.events[compA.event].date - this.props.events[compB.event].date)
 		} else if (this.state.sortState === "eventDate-desc") {
 			// sort by event, descending
-			pending.sort((compA, compB) => {
-				return this.props.events[compB.event].date - this.props.events[compA.event].date;
-			})
+			pending.sort((compA, compB) => this.props.events[compB.event].date - this.props.events[compA.event].date)
 		} else {
 			// filter by event
 			pending = pending.filter(comp => comp.event === this.state.sortState);
@@ -75,17 +69,18 @@ class PendingComps extends React.Component {
 		return (
 			<div className="form-container">
 				<Dropdown overlay={sort} trigger={['click']}>
-					<a className="ant-dropdown-link" href="#">
+					<a className="ant-dropdown-link">
 						Sort <Icon type="down" />
 					</a>
 				</Dropdown>
 				<Dropdown overlay={filter} trigger={['click']}>
-					<a className="ant-dropdown-link" href="#" style={{ 'marginLeft': 8 }}>
+					<a className="ant-dropdown-link" style={{ 'marginLeft': 8 }}>
 						Filter <Icon type="down" />
 					</a>
 				</Dropdown>
 				<List
 					itemLayout="horizontal"
+					header="Pending"
 					dataSource={pending}
 					renderItem={comp => (
 						<List.Item actions={comp ? [<a onClick={() => this.props.updateComp(comp.id, 'a')}>approve</a>, <a onClick={() => this.props.updateComp(comp.id, 'd')}>deny</a>] : ''}>

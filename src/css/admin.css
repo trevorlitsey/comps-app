@@ -42,14 +42,6 @@
 	margin-top: 2px;
 }
 
-.event--button:hover {
-	cursor: pointer;
-}
-
-.event--button::before {
-	content: 'x';
-}
-
 .form-container input[type="text"] {
 	font-family: 'Lato', sans-serif;
 	font-size: .8rem;
@@ -59,7 +51,7 @@
 	font-family: 'Lato', sans-serif;
 	 font-size: .8rem;
 }
-
+/* 
 .ant-calendar-picker-input .ant-input {
 	width: 100%;
-}
+} */
