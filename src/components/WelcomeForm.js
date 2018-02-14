@@ -49,7 +49,7 @@ class WelcomeForm extends React.Component {
 				this.props.form.setFields({
 					venueName: {
 						value: '',
-						errors: [new Error(`no results found for ${values.venueName}`)],
+						errors: [new Error(`no results found ${values.venueName ? `for ${values.venueName}` : ''}`)],
 					},
 				});
 			}
