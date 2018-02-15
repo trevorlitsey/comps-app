@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Dropdown, Icon, List, Avatar } from 'antd';
+import { Menu, Dropdown, Icon, List, Avatar, message } from 'antd';
 
 import { formatDateFromEpoch } from '../helpers';
 
@@ -29,8 +29,12 @@ class PendingComps extends React.Component {
 		)
 	}
 
-	checkIfRoomToApprove(id, status) {
-		this.props.updateComp(id, status)
+	checkIfRoomToApprove(comp, status) {
+		// stop request from going through if not enough avail
+		const left = this.props.currentTotals[comp.event].limit - this.props.currentTotals[comp.event].count;
+		if (comp.quant > left) return message.error('there is not enough availability for this request')
+
+		this.props.updateComp(comp.id, status)
 	}
 
 	render() {
@@ -87,7 +91,7 @@ class PendingComps extends React.Component {
 					header="Pending"
 					dataSource={pending}
 					renderItem={comp => (
-						<List.Item actions={comp ? [<a onClick={() => this.checkIfRoomToApprove(comp.id, 'a')}>approve</a>, <a onClick={() => this.props.updateComp(comp.id, 'd')}>deny</a>] : ''}>
+						<List.Item actions={comp ? [<a onClick={() => this.checkIfRoomToApprove(comp, 'a')}>approve</a>, <a onClick={() => this.props.updateComp(comp.id, 'd')}>deny</a>] : ''}>
 							<List.Item.Meta
 								avatar={comp ? <Avatar size="small" icon="user" /> : ''}
 								title={comp ? comp.guestName : ''}

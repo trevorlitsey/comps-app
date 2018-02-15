@@ -33,7 +33,8 @@ class Admin extends React.Component {
 			venue: '',
 			user: '',
 			view: 'pending',
-			eventToEdit: ''
+			eventToEdit: '',
+			currentTotals: ''
 		}
 	}
 
@@ -64,6 +65,24 @@ class Admin extends React.Component {
 	}
 
 	componentWillUpdate(nextProps, nextState) {
+
+		// update running approved comp totals
+		if (nextState.venue) {
+			const currentTotals = {}
+			Object.keys(nextState.venue.events).forEach(key => {
+				currentTotals[key] = {
+					count: 0,
+					limit: nextState.venue.events[key].limit
+				}
+			});
+			Object.keys(nextState.venue.comps)
+				.forEach(key => {
+					const { status, event, quant } = { ...nextState.venue.comps[key] };
+					if (status === "a") currentTotals[event].count += quant;
+				});
+			nextState.currentTotals = currentTotals;
+		}
+
 		// store current view in local storage
 		localStorage.setItem(`view-${this.props.match.params.venueId}`,
 			JSON.stringify(nextState.view));
@@ -154,24 +173,12 @@ class Admin extends React.Component {
 				.filter(key => this.state.venue.comps[key].status === "p")
 				.length;
 
-			const currentTotals = {}
-			Object.keys(this.state.venue.events).forEach(key => {
-				currentTotals[key] = {
-					count: 0,
-					limit: this.state.venue.events[key].limit
-				}
-			});
-			Object.keys(this.state.venue.comps)
-				.forEach(key => {
-					const { status, event, quant } = { ...this.state.venue.comps[key] };
-					if (status === "a") currentTotals[event].count += quant;
-				});
 
 			if (view === "pending") {
 				return (
 					<div className="container--admin">
 						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
-						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={currentTotals} />
+						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
 					</div>
 				)
 			}
@@ -179,7 +186,7 @@ class Admin extends React.Component {
 				return (
 					<div className="container--admin">
 						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
-						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={currentTotals} />
+						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
 					</div>
 				)
 			}
