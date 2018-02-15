@@ -1,5 +1,5 @@
 import React from 'react'
-import { DatePicker, Form, Input, Button } from 'antd';
+import { DatePicker, Form, Input, InputNumber, Button } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -10,13 +10,13 @@ class AddEventForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-
-				// convert date to epoch and record title
-				const dateObj = values.date._d;
-				const date = dateObj.getTime();
-				const title = values.title;
-				this.props.addEvent({ date, title });
+				// convert date to epoch
+				values.date = values.date._d.getTime();
+				this.props.addEvent({ ...values });
 				this.props.form.resetFields();
+			}
+			else {
+				console.error(err);
 			}
 		});
 	}
@@ -24,10 +24,10 @@ class AddEventForm extends React.Component {
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		return (
-			<Form layout="inline" onSubmit={this.handleSubmit}>
+			<Form onSubmit={this.handleSubmit}>
 				<FormItem>
 					{getFieldDecorator('date', {
-						rules: [{ required: true, message: 'Please input a date!' }],
+						rules: [{ required: true, message: 'please enter a date' }],
 					})(
 						<DatePicker
 							size="large"
@@ -37,12 +37,21 @@ class AddEventForm extends React.Component {
 				</FormItem>
 				<FormItem>
 					{getFieldDecorator('title', {
-						rules: [{ required: true, message: 'Please include an event name!' }],
+						rules: [{ required: true, message: 'please enter an event name' }],
 					})(
 						<Input
 							size="large"
 							placeholder="Event name"
 						/>
+					)}
+				</FormItem>
+				<FormItem>
+					<span className="ant-form-text">Tickets available: </span>
+					{getFieldDecorator('limit', {
+						rules: [{ required: true, message: 'please enter a number' }],
+						initialValue: 10
+					})(
+						<InputNumber size="large" min={1} max={100} />
 					)}
 				</FormItem>
 				<FormItem>

@@ -23,8 +23,9 @@ class Admin extends React.Component {
 
 		this.renderEvent = this.renderEvent.bind(this);
 		this.addEvent = this.addEvent.bind(this);
+		this.removeEvent = this.removeEvent.bind(this);
+		this.updateEvent = this.updateEvent.bind(this);
 		this.updateVenueInfo = this.updateVenueInfo.bind(this);
-		this.handleEventUpdate = this.handleEventUpdate.bind(this);
 		this.updateComp = this.updateComp.bind(this);
 		this.changeView = this.changeView.bind(this);
 
@@ -58,8 +59,6 @@ class Admin extends React.Component {
 
 		if (localStorageRef) {
 			// update app component's order state
-			console.log(JSON.parse(localStorageRef));
-
 			this.setState({ view: JSON.parse(localStorageRef) })
 		}
 	}
@@ -84,15 +83,15 @@ class Admin extends React.Component {
 	}
 
 	renderEvent(key) {
-		const { date, title } = this.state.venue.events[key];
+		const { date, title, limit } = this.state.venue.events[key];
 		if (this.state.eventToEdit === key) {
 			return (
-				<EditEventForm key={key} event={this.state.venue.events[this.state.eventToEdit]} />
+				<EditEventForm key={key} event={this.state.venue.events[this.state.eventToEdit]} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
 			)
 		} else {
 			return (
 				<div className="event--container" key={key}>
-					<div className="event--info">{formatDateFromEpoch(date)} {title}</div>
+					<div className="event--info">{formatDateFromEpoch(date)} | {title} ({limit})</div>
 					<div className="event--button" onClick={() => this.updateEventToEdit(key)}><a>edit</a></div>
 				</div>
 			)
@@ -103,8 +102,11 @@ class Admin extends React.Component {
 		this.setState({ eventToEdit })
 	}
 
-	handleEventUpdate(key) {
-		// TODO: record new info
+	updateEvent(updatedEvent, EventId) {
+		const venue = { ...this.state.venue };
+		venue.events[EventId] = updatedEvent;
+		const eventToEdit = '';
+		this.setState({ venue, eventToEdit })
 	}
 
 	addEvent(formObj, id = uniqid()) {
@@ -148,33 +150,46 @@ class Admin extends React.Component {
 		if (this.state.venue && this.state.user.uid === this.state.venue.owner) {
 
 			const { view } = this.state;
+			const pendingCount = Object.keys(this.state.venue.comps)
+				.filter(key => this.state.venue.comps[key].status === "p")
+				.length;
+
+			const currentTotals = {}
+			Object.keys(this.state.venue.comps)
+				.map(id => this.state.venue.comps[id])
+				.filter(comp => comp.status === "a")
+				.map(comp => {
+					const { event } = comp;
+					currentTotals[event] ? currentTotals[event]++ : currentTotals[event] = 1;
+				})
 
 			if (view === "pending") {
 				return (
 					<div className="container--admin">
-						<AdminRadio defaultView={this.state.view} changeView={this.changeView} />
-						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
+						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
+						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={currentTotals} />
 					</div>
 				)
 			}
 			else if (view === "done") {
 				return (
 					<div className="container--admin">
-						<AdminRadio defaultView={this.state.view} changeView={this.changeView} />
-						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} />
+						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
+						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={currentTotals} />
 					</div>
 				)
 			}
 			else if (view === "info") {
 				return (
 					<div className="container--admin">
-						<AdminRadio defaultView={this.state.view} changeView={this.changeView} />
+						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
 						<div className="form-container">
 							<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
 							<Divider />
 							<label>Manage events:</label>
 							{this.state.venue.events && Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
+							<label>Add event:</label>
 							<AddEventForm addEvent={this.addEvent} />
 						</div>
 					</div>

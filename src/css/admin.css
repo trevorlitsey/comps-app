@@ -55,3 +55,12 @@
 .ant-calendar-picker-input .ant-input {
 	width: 100%;
 } */
+
+/* badge */
+
+.ant-badge {
+	z-index: 10;
+	display: absolute;
+	left: -2px;
+	top: 15px;
+}

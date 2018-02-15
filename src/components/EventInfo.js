@@ -27,18 +27,18 @@ class EventInfo extends React.Component {
 			<Form layout="horizontal" onSubmit={this.handleSubmit}>
 				<FormItem label="Name:">
 					{getFieldDecorator('name', {
-						rules: [{ required: true, message: 'Please enter a name' }],
+						rules: [{ required: true, message: 'please enter a name' }],
 						initialValue: this.props.venue.name
 					})(
 						<Input
-							placeholder="Please input a venue name"
+							placeholder="Venue name"
 							size="large"
 						/>
 					)}
 				</FormItem>
 				<FormItem label="URL:">
 					{getFieldDecorator('slug', {
-						rules: [{ required: true, message: 'Please enter a url' }],
+						rules: [{ required: true, message: 'please enter a url' }],
 						initialValue: this.props.venue.slug
 					})(
 						<Input
@@ -53,11 +53,11 @@ class EventInfo extends React.Component {
 					label="Passcode"
 				>
 					{getFieldDecorator('code', {
-						rules: [{ required: true, message: 'Please enter a passcode' }],
+						rules: [{ required: true, message: 'please enter a passcode' }],
 						initialValue: this.props.venue.code
 					})(
 						<Input
-							placeholder={'yoUrPassC0de'}
+							placeholder={'Passc0de'}
 							size="large"
 							ref={(input) => { this.code = input }}
 						/>

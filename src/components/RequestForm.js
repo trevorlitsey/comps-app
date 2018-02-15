@@ -84,12 +84,11 @@ class RequestForm extends React.Component {
 					<FormItem>
 						<span className="ant-form-text">Number of tickets:</span>
 						{getFieldDecorator('quant', {
-							rules: [{ required: true, message: 'please input a number' }],
+							rules: [{ required: true, message: 'please enter a number' }],
 							initialValue: 2
 						})(
 							<InputNumber size="large" min={1} max={10} />
 						)}
-
 					</FormItem>
 					<FormItem>
 						<Button type="primary" htmlType="submit" style={{ width: '100%' }}>
