@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Divider } from 'antd';
+import { Divider, message } from 'antd';
 import uniqid from 'uniqid';
 
 import AdminRadio from '../AdminRadio'
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
+import EventList from '../EventList';
 import EventInfo from '../EventInfo';
 import AddEventForm from '../AddEventForm';
 import EditEventForm from '../EditEventForm';
@@ -121,11 +122,17 @@ class Admin extends React.Component {
 		this.setState({ eventToEdit })
 	}
 
-	updateEvent(updatedEvent, EventId) {
+	updateEvent(updatedEvent, eventId) {
+		// confirm current comps don't exceed
+		if (updatedEvent.limit < this.state.currentTotals[eventId].count) {
+			return message.error('limit must be >= to currently approved requests')
+		}
+
 		const venue = { ...this.state.venue };
-		venue.events[EventId] = updatedEvent;
+		venue.events[eventId] = updatedEvent;
 		const eventToEdit = '';
 		this.setState({ venue, eventToEdit })
+		message.success(`event info updated`);
 	}
 
 	addEvent(formObj, id = uniqid()) {
@@ -172,7 +179,6 @@ class Admin extends React.Component {
 			const pendingCount = Object.keys(this.state.venue.comps)
 				.filter(key => this.state.venue.comps[key].status === "p")
 				.length;
-
 
 			if (view === "pending") {
 				return (

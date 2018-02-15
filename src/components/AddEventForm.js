@@ -10,8 +10,13 @@ class AddEventForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
+
+				// bug that let's user input a non-number if form submitted w/ enter button
+				if (typeof values.limit !== "number") return message.error('limit value must be a number')
+
 				// convert date to epoch
 				values.date = values.date._d.getTime();
+
 				this.props.addEvent({ ...values });
 				this.props.form.resetFields();
 				message.success('event added');
@@ -44,7 +49,7 @@ class AddEventForm extends React.Component {
 					)}
 				</FormItem>
 				<FormItem>
-					<span className="ant-form-text">Tickets available: </span>
+					<span className="ant-form-text">Limit: </span>
 					{getFieldDecorator('limit', {
 						rules: [{ required: true, message: 'please enter a number' }],
 						initialValue: 10

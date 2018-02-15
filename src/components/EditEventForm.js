@@ -12,11 +12,14 @@ class EditEventForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
+
+				// bug that let's user input a non-number if form submitted w/ enter button
+				if (typeof values.limit !== "number") return message.error('limit value must be a number')
+
 				// convert date to epoch
 				values.date = values.date._d.getTime()
 				this.props.updateEvent({ ...values }, this.props.event.id);
 				this.props.form.resetFields();
-				message.success(`event info updated`);
 			}
 		});
 	}
@@ -33,7 +36,7 @@ class EditEventForm extends React.Component {
 			<Form onSubmit={this.handleSubmit} layout="inline">
 				<FormItem>
 					{getFieldDecorator('date', {
-						rules: [{ required: true, message: 'please input a date' }],
+						rules: [{ required: true, message: 'please enter a date' }],
 						initialValue: moment(event.date)
 					})(
 						<DatePicker
@@ -43,7 +46,7 @@ class EditEventForm extends React.Component {
 				</FormItem>
 				<FormItem>
 					{getFieldDecorator('title', {
-						rules: [{ required: true, message: 'please include an event name' }],
+						rules: [{ required: true, message: 'please enter a name' }],
 						initialValue: event.title
 					})(
 						<Input
