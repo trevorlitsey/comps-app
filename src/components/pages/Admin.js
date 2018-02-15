@@ -204,6 +204,8 @@ class Admin extends React.Component {
 							<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
 							<Divider />
 							<label>Manage events:</label>
+							<EventList events={this.state.venue.events} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
+							<Divider />
 							{this.state.venue.events && Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
 							<label>Add event:</label>
