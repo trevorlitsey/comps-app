@@ -60,6 +60,10 @@ input {
 	background: rgb(219, 219, 219);
 }
 
+.btn--close {
+	cursor: pointer;
+}
+
 button:disabled:hover,
 button[disabled]:hover{
 	/* do nothing */

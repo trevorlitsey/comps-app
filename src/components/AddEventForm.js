@@ -28,23 +28,22 @@ class AddEventForm extends React.Component {
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<Form onSubmit={this.handleSubmit}>
-				<FormItem>
+				<h3>Add Event</h3>
+				<FormItem style={{ marginBottom: '5px' }}>
 					{getFieldDecorator('date', {
 						rules: [{ required: true, message: 'please enter a date' }],
 					})(
 						<DatePicker
-							size="large"
-							placeholder="Event date"
+							placeholder="Date"
 						/>
 					)}
 				</FormItem>
-				<FormItem>
+				<FormItem style={{ marginBottom: '5px' }}>
 					{getFieldDecorator('title', {
 						rules: [{ required: true, message: 'please enter an event name' }],
 					})(
 						<Input
-							size="large"
-							placeholder="Event name"
+							placeholder="Name"
 						/>
 					)}
 				</FormItem>
@@ -54,7 +53,7 @@ class AddEventForm extends React.Component {
 						rules: [{ required: true, message: 'please enter a number' }],
 						initialValue: 10
 					})(
-						<InputNumber size="large" min={1} max={100} />
+						<InputNumber min={1} max={100} />
 					)}
 				</FormItem>
 				<FormItem>

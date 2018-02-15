@@ -34,6 +34,7 @@ class EditEventForm extends React.Component {
 		const { date, title, limit, id } = this.props.event;
 		return (
 			<Form onSubmit={this.handleSubmit}>
+				<p onClick={() => this.props.updateEventToEdit('')} className="btn--close" style={{ textAlign: 'right', margin: '0' }}>x</p>
 				<FormItem style={{ marginBottom: '0' }}>
 					<label>Date: </label>
 					{getFieldDecorator('date', {
@@ -41,7 +42,7 @@ class EditEventForm extends React.Component {
 						initialValue: moment(date)
 					})(
 						<DatePicker
-							size="large"
+
 						/>
 					)}
 				</FormItem>
@@ -52,7 +53,7 @@ class EditEventForm extends React.Component {
 						initialValue: title
 					})(
 						<Input
-							size="large"
+
 							placeholder="Event name"
 						/>
 					)}
@@ -63,7 +64,7 @@ class EditEventForm extends React.Component {
 						rules: [{ required: true, message: 'please enter a number' }],
 						initialValue: limit
 					})(
-						<InputNumber size="large" min={1} max={100} />
+						<InputNumber min={1} max={100} />
 					)}
 				</FormItem>
 				<FormItem style={{ marginBottom: '5px' }}>
@@ -78,11 +79,6 @@ class EditEventForm extends React.Component {
 					<Popconfirm title="are you sure you want to delete this event?" onConfirm={() => this.handleDeleteClick(id)} okText="Yes" cancelText="No">
 						<Button type="danger">Delete Event</Button>
 					</Popconfirm>
-				</FormItem>
-				<FormItem style={{ marginBottom: '5px' }}>
-					<Button onClick={() => this.props.updateEventToEdit('')}>
-						Cancel
-					</Button>
 				</FormItem>
 			</Form >
 		)

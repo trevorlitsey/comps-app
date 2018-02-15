@@ -189,7 +189,6 @@ class Admin extends React.Component {
 							<EventList events={this.state.venue.events} eventToEdit={this.state.eventToEdit} updateEventToEdit={this.updateEventToEdit} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
 							<Divider />
 							<div className="space-md"></div>
-							<label>Add event:</label>
 							<AddEventForm addEvent={this.addEvent} />
 						</div>
 					</div>
