@@ -155,13 +155,17 @@ class Admin extends React.Component {
 				.length;
 
 			const currentTotals = {}
+			Object.keys(this.state.venue.events).forEach(key => {
+				currentTotals[key] = {
+					count: 0,
+					limit: this.state.venue.events[key].limit
+				}
+			});
 			Object.keys(this.state.venue.comps)
-				.map(id => this.state.venue.comps[id])
-				.filter(comp => comp.status === "a")
-				.map(comp => {
-					const { event } = comp;
-					currentTotals[event] ? currentTotals[event]++ : currentTotals[event] = 1;
-				})
+				.forEach(key => {
+					const { status, event, quant } = { ...this.state.venue.comps[key] };
+					if (status === "a") currentTotals[event].count += quant;
+				});
 
 			if (view === "pending") {
 				return (

@@ -61,6 +61,6 @@
 .ant-badge {
 	z-index: 10;
 	display: absolute;
-	left: -2px;
+	left: -5px;
 	top: 15px;
 }

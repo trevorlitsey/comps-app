@@ -1,5 +1,5 @@
 import React from 'react'
-import { DatePicker, Form, Input, InputNumber, Button } from 'antd';
+import { DatePicker, Form, Input, InputNumber, Button, message } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -14,9 +14,7 @@ class AddEventForm extends React.Component {
 				values.date = values.date._d.getTime();
 				this.props.addEvent({ ...values });
 				this.props.form.resetFields();
-			}
-			else {
-				console.error(err);
+				message.success('event added');
 			}
 		});
 	}

@@ -82,8 +82,8 @@ class ApprovedComps extends React.Component {
 					</a>
 				</Dropdown>
 
-				<CompsListApproved events={this.props.events} comps={approved} updateComp={this.props.updateComp} header="Approved" />
-				<CompsListApproved events={this.props.events} comps={denied} updateComp={this.props.updateComp} header="Denied" />
+				<CompsListApproved events={this.props.events} comps={approved} updateComp={this.props.updateComp} header="Approved" currentTotals={this.props.currentTotals} />
+				<CompsListApproved events={this.props.events} comps={denied} updateComp={this.props.updateComp} header="Denied" currentTotals={this.props.currentTotals} />
 			</div>
 		)
 	}

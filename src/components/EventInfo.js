@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 const FormItem = Form.Item;
 
 class EventInfo extends React.Component {
@@ -9,14 +9,8 @@ class EventInfo extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-
-				const venue = { ...this.props.venue };
-
-				Object.keys(values).forEach(key => {
-					if (venue[key] !== values[key]) venue[key] = values[key];
-				});
-
-				this.props.updateVenueInfo(venue);
+				this.props.updateVenueInfo(values);
+				message.success('venue info updated');
 			}
 		});
 	}

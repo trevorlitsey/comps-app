@@ -12,10 +12,11 @@ class EditEventForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				// convert date to epoch and record title
+				// convert date to epoch
 				values.date = values.date._d.getTime()
 				this.props.updateEvent({ ...values }, this.props.event.id);
 				this.props.form.resetFields();
+				message.success(`event info updated`);
 			}
 		});
 	}

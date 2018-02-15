@@ -1,7 +1,7 @@
 import React from 'react'
 import uniqid from 'uniqid';
 import { Form, Input, Select, InputNumber, Button } from 'antd';
-import { insertComp } from '../helpers';
+import { insertComp, formatDateFromEpoch } from '../helpers';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -19,7 +19,7 @@ class RequestForm extends React.Component {
 		const event = this.props.venue.events[key];
 
 		return (
-			<Option key={key} value={key}>{event.date} {event.title}</Option>
+			<Option key={key} value={key}>{formatDateFromEpoch(event.date)} | {event.title}</Option>
 		)
 	}
 

@@ -29,6 +29,10 @@ class PendingComps extends React.Component {
 		)
 	}
 
+	checkIfRoomToApprove(id, status) {
+		this.props.updateComp(id, status)
+	}
+
 	render() {
 
 		let pending = Object.keys(this.props.comps)
@@ -83,13 +87,13 @@ class PendingComps extends React.Component {
 					header="Pending"
 					dataSource={pending}
 					renderItem={comp => (
-						<List.Item actions={comp ? [<a onClick={() => this.props.updateComp(comp.id, 'a')}>approve</a>, <a onClick={() => this.props.updateComp(comp.id, 'd')}>deny</a>] : ''}>
+						<List.Item actions={comp ? [<a onClick={() => this.checkIfRoomToApprove(comp.id, 'a')}>approve</a>, <a onClick={() => this.props.updateComp(comp.id, 'd')}>deny</a>] : ''}>
 							<List.Item.Meta
 								avatar={comp ? <Avatar size="small" icon="user" /> : ''}
 								title={comp ? comp.guestName : ''}
 								description={comp ? `${formatDateFromEpoch(this.props.events[comp.event].date)} | ${this.props.events[comp.event].title}` : 'none yet!'}
 							/>
-							<div>{comp.quant} tickets (? left)</div>
+							<div>{comp.quant} tickets ({this.props.currentTotals[comp.event].limit - this.props.currentTotals[comp.event].count} left)</div>
 						</List.Item>
 					)}
 				/>
