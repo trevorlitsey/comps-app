@@ -1,36 +1,30 @@
 import React from 'react'
-import { List } from 'antd';
+import { List, Card } from 'antd';
 
-import EventModal from './EventModal';
+import EditEventForm from './EditEventForm';
 
 import { formatDateFromEpoch } from '../helpers';
 
 class EventList extends React.Component {
 
-	constructor() {
-		super();
-
-		this.renderEvent = this.renderEvent.bind(this);
-
-		this.state = {
-			eventToEdit: ''
-		}
-	}
-
-	updateEventToEdit(eventToEdit) {
-		this.setState({ eventToEdit });
-	}
-
 	renderEvent(event) {
 		const { date, title, limit, id } = event;
-		return (
-			<List.Item actions={event ? [<a onClick={() => this.updateEventToEdit(id)}>edit</a>] : ''}>
-				<List.Item.Meta
-					title={event ? `${formatDateFromEpoch(date)} | ${title} (${limit})` : ''}
-					description={`Limit: ${limit}`}
-				/>
-			</List.Item>
-		)
+		if (this.props.eventToEdit === event.id) {
+			return (
+				<Card bordered={false} style={{ width: 350, padding: '10px' }}>
+					<EditEventForm key={id} event={this.props.events[this.props.eventToEdit]} updateEventToEdit={this.props.updateEventToEdit} removeEvent={this.props.removeEvent} updateEvent={this.props.updateEvent} />
+				</Card>
+			)
+		} else {
+			return (
+				<List.Item actions={event ? [<a onClick={() => this.props.updateEventToEdit(id)}>edit</a>] : ''}>
+					<List.Item.Meta
+						title={event ? `${formatDateFromEpoch(date)} | ${title}` : ''}
+						description={`Limit: ${limit}`}
+					/>
+				</List.Item>
+			)
+		}
 	}
 
 	render() {
@@ -39,11 +33,10 @@ class EventList extends React.Component {
 
 		return (
 			<div>
-				<EventModal event={this.state.eventToEdit} />
 				<List
 					header={<h3>Manage events</h3>}
 					dataSource={events}
-					renderItem={this.renderEvent}
+					renderItem={this.renderEvent.bind(this)}
 				/>
 			</div>
 		)

@@ -10,21 +10,20 @@ import LogInForm from '../LogInForm';
 import EventList from '../EventList';
 import EventInfo from '../EventInfo';
 import AddEventForm from '../AddEventForm';
-import EditEventForm from '../EditEventForm';
 import PendingComps from '../PendingComps';
 import ApprovedComps from '../ApprovedComps';
 
 import base, { auth } from '../../base';
-import { findVenueByOwner, formatDateFromEpoch } from '../../helpers';
+import { findVenueByOwner } from '../../helpers';
 
 class Admin extends React.Component {
 
 	constructor() {
 		super();
 
-		this.renderEvent = this.renderEvent.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.removeEvent = this.removeEvent.bind(this);
+		this.updateEventToEdit = this.updateEventToEdit.bind(this);
 		this.updateEvent = this.updateEvent.bind(this);
 		this.updateVenueInfo = this.updateVenueInfo.bind(this);
 		this.updateComp = this.updateComp.bind(this);
@@ -100,22 +99,6 @@ class Admin extends React.Component {
 				<LogInForm />
 			</div>
 		)
-	}
-
-	renderEvent(key) {
-		const { date, title, limit } = this.state.venue.events[key];
-		if (this.state.eventToEdit === key) {
-			return (
-				<EditEventForm key={key} event={this.state.venue.events[this.state.eventToEdit]} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
-			)
-		} else {
-			return (
-				<div className="event--container" key={key}>
-					<div className="event--info">{formatDateFromEpoch(date)} | {title} ({limit})</div>
-					<div className="event--button" onClick={() => this.updateEventToEdit(key)}><a>edit</a></div>
-				</div>
-			)
-		}
 	}
 
 	updateEventToEdit(eventToEdit) {
@@ -203,10 +186,8 @@ class Admin extends React.Component {
 						<div className="form-container">
 							<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
 							<Divider />
-							<label>Manage events:</label>
-							<EventList events={this.state.venue.events} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
+							<EventList events={this.state.venue.events} eventToEdit={this.state.eventToEdit} updateEventToEdit={this.updateEventToEdit} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
 							<Divider />
-							{this.state.venue.events && Object.keys(this.state.venue.events).map(this.renderEvent)}
 							<div className="space-md"></div>
 							<label>Add event:</label>
 							<AddEventForm addEvent={this.addEvent} />

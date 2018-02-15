@@ -31,23 +31,25 @@ class EditEventForm extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { event } = this.props;
+		const { date, title, limit, id } = this.props.event;
 		return (
-			<Form onSubmit={this.handleSubmit} layout="inline">
-				<FormItem>
+			<Form onSubmit={this.handleSubmit}>
+				<FormItem style={{ marginBottom: '0' }}>
+					<label>Date: </label>
 					{getFieldDecorator('date', {
 						rules: [{ required: true, message: 'please enter a date' }],
-						initialValue: moment(event.date)
+						initialValue: moment(date)
 					})(
 						<DatePicker
 							size="large"
 						/>
 					)}
 				</FormItem>
-				<FormItem>
+				<FormItem style={{ marginBottom: '0' }}>
+					<label>Name: </label>
 					{getFieldDecorator('title', {
 						rules: [{ required: true, message: 'please enter a name' }],
-						initialValue: event.title
+						initialValue: title
 					})(
 						<Input
 							size="large"
@@ -56,14 +58,15 @@ class EditEventForm extends React.Component {
 					)}
 				</FormItem>
 				<FormItem>
+					<label>Limit: </label>
 					{getFieldDecorator('limit', {
 						rules: [{ required: true, message: 'please enter a number' }],
-						initialValue: event.limit
+						initialValue: limit
 					})(
 						<InputNumber size="large" min={1} max={100} />
 					)}
 				</FormItem>
-				<FormItem>
+				<FormItem style={{ marginBottom: '5px' }}>
 					<Button
 						htmlType="submit"
 						type="primary"
@@ -71,10 +74,15 @@ class EditEventForm extends React.Component {
 						Save changes
 					</Button>
 				</FormItem>
-				<FormItem>
-					<Popconfirm title="are you sure you want to delete this event?" onConfirm={() => this.handleDeleteClick(event.id)} okText="Yes" cancelText="No">
+				<FormItem style={{ marginBottom: '5px' }}>
+					<Popconfirm title="are you sure you want to delete this event?" onConfirm={() => this.handleDeleteClick(id)} okText="Yes" cancelText="No">
 						<Button type="danger">Delete Event</Button>
 					</Popconfirm>
+				</FormItem>
+				<FormItem style={{ marginBottom: '5px' }}>
+					<Button onClick={() => this.props.updateEventToEdit('')}>
+						Cancel
+					</Button>
 				</FormItem>
 			</Form >
 		)
