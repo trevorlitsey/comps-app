@@ -41,9 +41,7 @@ class EditEventForm extends React.Component {
 						rules: [{ required: true, message: 'please enter a date' }],
 						initialValue: moment(date)
 					})(
-						<DatePicker
-
-						/>
+						<DatePicker />
 					)}
 				</FormItem>
 				<FormItem style={{ marginBottom: '0' }}>
@@ -53,7 +51,6 @@ class EditEventForm extends React.Component {
 						initialValue: title
 					})(
 						<Input
-
 							placeholder="Event name"
 						/>
 					)}
@@ -67,7 +64,9 @@ class EditEventForm extends React.Component {
 						<InputNumber min={1} max={100} />
 					)}
 				</FormItem>
-				<FormItem style={{ marginBottom: '5px' }}>
+				<FormItem
+					style={{ marginBottom: '5px' }}
+				>
 					<Button
 						htmlType="submit"
 						type="primary"

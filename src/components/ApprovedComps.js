@@ -23,13 +23,11 @@ class ApprovedComps extends React.Component {
 		this.setState({ sortState: e.key })
 	}
 
-	renderEventOption(key) {
-		return (
-			<Menu.Item key={key}>
-				{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
-			</Menu.Item>
-		)
-	}
+	renderEventOption = key =>
+		<Menu.Item key={key}>
+			{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
+		</Menu.Item>
+
 
 	render() {
 

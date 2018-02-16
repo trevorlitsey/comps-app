@@ -56,17 +56,13 @@ class WelcomeForm extends React.Component {
 		});
 	}
 
-	renderOption(venue) {
-		return (
-			<Option key={venue.slug} text={venue.name} >
-				{venue.name}
-			</Option>
-		);
-	}
+	renderOption = venue =>
+		<Option key={venue.slug} text={venue.name}>
+			{venue.name}
+		</Option>
+
 
 	render() {
-
-		const from = '/';
 		const { venues, fireRedirect } = this.state
 		const { getFieldDecorator } = this.props.form;
 
@@ -105,7 +101,7 @@ class WelcomeForm extends React.Component {
 				</div>
 				{
 					fireRedirect && (
-						<Redirect to={this.state.fireRedirect || from} />
+						<Redirect to={this.state.fireRedirect || '/'} />
 					)
 				}
 			</div >

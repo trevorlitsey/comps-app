@@ -16,10 +16,10 @@ class RequestForm extends React.Component {
 	}
 
 	renderEvent(key) {
-		const event = this.props.venue.events[key];
+		const { date, title } = this.props.venue.events[key];
 
 		return (
-			<Option key={key} value={key}>{formatDateFromEpoch(event.date)} | {event.title}</Option>
+			<Option key={key} value={key}>{formatDateFromEpoch(date)} | {title}</Option>
 		)
 	}
 
@@ -47,9 +47,7 @@ class RequestForm extends React.Component {
 		return (
 			<div className="form-container">
 				<Form onSubmit={this.handleSubmit} style={{ justify: 'space-between' }}>
-					<FormItem
-						margin={0}
-					>
+					<FormItem margin={0}>
 						{getFieldDecorator('guestName', {
 							rules: [{ required: true, message: 'Please enter a name' }],
 						})(
@@ -80,7 +78,7 @@ class RequestForm extends React.Component {
 								{events ? Object.keys(events).map(this.renderEvent) : noEvents}
 							</Select>
 						)}
-					</FormItem >
+					</FormItem>
 					<FormItem>
 						<span className="ant-form-text">Number of tickets:</span>
 						{getFieldDecorator('quant', {
@@ -96,7 +94,7 @@ class RequestForm extends React.Component {
           </Button>
 					</FormItem>
 				</Form>
-			</div >
+			</div>
 		)
 	}
 }

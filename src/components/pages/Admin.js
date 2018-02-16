@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Divider, message } from 'antd';
 import uniqid from 'uniqid';
 
+import Nav from '../Nav';
 import AdminRadio from '../AdminRadio'
 import Banner from '../Banner';
 import LogInForm from '../LogInForm';
@@ -40,8 +41,8 @@ class Admin extends React.Component {
 
 	componentWillMount() {
 		auth.onAuthStateChanged((user) => {
+			this.setState({ user });
 			if (user) {
-				this.setState({ user });
 				const venue = findVenueByOwner(user);
 				venue.once('value', snap => {
 					this.setState({ venue: snap.val()[Object.keys(snap.val())[0]] });
@@ -88,22 +89,17 @@ class Admin extends React.Component {
 			JSON.stringify(nextState.view));
 	}
 
-	componentWillUnmount() {
+	componentWillUnmount = () =>
 		base.removeBinding(this.ref);
-	}
 
-	renderLogin() {
-		return (
-			<div className="container">
-				<Banner text="Log In:" />
-				<LogInForm />
-			</div>
-		)
-	}
+	renderLogin = () =>
+		<div className="container">
+			<Banner text="Log In:" />
+			<LogInForm />
+		</div>
 
-	updateEventToEdit(eventToEdit) {
-		this.setState({ eventToEdit })
-	}
+	updateEventToEdit = eventToEdit =>
+		this.setState({ eventToEdit });
 
 	updateEvent(updatedEvent, eventId) {
 		// confirm current comps don't exceed
@@ -132,9 +128,8 @@ class Admin extends React.Component {
 		this.setState({ venue });
 	}
 
-	updateVenueInfo(venue) {
+	updateVenueInfo = venue =>
 		this.setState({ venue });
-	}
 
 	updateComp(id, newStatus) {
 		const venue = { ...this.state.venue };
@@ -142,9 +137,8 @@ class Admin extends React.Component {
 		this.setState({ venue });
 	}
 
-	changeView(view) {
-		this.setState({ view })
-	}
+	changeView = view =>
+		this.setState({ view });
 
 	render() {
 
@@ -166,6 +160,7 @@ class Admin extends React.Component {
 			if (view === "pending") {
 				return (
 					<div className="container--admin">
+						<Nav user={this.state.user} />
 						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
 						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
 					</div>

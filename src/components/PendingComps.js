@@ -17,17 +17,13 @@ class PendingComps extends React.Component {
 		}
 	}
 
-	handleClick(e) {
+	handleClick = e =>
 		this.setState({ sortState: e.key })
-	}
 
-	renderEventOption(key) {
-		return (
-			<Menu.Item key={key}>
-				{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
-			</Menu.Item>
-		)
-	}
+	renderEventOption = key =>
+		<Menu.Item key={key}>
+			{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
+		</Menu.Item>
 
 	checkIfRoomToApprove(comp, status) {
 		// stop request from going through if not enough avail

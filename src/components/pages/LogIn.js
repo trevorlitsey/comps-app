@@ -12,10 +12,7 @@ class LogIn extends React.Component {
 	constructor() {
 		super();
 
-		this.state = {
-			fireRedirect: ''
-		}
-
+		this.state = { fireRedirect: '' }
 	}
 
 	componentWillMount() {

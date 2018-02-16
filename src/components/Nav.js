@@ -1,20 +1,13 @@
 import React from 'react'
-import firebase from 'firebase';
+import { Link } from 'react-router-dom';
 
 import { logIn, logOut } from '../helpers'
 
-class Nav extends React.Component {
+const Nav = props =>
+	<ul className="nav">
+		<Link to="/"><li>Home</li></Link>
+		<li className="log" onClick={props.user ? logOut : logIn}>{props.user ? 'Logout' : 'Login'}</li>
+	</ul>
 
-	render() {
-
-		return (
-			<div className="nav">
-				<ul>
-					<li onClick={firebase.auth().currentUser ? logOut : logIn} className="sign-in">{this.props.user ? 'Log Out' : 'Log In'}</li>
-				</ul>
-			</div>
-		)
-	}
-}
 
 export default Nav;
