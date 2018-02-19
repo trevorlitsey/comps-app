@@ -4,6 +4,7 @@ import { Menu, Icon, Dropdown } from 'antd';
 import { formatDateFromEpoch } from '../helpers';
 
 import CompsListApproved from './CompsListApproved';
+import EventFilterOptions from './EventFilterOptions';
 
 class ApprovedComps extends React.Component {
 
@@ -11,7 +12,6 @@ class ApprovedComps extends React.Component {
 		super();
 
 		this.handleClick = this.handleClick.bind(this);
-		this.renderEventOption = this.renderEventOption.bind(this);
 
 		this.state = {
 			sortState: "eventDate-asc",
@@ -19,15 +19,8 @@ class ApprovedComps extends React.Component {
 		}
 	}
 
-	handleClick(e) {
-		this.setState({ sortState: e.key })
-	}
-
-	renderEventOption = key =>
-		<Menu.Item key={key}>
-			{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
-		</Menu.Item>
-
+	handleClick = sortState =>
+		this.setState({ sortState })
 
 	render() {
 
@@ -47,39 +40,9 @@ class ApprovedComps extends React.Component {
 			denied = denied.filter(comp => comp.event === this.state.sortState);
 		}
 
-		const sort = (
-			<Menu onClick={this.handleClick}>
-				<Menu.Item key={"eventDate-asc"}>
-					Event date (asc)
-				</Menu.Item>
-				<Menu.Item key={"eventDate-desc"}>
-					Event date (desc)
-				</Menu.Item>
-			</Menu>
-		);
-
-		const filter = (
-			<Menu onClick={this.handleClick}>
-				<Menu.Item key="eventDate-asc">
-					All
-				</Menu.Item>
-				{Object.keys(this.props.events).map(this.renderEventOption)}
-			</Menu>
-		);
-
 		return (
 			<div className="form-container">
-				<Dropdown overlay={sort} trigger={['click']}>
-					<a className="ant-dropdown-link">
-						Sort <Icon type="down" />
-					</a>
-				</Dropdown>
-				<Dropdown overlay={filter} trigger={['click']}>
-					<a className="ant-dropdown-link" style={{ 'marginLeft': 8 }}>
-						Filter <Icon type="down" />
-					</a>
-				</Dropdown>
-
+				<EventFilterOptions handleClick={this.handleClick} events={this.props.events} />
 				<CompsListApproved events={this.props.events} comps={approved} updateComp={this.props.updateComp} header="Approved" currentTotals={this.props.currentTotals} />
 				<CompsListApproved events={this.props.events} comps={denied} updateComp={this.props.updateComp} header="Denied" currentTotals={this.props.currentTotals} />
 			</div>

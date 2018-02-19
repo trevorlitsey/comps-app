@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+import Nav from '../Nav';
 import Banner from '../Banner';
 import RequestForm from '../RequestForm';
 import PasscodeForm from '../PasscodeForm';
@@ -54,26 +55,35 @@ class Request extends React.Component {
 
 		if (this.state.submitStatus === true) {
 			return (
-				<div className="container width-320 margin-auto">
-					<Banner text="Success" />
-					<div className="form-container">
-						<h4>Your request has been submitted! A confirmation email has been sent to the email provided. To make another request, click <Link to={`/${this.props.match.params.venueSlug}`} onClick={() => this.setState({ submitStatus: false })}>here</Link>.</h4>
+				<div className="container">
+					<Nav />
+					<div className="container--single-column">
+						<Banner text="Success" />
+						<div className="form-container">
+							<h4>Your request has been submitted! A confirmation email has been sent to the email provided. To make another request, click <Link to={`/${this.props.match.params.venueSlug}`} onClick={() => this.setState({ submitStatus: false })}>here</Link>.</h4>
+						</div>
 					</div>
 				</div>
 			)
 		}
 		else if (this.state.code && this.state.venue && this.state.code === this.state.venue.code) {
 			return (
-				<div className="container width-320 margin-auto">
-					<Banner text="Request" />
-					<RequestForm venue={this.state.venue} formSubmitted={this.formSubmitted} />
+				<div className="container">
+					<Nav />
+					<div className="container--single-column">
+						<Banner text="Request" />
+						<RequestForm venue={this.state.venue} formSubmitted={this.formSubmitted} />
+					</div>
 				</div>
 			)
 		} else {
 			return (
-				<div className="container width-320 margin-auto">
-					<Banner text={this.state.venue ? `Enter Passcode for ${this.state.venue.name}:` : `Enter Passcode: `} />
-					<PasscodeForm venue={this.state.venue} codeSuccess={this.codeSuccess} />
+				<div className="container">
+					<Nav />
+					<div className="container--single-column">
+						<Banner text={this.state.venue ? `Enter Passcode for ${this.state.venue.name}:` : `Enter Passcode: `} />
+						<PasscodeForm venue={this.state.venue} codeSuccess={this.codeSuccess} />
+					</div>
 				</div>
 			)
 		}

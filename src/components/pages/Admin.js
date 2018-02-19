@@ -92,12 +92,6 @@ class Admin extends React.Component {
 	componentWillUnmount = () =>
 		base.removeBinding(this.ref);
 
-	renderLogin = () =>
-		<div className="container">
-			<Banner text="Log In:" />
-			<LogInForm />
-		</div>
-
 	updateEventToEdit = eventToEdit =>
 		this.setState({ eventToEdit });
 
@@ -146,7 +140,15 @@ class Admin extends React.Component {
 
 		// check if not logged in
 		if (!this.state.user) {
-			return <div>{this.renderLogin()}</div>
+			return (
+				<div className="container">
+					<Nav />
+					<div className="container--admin">
+						<Banner text="Log In:" />
+						<LogInForm />
+					</div>
+				</div>
+			)
 		}
 
 		// check if user is owner of store
@@ -159,32 +161,40 @@ class Admin extends React.Component {
 
 			if (view === "pending") {
 				return (
-					<div className="container--admin">
+					<div className="container">
 						<Nav user={this.state.user} />
-						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
-						<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
+						<div className="container--admin">
+							<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
+							<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
+						</div>
 					</div>
 				)
 			}
 			else if (view === "done") {
 				return (
-					<div className="container--admin">
-						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
-						<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
+					<div className="container">
+						<Nav user={this.state.user} />
+						<div className="container--admin">
+							<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
+							<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
+						</div>
 					</div>
 				)
 			}
 			else if (view === "info") {
 				return (
-					<div className="container--admin">
-						<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
-						<div className="form-container">
-							<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
-							<Divider />
-							<EventList events={this.state.venue.events} eventToEdit={this.state.eventToEdit} updateEventToEdit={this.updateEventToEdit} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
-							<Divider />
-							<div className="space-md"></div>
-							<AddEventForm addEvent={this.addEvent} />
+					<div className="container">
+						<Nav user={this.state.user} />
+						<div className="container--admin">
+							<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
+							<div className="form-container">
+								<EventInfo venue={this.state.venue} updateVenueInfo={this.updateVenueInfo} />
+								<Divider />
+								<EventList events={this.state.venue.events} eventToEdit={this.state.eventToEdit} updateEventToEdit={this.updateEventToEdit} removeEvent={this.removeEvent} updateEvent={this.updateEvent} />
+								<Divider />
+								<div className="space-md"></div>
+								<AddEventForm addEvent={this.addEvent} />
+							</div>
 						</div>
 					</div>
 				)

@@ -29,6 +29,11 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.1.0",
-    "uniqid": "^4.1.1"
+    "react-scripts-ts": "^2.13.0",
+    "react-test-renderer": "^16.2.0",
+    "sum": "^0.1.4",
+    "typescript": "^2.7.2",
+    "uniqid": "^4.1.1",
+    "watchman": "^1.0.0"
   }
 }

@@ -1,7 +1,9 @@
 import React from 'react'
-import { Menu, Dropdown, Icon, List, Avatar, message } from 'antd';
+import { List, Avatar, message } from 'antd';
 
 import { formatDateFromEpoch } from '../helpers';
+
+import EventFilterOptions from './EventFilterOptions';
 
 class PendingComps extends React.Component {
 
@@ -9,7 +11,6 @@ class PendingComps extends React.Component {
 		super();
 
 		this.handleClick = this.handleClick.bind(this);
-		this.renderEventOption = this.renderEventOption.bind(this);
 
 		this.state = {
 			sortState: "eventDate-asc",
@@ -17,13 +18,8 @@ class PendingComps extends React.Component {
 		}
 	}
 
-	handleClick = e =>
-		this.setState({ sortState: e.key })
-
-	renderEventOption = key =>
-		<Menu.Item key={key}>
-			{`${formatDateFromEpoch(this.props.events[key].date)} | ${this.props.events[key].title}`}
-		</Menu.Item>
+	handleClick = sortState =>
+		this.setState({ sortState })
 
 	checkIfRoomToApprove(comp, status) {
 		// stop request from going through if not enough avail
@@ -50,38 +46,9 @@ class PendingComps extends React.Component {
 			pending = pending.filter(comp => comp.event === this.state.sortState);
 		}
 
-		const sort = (
-			<Menu onClick={this.handleClick}>
-				<Menu.Item key={"eventDate-asc"}>
-					By date (present-future)
-				</Menu.Item>
-				<Menu.Item key={"eventDate-desc"}>
-					By date (future-present)
-				</Menu.Item>
-			</Menu>
-		);
-
-		const filter = (
-			<Menu onClick={this.handleClick}>
-				<Menu.Item key="eventDate-asc">
-					All
-				</Menu.Item>
-				{Object.keys(this.props.events).map(this.renderEventOption)}
-			</Menu>
-		);
-
 		return (
 			<div className="form-container">
-				<Dropdown overlay={sort} trigger={['click']}>
-					<a className="ant-dropdown-link">
-						Sort <Icon type="down" />
-					</a>
-				</Dropdown>
-				<Dropdown overlay={filter} trigger={['click']}>
-					<a className="ant-dropdown-link" style={{ 'marginLeft': 8 }}>
-						Filter <Icon type="down" />
-					</a>
-				</Dropdown>
+				<EventFilterOptions handleClick={this.handleClick} events={this.props.events} />
 				<List
 					itemLayout="horizontal"
 					header="Pending"

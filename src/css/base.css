@@ -14,25 +14,25 @@ html, body {
 	background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
 	background-repeat: no-repeat;
   background-attachment: fixed;
-	/* background: rgb(236, 236, 236); */
 }
 *, *:before, *:after { box-sizing: inherit; }
 
 #main {
 	height: 100%;
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr;
-	justify-content: center;
-
+	width: 100%;	
 }
 
 .container {
-	margin: 0;
-	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr 420px 1fr;
+	justify-content: center;
+	grid-gap: 10px;
+	border-top: 8px solid rgb(124, 177, 255);
+}
+
+.container--single-column {
 	width: 100%;
-	padding-top: 100px; 
+	grid-column: 2 / span 1;
 }
 
 .section {

@@ -34,7 +34,7 @@ class PasscodeForm extends React.Component {
 		const { getFieldDecorator } = this.props.form;
 
 		return (
-			<div className="form-container" >
+			<div className="form-container">
 				<Form onSubmit={this.handleSubmit}>
 					<FormItem label="Passcode:">
 						{getFieldDecorator('code', {

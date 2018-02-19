@@ -3,18 +3,20 @@
 }
 
 .nav {
+	grid-column: 1 / -1;
 	background: white;
 	text-align: center;
 	padding: 0;
 	display: flex;
 	justify-content: space-between;
+	align-content: center;
 	font-size: 16px;
-	box-shadow: 1px 1px 1px rgb(187, 187, 187);
+	box-shadow: 1px 1px 1px rgba(187, 187, 187, .4);
 }
 
 .nav li {
 	list-style: none;
-	padding: 8px 15px;
+	padding: 10px 15px;
 	border-bottom: 2px solid white; 
 	transition: all .2s;
 }
