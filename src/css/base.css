@@ -24,7 +24,7 @@ html, body {
 
 .container {
 	display: grid;
-	grid-template-columns: 1fr 420px 1fr;
+	grid-template-columns: 10% 1fr 10%;
 	justify-content: center;
 	grid-gap: 10px;
 	border-top: 8px solid rgb(124, 177, 255);
@@ -36,23 +36,18 @@ html, body {
 }
 
 .section {
-	width: 320px;
 	margin: 20px auto;
 	padding: 30px;
 	background: white;
 	box-shadow: 2px 2px 2px rgb(187, 187, 187);
 }
 
-h4 {
-	/* text-align: center; */
-}
-
 .width-320 {
 	width: 320px;
 }
 
-.width-420 {
-	width: 420px;
+.max-width--420 {
+	max-width: 420px;
 }
 
 .margin-auto {

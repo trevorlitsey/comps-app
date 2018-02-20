@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+import Nav from '../Nav';
 import LogInForm from '../LogInForm';
 
 import { auth } from '../../base';
@@ -34,9 +35,12 @@ class LogIn extends React.Component {
 		const fireRedirect = this.state.fireRedirect;
 		return (
 			<div className="container">
-				<LogInForm />
-				<div className="container__info">
-					<p>Log in manage band/venue comp requests. To sign up, click <Link to={`/signup`}>here</Link>.</p>
+				<Nav />
+				<div className="container--single-column max-width--420 margin-auto">
+					<LogInForm />
+					<div className="container__info">
+						<p>Log in manage band/venue comp requests. To sign up, click <Link to={`/signup`}>here</Link>.</p>
+					</div>
 				</div>
 				{fireRedirect && (
 					<Redirect to={fireRedirect} />

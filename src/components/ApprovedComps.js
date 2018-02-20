@@ -1,7 +1,4 @@
 import React from 'react'
-import { Menu, Icon, Dropdown } from 'antd';
-
-import { formatDateFromEpoch } from '../helpers';
 
 import CompsListApproved from './CompsListApproved';
 import EventFilterOptions from './EventFilterOptions';

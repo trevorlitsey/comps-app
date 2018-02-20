@@ -1,13 +1,23 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import { logIn, logOut } from '../helpers'
+import { logOut } from '../helpers'
 
 const Nav = props =>
-	<ul className="nav">
-		<Link to="/"><li>Home</li></Link>
-		<li className="log" onClick={props.user ? logOut : logIn}>{props.user ? 'Logout' : 'Login'}</li>
-	</ul>
-
+	props.user ?
+		<ul className="nav">
+			<Link to="/"><li>Home</li></Link>
+			<Link to={`/admin/${props.venueId}`}><li>Admin</li></Link>
+			<Link to='/' className="log">
+				<li onClick={logOut}>Logout</li>
+			</Link>
+		</ul>
+		:
+		<ul className="nav">
+			<Link to="/"><li>Home</li></Link>
+			<Link to="/admin/login" className="log">
+				<li>Login</li>
+			</Link>
+		</ul>
 
 export default Nav;

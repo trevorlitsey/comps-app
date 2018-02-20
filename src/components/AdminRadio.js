@@ -6,7 +6,7 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 const AdminRadio = props =>
-	<div>
+	<div className="admin-radio">
 		<Badge count={props.pendingCount} className="badge"></Badge>
 		<RadioGroup onChange={(e) => props.changeView(e.target.value)} defaultValue={props.defaultView} size="large" style={{ display: 'flex', textAlign: 'center' }}>
 			<RadioButton value="pending">Pending</RadioButton>

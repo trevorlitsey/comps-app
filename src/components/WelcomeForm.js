@@ -67,7 +67,7 @@ class WelcomeForm extends React.Component {
 		const { getFieldDecorator } = this.props.form;
 
 		return (
-			<div className="form-container width-420">
+			<div className="form-container">
 				<div className="global-search-wrapper" style={{ width: 300, margin: '0 auto' }}>
 					<Form onSubmit={this.handleSubmit}>
 						<FormItem>

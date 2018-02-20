@@ -162,7 +162,7 @@ class Admin extends React.Component {
 			if (view === "pending") {
 				return (
 					<div className="container">
-						<Nav user={this.state.user} />
+						<Nav user={this.state.user} venueId={this.state.venue.id} />
 						<div className="container--admin">
 							<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
 							<PendingComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
@@ -173,7 +173,7 @@ class Admin extends React.Component {
 			else if (view === "done") {
 				return (
 					<div className="container">
-						<Nav user={this.state.user} />
+						<Nav user={this.state.user} venueId={this.state.venue.id} />
 						<div className="container--admin">
 							<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
 							<ApprovedComps updateComp={this.updateComp} comps={this.state.venue.comps} events={this.state.venue.events} currentTotals={this.state.currentTotals} />
@@ -184,7 +184,7 @@ class Admin extends React.Component {
 			else if (view === "info") {
 				return (
 					<div className="container">
-						<Nav user={this.state.user} />
+						<Nav user={this.state.user} venueId={this.state.venue.id} />
 						<div className="container--admin">
 							<AdminRadio defaultView={this.state.view} changeView={this.changeView} pendingCount={pendingCount} />
 							<div className="form-container">
@@ -204,9 +204,11 @@ class Admin extends React.Component {
 		// else
 		return (
 			<div className="container">
-				<div className="container__info">
-					<p>Sorry, you are not an admin of this band or venue! Click <Link to={`/`}>here</Link> to request comps.</p>
-					{logout}
+				<div className="container--single-column max-width--420 margin-auto">
+					<div className="container__info">
+						<p>Sorry, you are not an admin of this band or venue! Click <Link to={`/`}>here</Link> to request comps.</p>
+						{logout}
+					</div>
 				</div>
 			</div>
 		)
