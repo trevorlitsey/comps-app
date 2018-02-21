@@ -21,11 +21,13 @@ class ApprovedComps extends React.Component {
 
 	render() {
 
-		const compsArray = Object.keys(this.props.comps).map(id => this.props.comps[id]);
-		let approved = compsArray.filter(comp => comp.status === "a")
-		let denied = compsArray.filter(comp => comp.status === "d")
+		const compsArray = this.props.comps && Object.keys(this.props.comps).map(id => this.props.comps[id]);
+		let approved = compsArray && compsArray.filter(comp => comp.status === "a")
+		let denied = compsArray && compsArray.filter(comp => comp.status === "d")
 
-		if (this.state.sortState === "eventDate-asc") {
+		if (!this.props.comps) {
+			// do nothing
+		} else if (this.state.sortState === "eventDate-asc") {
 			approved.sort((compA, compB) => this.props.events[compA.event].date - this.props.events[compB.event].date)
 			denied.sort((compA, compB) => this.props.events[compA.event].date - this.props.events[compB.event].date)
 		} else if (this.state.sortState === "eventDate-desc") {

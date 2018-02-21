@@ -40,13 +40,15 @@ class Admin extends React.Component {
 	}
 
 	componentWillMount() {
-		auth.onAuthStateChanged((user) => {
+		auth.onAuthStateChanged(user => {
 			this.setState({ user });
 			if (user) {
 				const venue = findVenueByOwner(user);
 				venue.once('value', snap => {
-					this.setState({ venue: snap.val()[Object.keys(snap.val())[0]] });
-				})
+					if (!snap.val()) return; // no venue found for user
+					const venue = snap.val()[Object.keys(snap.val())[0]];
+					this.setState({ venue });
+				});
 			}
 		});
 
@@ -70,13 +72,13 @@ class Admin extends React.Component {
 		// update running approved comp totals
 		if (nextState.venue) {
 			const currentTotals = {}
-			Object.keys(nextState.venue.events).forEach(key => {
+			nextState.venue.events && Object.keys(nextState.venue.events).forEach(key => {
 				currentTotals[key] = {
 					count: 0,
 					limit: nextState.venue.events[key].limit
 				}
 			});
-			Object.keys(nextState.venue.comps)
+			nextState.venue.comps && Object.keys(nextState.venue.comps)
 				.forEach(key => {
 					const { status, event, quant } = { ...nextState.venue.comps[key] };
 					if (status === "a") currentTotals[event].count += quant;
@@ -155,7 +157,7 @@ class Admin extends React.Component {
 		if (this.state.venue && this.state.user.uid === this.state.venue.owner) {
 
 			const { view } = this.state;
-			const pendingCount = Object.keys(this.state.venue.comps)
+			const pendingCount = this.state.venue.comps && Object.keys(this.state.venue.comps)
 				.filter(key => this.state.venue.comps[key].status === "p")
 				.length;
 

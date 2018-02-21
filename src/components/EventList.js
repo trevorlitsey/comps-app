@@ -29,7 +29,7 @@ class EventList extends React.Component {
 
 	render() {
 
-		const events = Object.keys(this.props.events).map(key => this.props.events[key])
+		const events = this.props.events && Object.keys(this.props.events).map(key => this.props.events[key])
 
 		return (
 			<div>

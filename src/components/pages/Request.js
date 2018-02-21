@@ -18,7 +18,7 @@ class Request extends React.Component {
 
 		this.state = {
 			venue: '',
-			code: '',
+			passcode: '',
 			submitStatus: false
 		}
 	}
@@ -37,14 +37,14 @@ class Request extends React.Component {
 
 		if (localStorageRef) {
 			// update app component's order state
-			this.setState({ code: JSON.parse(localStorageRef) })
+			this.setState({ passcode: JSON.parse(localStorageRef) })
 		}
 	}
 
-	codeSuccess(code) {
-		this.setState({ code });
+	codeSuccess(passcode) {
+		this.setState({ passcode });
 		localStorage.setItem(`request-${this.props.match.params.venueSlug}`,
-			JSON.stringify(code));
+			JSON.stringify(passcode));
 	}
 
 	formSubmitted(submitStatus) {
@@ -53,7 +53,9 @@ class Request extends React.Component {
 
 	render() {
 
-		if (this.state.submitStatus === true) {
+		const { venue, passcode, submitStatus } = this.state
+
+		if (submitStatus === true) {
 			return (
 				<div className="container">
 					<Nav />
@@ -66,13 +68,13 @@ class Request extends React.Component {
 				</div>
 			)
 		}
-		else if (this.state.code && this.state.venue && this.state.code === this.state.venue.code) {
+		else if (passcode && venue && passcode === venue.passcode) {
 			return (
 				<div className="container">
 					<Nav />
 					<div className="container--single-column">
 						<Banner text="Request" />
-						<RequestForm venue={this.state.venue} formSubmitted={this.formSubmitted} />
+						<RequestForm venue={venue} formSubmitted={this.formSubmitted} />
 					</div>
 				</div>
 			)
@@ -81,8 +83,8 @@ class Request extends React.Component {
 				<div className="container">
 					<Nav />
 					<div className="container--single-column">
-						<Banner text={this.state.venue ? `Enter Passcode for ${this.state.venue.name}:` : `Enter Passcode: `} />
-						<PasscodeForm venue={this.state.venue} codeSuccess={this.codeSuccess} />
+						<Banner text={venue ? `Enter Passcode for ${venue.name}:` : `Enter Passcode: `} />
+						<PasscodeForm venue={venue} codeSuccess={this.codeSuccess} />
 					</div>
 				</div>
 			)

@@ -31,11 +31,13 @@ class PendingComps extends React.Component {
 
 	render() {
 
-		let pending = Object.keys(this.props.comps)
+		let pending = this.props.comps && Object.keys(this.props.comps)
 			.map(id => this.props.comps[id])
 			.filter(comp => comp.status === "p");
 
-		if (!this.state.sortState || this.state.sortState === "eventDate-asc") {
+		if (!this.props.comps) {
+			// do nothing if no comps yet
+		} else if (!this.state.sortState || this.state.sortState === "eventDate-asc") {
 			// default
 			pending.sort((compA, compB) => this.props.events[compA.event].date - this.props.events[compB.event].date)
 		} else if (this.state.sortState === "eventDate-desc") {

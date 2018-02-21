@@ -38,7 +38,7 @@ class AddEventForm extends React.Component {
 						/>
 					)}
 				</FormItem>
-				<FormItem style={{ marginBottom: '5px' }}>
+				<FormItem style={{ marginBottom: '5px', width: '171px' }}>
 					{getFieldDecorator('title', {
 						rules: [{ required: true, message: 'please enter an event name' }],
 					})(

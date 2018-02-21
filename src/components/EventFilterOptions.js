@@ -39,7 +39,7 @@ class EventFilterOptions extends React.Component {
 				<Menu.Item key="eventDate-asc">
 					All
 				</Menu.Item>
-				{Object.keys(this.props.events).map(this.renderEventOption)}
+				{this.props.events && Object.keys(this.props.events).map(this.renderEventOption)}
 			</Menu>
 		);
 

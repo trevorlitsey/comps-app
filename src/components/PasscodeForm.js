@@ -15,15 +15,15 @@ class PasscodeForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				if (values.code !== this.props.venue.code) {
+				if (values.passcode !== this.props.venue.passcode) {
 					this.props.form.setFields({
-						code: {
+						passcode: {
 							value: '',
 							errors: [new Error('passcode does not match')],
 						},
 					});
 				} else {
-					this.props.codeSuccess(values.code);
+					this.props.codeSuccess(values.passcode);
 				}
 			}
 		});
@@ -37,7 +37,7 @@ class PasscodeForm extends React.Component {
 			<div className="form-container">
 				<Form onSubmit={this.handleSubmit}>
 					<FormItem label="Passcode:">
-						{getFieldDecorator('code', {
+						{getFieldDecorator('passcode', {
 							rules: [{
 								required: true, message: 'Please enter the band/venue passcode',
 							}],
@@ -51,7 +51,7 @@ class PasscodeForm extends React.Component {
 					<FormItem>
 						<Button type="primary" htmlType="submit">
 							Submit
-          </Button>
+          	</Button>
 					</FormItem>
 				</Form>
 			</div>

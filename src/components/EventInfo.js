@@ -17,13 +17,14 @@ class EventInfo extends React.Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
+		const { venue } = this.props;
 		return (
-			<Form layout="horizontal" onSubmit={this.handleSubmit}>
+			<Form onSubmit={this.handleSubmit}>
 				<h3>Manage info</h3>
 				<FormItem label="Name:" style={{ marginBottom: '0' }}>
 					{getFieldDecorator('name', {
 						rules: [{ required: true, message: 'please enter a name' }],
-						initialValue: this.props.venue.name
+						initialValue: venue.name
 					})(
 						<Input
 							placeholder="Venue name"
@@ -33,7 +34,7 @@ class EventInfo extends React.Component {
 				<FormItem label="URL:" style={{ marginBottom: '0' }}>
 					{getFieldDecorator('slug', {
 						rules: [{ required: true, message: 'please enter a url' }],
-						initialValue: this.props.venue.slug
+						initialValue: venue.slug
 					})(
 						<Input
 							placeholder={'your-url'}
@@ -45,13 +46,13 @@ class EventInfo extends React.Component {
 				<FormItem
 					label="Passcode"
 				>
-					{getFieldDecorator('code', {
+					{getFieldDecorator('passcode', {
 						rules: [{ required: true, message: 'please enter a passcode' }],
-						initialValue: this.props.venue.code
+						initialValue: venue.passcode
 					})(
 						<Input
 							placeholder={'Passc0de'}
-							ref={(input) => { this.code = input }}
+							ref={(input) => { this.passcode = input }}
 						/>
 					)}
 				</FormItem>
