@@ -1,4 +1,5 @@
 import React from 'react'
+import createBrowserHistory from 'history/createBrowserHistory';
 import { Link } from 'react-router-dom';
 
 import Nav from '../Nav';
@@ -6,8 +7,10 @@ import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 
 import { auth } from '../../base';
-import { findVenueByOwner, createRandomNewVenue, logOut } from '../../helpers';
+import { findVenueByOwner } from '../../helpers';
 import { Redirect } from 'react-router';
+
+const history = createBrowserHistory();
 
 class LogIn extends React.Component {
 
@@ -29,6 +32,7 @@ class LogIn extends React.Component {
 		venue.once('value', snap => {
 			if (!snap.val()) return; // no venue found for user
 			const venue = snap.val()[Object.keys(snap.val())[0]];
+			history.push('/');
 			const fireRedirect = `/admin/${venue.id}`;
 			this.setState({ fireRedirect });
 		});

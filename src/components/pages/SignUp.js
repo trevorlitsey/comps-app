@@ -11,7 +11,7 @@ import SignUpForm from '../SignUpForm';
 import { findVenueByOwner, makeNewVenue, registerNewVenue } from '../../helpers';
 import { auth } from '../../base';
 
-const history = createBrowserHistory()
+const history = createBrowserHistory();
 
 class SignUp extends React.Component {
 
@@ -43,6 +43,7 @@ class SignUp extends React.Component {
 						// create new venue
 						const newVenue = makeNewVenue(this.state.venueName, uniqid(), user.uid);
 						registerNewVenue(newVenue);
+						history.push('/')
 						const fireRedirect = `/admin/${newVenue.id}`;
 						this.setState({ fireRedirect });
 					} else {

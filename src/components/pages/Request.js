@@ -36,7 +36,6 @@ class Request extends React.Component {
 		const localStorageRef = localStorage.getItem(`request-${this.props.match.params.venueSlug}`);
 
 		if (localStorageRef) {
-			// update app component's order state
 			this.setState({ passcode: JSON.parse(localStorageRef) })
 		}
 	}

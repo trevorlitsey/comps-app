@@ -2,7 +2,7 @@ import React from 'react'
 import firebase from 'firebase';
 import { Form, Input, Button } from 'antd';
 
-import { makeNewRandomBand } from '../helpers';
+import { checkNameAvail } from '../helpers';
 
 const FormItem = Form.Item;
 
@@ -30,8 +30,19 @@ class SignUpForm extends React.Component {
 		});
 	}
 
+	confirmNameAvail = (rule, value, callback) => {
+		const names = checkNameAvail(value);
+		names.once('value', snap => {
+			if (snap.val()) {
+				callback('sorry, that name is already taken');
+			} else {
+				callback()
+			}
+		})
+	}
+
 	checkPasswordLength = (rule, value, callback) => {
-		if (value.length < 6) {
+		if (value && value.length < 6) {
 			callback('password must be at least 6 characters long');
 		} else {
 			callback();
@@ -55,12 +66,15 @@ class SignUpForm extends React.Component {
 					<FormItem style={{ marginBottom: '0' }}>
 						{getFieldDecorator('venueName', {
 							rules: [{
-								required: true, message: 'please a name',
+								required: true, message: 'please enter a name',
+							}, {
+								validator: this.confirmNameAvail,
 							}],
 						})(
 							<Input
 								type="text"
 								placeholder="band/venue name"
+								required
 							/>
 						)}
 					</FormItem>
@@ -73,6 +87,7 @@ class SignUpForm extends React.Component {
 							<Input
 								type="email"
 								placeholder="email"
+								required
 							/>
 						)}
 					</FormItem>
@@ -87,6 +102,7 @@ class SignUpForm extends React.Component {
 							<Input
 								type="password"
 								placeholder="password"
+								required
 							/>
 						)}
 					</FormItem>
@@ -101,6 +117,7 @@ class SignUpForm extends React.Component {
 							<Input
 								type="password"
 								placeholder="confirm password"
+								required
 							/>
 						)}
 					</FormItem>

@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { auth, provider, database } from './base'
 import firebase from 'firebase';
 
@@ -28,6 +29,13 @@ export function findVenueByName(input) {
 		.orderByChild('name')
 		.startAt(input)
 		.endAt(input + '\uf8ff')
+}
+
+export function checkNameAvail(input) {
+	return database
+		.child('venues')
+		.orderByChild('name')
+		.equalTo(input)
 }
 
 export function findVenueBySlug(slug) {
@@ -66,6 +74,7 @@ export function logIn() {
 export function logOut() {
 	auth.signOut()
 		.then(() => {
+			message.success('you are signed out');
 			return null
 		});
 }

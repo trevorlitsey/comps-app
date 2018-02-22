@@ -1,5 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
+
+import { checkNameAvail, findVenueBySlug } from '../helpers';
+
 const FormItem = Form.Item;
 
 class EventInfo extends React.Component {
@@ -10,9 +13,31 @@ class EventInfo extends React.Component {
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				this.props.updateVenueInfo(values);
-				message.success('venue info updated');
+				return message.success('venue info updated');
 			}
+			return message.error('please fix errors');
 		});
+	}
+
+	confirmNameAvail = (rule, value, callback) => {
+		if (value === this.props.venue.name) return callback(); // don't bother is name hasn't changed
+		const names = checkNameAvail(value);
+		names.once('value', snap => {
+			if (snap.val()) {
+				callback('sorry, that name is already taken');
+			} else {
+				callback()
+			}
+		})
+	}
+
+	confirmSlugAvail = (rule, value, callback) => {
+		if (value === this.props.venue.slug) return callback(); // don't bother is slug hasn't changed
+		const names = findVenueBySlug(value);
+		names.once('value', snap => {
+			if (snap.val()) callback('sorry, that url is already taken');
+			else callback()
+		})
 	}
 
 	render() {
@@ -23,23 +48,32 @@ class EventInfo extends React.Component {
 				<h3>Manage info</h3>
 				<FormItem label="Name:" style={{ marginBottom: '0' }}>
 					{getFieldDecorator('name', {
-						rules: [{ required: true, message: 'please enter a name' }],
+						rules: [{
+							required: true, message: 'please enter a name'
+						}, {
+							validator: this.confirmNameAvail,
+						}],
 						initialValue: venue.name
 					})(
 						<Input
 							placeholder="Venue name"
+							required
 						/>
 					)}
 				</FormItem>
 				<FormItem label="URL:" style={{ marginBottom: '0' }}>
 					{getFieldDecorator('slug', {
-						rules: [{ required: true, message: 'please enter a url' }],
+						rules: [{
+							required: true, message: 'please enter a url'
+						}, {
+							validator: this.confirmSlugAvail,
+						}],
 						initialValue: venue.slug
 					})(
 						<Input
 							placeholder={'your-url'}
 							addonBefore="complist.org/request/"
-							ref={(input) => { this.slug = input }}
+							required
 						/>
 					)}
 				</FormItem>
@@ -52,7 +86,6 @@ class EventInfo extends React.Component {
 					})(
 						<Input
 							placeholder={'Passc0de'}
-							ref={(input) => { this.passcode = input }}
 						/>
 					)}
 				</FormItem>

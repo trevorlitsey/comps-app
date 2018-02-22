@@ -25,6 +25,7 @@ class Landing extends React.Component {
 			if (user) {
 				const venue = findVenueByOwner(user);
 				venue.once('value', snap => {
+					if (!snap.val()) return; // no venue found
 					this.setState({ venueId: snap.val()[Object.keys(snap.val())[0]].id });
 				})
 			}
