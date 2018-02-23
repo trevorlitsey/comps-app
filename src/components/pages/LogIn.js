@@ -1,5 +1,6 @@
 import React from 'react'
 import createBrowserHistory from 'history/createBrowserHistory';
+import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Nav from '../Nav';
@@ -7,8 +8,7 @@ import Banner from '../Banner';
 import LogInForm from '../LogInForm';
 
 import { auth } from '../../base';
-import { findVenueByOwner } from '../../helpers';
-import { Redirect } from 'react-router';
+import { findVenueByOwner, formatSingleValueFromSnap } from '../../helpers';
 
 const history = createBrowserHistory();
 
@@ -21,21 +21,20 @@ class LogIn extends React.Component {
 
 		this.state = {
 			user: '',
-			fireRedirect: ''
+			fireRedirect: '',
 		}
 	}
 
-	updateUserandVenueState = (user) => {
-		if (!user) return
+	updateUserandVenueState = async (user) => {
+		if (!user) return // don't even bother
 		this.setState({ user });
-		const venue = findVenueByOwner(user);
-		venue.once('value', snap => {
-			if (!snap.val()) return; // no venue found for user
-			const venue = snap.val()[Object.keys(snap.val())[0]];
+
+		const snap = await findVenueByOwner(user).once('value');
+		if (snap.val()) {
+			const venue = formatSingleValueFromSnap(snap);
 			history.push('/');
-			const fireRedirect = `/admin/${venue.id}`;
-			this.setState({ fireRedirect });
-		});
+			this.setState({ fireRedirect: `/admin/${venue.id}` });
+		}
 	}
 
 	componentWillMount() {

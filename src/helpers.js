@@ -1,13 +1,5 @@
 import { message } from 'antd';
-import { auth, provider, database } from './base'
-import firebase from 'firebase';
-
-export function findOwnerByVenue(id) {
-	return database
-		.child('venues')
-		.orderByChild('id')
-		.equalTo(id)
-}
+import { auth, database } from './base'
 
 export function findVenueById(id) {
 	return database
@@ -45,30 +37,32 @@ export function findVenueBySlug(slug) {
 		.equalTo(slug)
 }
 
+export function confirmSlugFormat(slug) {
+	return RegExp(/[^A-Za-z-]/).test(slug);
+}
+
+export function formatSingleValueFromSnap(snap) {
+	return snap.val()[Object.keys(snap.val())[0]];
+}
+
+export function formatMultipleValuesFromSnap(snap) {
+	return Object.keys(snap.val()).map(key => snap.val()[key]);
+}
+
 export function insertComp(values, compId, venueId, date = Date.now()) {
 	values.id = compId;
 	values.status = 'p';
 	values.requestDate = date;
 	if (!values.guestEmail) values.guestEmail = '';
-	database.child('venues').child(venueId).child('comps').child(compId).set({
+	return database.child('venues').child(venueId).child('comps').child(compId).set({
 		...values
-	});
+	}, err => console.error(err));
 }
 
 export function formatDateFromEpoch(epoch) {
 	const dateObj = new Date(epoch)
 	const [year, month, day] = [dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate()];
 	return `${year}.${month}.${day}`;
-}
-
-export function logIn() {
-	if (firebase.auth().currentUser) {
-		return firebase.auth().currentUser;
-	}
-	auth.signInWithPopup(provider)
-		.then(result => {
-			return result.user;
-		});
 }
 
 export function logOut() {

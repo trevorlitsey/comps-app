@@ -1,25 +1,32 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 
-import { checkNameAvail, findVenueBySlug } from '../helpers';
+import { checkNameAvail, findVenueBySlug, confirmSlugFormat } from '../helpers';
 
 const FormItem = Form.Item;
 
 class EventInfo extends React.Component {
+
+	constructor() {
+		super();
+
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.confirmNameAvail = this.confirmNameAvail.bind(this);
+		this.confirmSlugAvailandFormat = this.confirmSlugAvailandFormat.bind(this);
+	}
 
 	handleSubmit = e => {
 		e.preventDefault();
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				this.props.updateVenueInfo(values);
-				return message.success('venue info updated');
+				return this.props.updateVenueInfo(values);
 			}
 			return message.error('please fix errors');
 		});
 	}
 
-	confirmNameAvail = (rule, value, callback) => {
+	confirmNameAvail(rule, value, callback) {
 		if (value === this.props.venue.name) return callback(); // don't bother is name hasn't changed
 		const names = checkNameAvail(value);
 		names.once('value', snap => {
@@ -31,13 +38,20 @@ class EventInfo extends React.Component {
 		})
 	}
 
-	confirmSlugAvail = (rule, value, callback) => {
-		if (value === this.props.venue.slug) return callback(); // don't bother is slug hasn't changed
-		const names = findVenueBySlug(value);
-		names.once('value', snap => {
-			if (snap.val()) callback('sorry, that url is already taken');
-			else callback()
-		})
+	confirmSlugAvailandFormat = async (rule, value, callback) => {
+		if (value === this.props.venue.slug) {
+			return callback(); // don't bother if slug hasn't changed
+		}
+
+		if (confirmSlugFormat(value)) {
+			return callback('url may only contain letters, numbers and dashes');
+		}
+
+		const snap = await findVenueBySlug(value).once('value');
+		if (snap.val()) {
+			callback('sorry, that url is already taken');
+		}
+		callback()
 	}
 
 	render() {
@@ -66,7 +80,7 @@ class EventInfo extends React.Component {
 						rules: [{
 							required: true, message: 'please enter a url'
 						}, {
-							validator: this.confirmSlugAvail,
+							validator: this.confirmSlugAvailandFormat,
 						}],
 						initialValue: venue.slug
 					})(

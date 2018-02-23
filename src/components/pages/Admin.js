@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Divider, message } from 'antd';
 import uniqid from 'uniqid';
 
+import Loading from '../Loading';
 import Nav from '../Nav';
 import AdminRadio from '../AdminRadio'
 import Banner from '../Banner';
@@ -15,13 +16,16 @@ import PendingComps from '../PendingComps';
 import ApprovedComps from '../ApprovedComps';
 
 import base, { auth } from '../../base';
-import { findVenueByOwner } from '../../helpers';
+import { findVenueByOwner, formatSingleValueFromSnap } from '../../helpers';
+import { sendEmail } from '../email/helper';
 
 class Admin extends React.Component {
 
 	constructor() {
 		super();
 
+		this.updateUserState = this.updateUserState.bind(this);
+		this.updateVenueState = this.updateVenueState.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.removeEvent = this.removeEvent.bind(this);
 		this.updateEventToEdit = this.updateEventToEdit.bind(this);
@@ -35,22 +39,36 @@ class Admin extends React.Component {
 			user: '',
 			view: 'pending',
 			eventToEdit: '',
-			currentTotals: ''
+			currentTotals: '',
+			userLoaded: false,
+			venueLoaded: false,
 		}
 	}
 
-	componentWillMount() {
-		auth.onAuthStateChanged(user => {
-			this.setState({ user });
-			if (user) {
-				const venue = findVenueByOwner(user);
-				venue.once('value', snap => {
-					if (!snap.val()) return; // no venue found for user
-					const venue = snap.val()[Object.keys(snap.val())[0]];
-					this.setState({ venue });
-				});
-			}
+	async updateVenueState(user) {
+		const snap = await findVenueByOwner(user).once('value');
+		if (snap.val()) {
+			const venue = formatSingleValueFromSnap(snap);
+
+			this.setState({
+				venue,
+				venueLoaded: true
+			});
+		}
+	}
+
+	async updateUserState(user) {
+		if (!user) return // don't even bother
+		this.setState({
+			user,
+			userLoaded: true
 		});
+
+		this.updateVenueState(user);
+	}
+
+	componentWillMount = () => {
+		auth.onAuthStateChanged(this.updateUserState);
 
 		this.ref = base.syncState(`venues/${this.props.match.params.venueId}`
 			, {
@@ -66,6 +84,9 @@ class Admin extends React.Component {
 			this.setState({ view: JSON.parse(localStorageRef) })
 		}
 	}
+
+	componentWillUnmount = () =>
+		base.removeBinding(this.ref);
 
 	componentWillUpdate(nextProps, nextState) {
 
@@ -91,10 +112,8 @@ class Admin extends React.Component {
 			JSON.stringify(nextState.view));
 	}
 
-	componentWillUnmount = () =>
-		base.removeBinding(this.ref);
 
-	updateEventToEdit = eventToEdit =>
+	updateEventToEdit = (eventToEdit) =>
 		this.setState({ eventToEdit });
 
 	updateEvent(updatedEvent, eventId) {
@@ -124,10 +143,13 @@ class Admin extends React.Component {
 		this.setState({ venue });
 	}
 
-	updateVenueInfo = venue =>
+	updateVenueInfo(venue) {
 		this.setState({ venue });
+		message.success('venue info updated');
+	}
 
 	updateComp(id, newStatus) {
+		sendEmail();
 		const venue = { ...this.state.venue };
 		venue.comps[id].status = newStatus;
 		this.setState({ venue });
@@ -138,7 +160,11 @@ class Admin extends React.Component {
 
 	render() {
 
-		const logout = <button className="button--logout" onClick={this.logOut}>{'Log Out >>'}</button>
+		if (!this.state.userLoaded || !this.state.venueLoaded) {
+			return (
+				<Loading />
+			)
+		}
 
 		// check if not logged in
 		if (!this.state.user) {
@@ -206,10 +232,10 @@ class Admin extends React.Component {
 		// else
 		return (
 			<div className="container">
+				<Nav user={this.state.user} venueId={this.state.venue.id} />
 				<div className="container--single-column max-width--420 margin-auto">
 					<div className="container__info">
 						<p>Sorry, you are not an admin of this band or venue! Click <Link to={`/`}>here</Link> to request comps.</p>
-						{logout}
 					</div>
 				</div>
 			</div>

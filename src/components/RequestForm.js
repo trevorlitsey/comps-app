@@ -29,9 +29,8 @@ class RequestForm extends React.Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				// enter comp info into firebase
+				// record new comp in firebase
 				insertComp(values, uniqid(), this.props.venue.id)
-				// todo, make thank you for submitting form
 				this.props.formSubmitted(true);
 			}
 		});
