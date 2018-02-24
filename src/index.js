@@ -11,6 +11,8 @@ import Request from './components/pages/Request';
 import Admin from './components/pages/Admin';
 import LogIn from './components/pages/LogIn';
 
+require('dotenv').config()
+
 const Root = () => {
 	return (
 		<BrowserRouter>

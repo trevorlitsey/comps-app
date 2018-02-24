@@ -113,3 +113,12 @@ export function makeNewRandomVenue() {
 	const passcode = slug;
 	return { name, slug, passcode };
 }
+
+export async function sendEmail(compId, venueId, status) {
+	const url = `http://localhost:3000/api/email?c=${compId}&v=${venueId}&s=${status}`
+	const options = {
+		method: 'POST',
+		mode: 'no-cors'
+	}
+	const res = fetch(url, options);
+}

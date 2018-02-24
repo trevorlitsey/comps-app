@@ -16,8 +16,7 @@ import PendingComps from '../PendingComps';
 import ApprovedComps from '../ApprovedComps';
 
 import base, { auth } from '../../base';
-import { findVenueByOwner, formatSingleValueFromSnap } from '../../helpers';
-import { sendEmail } from '../email/helper';
+import { findVenueByOwner, formatSingleValueFromSnap, sendEmail } from '../../helpers';
 
 class Admin extends React.Component {
 
@@ -149,10 +148,10 @@ class Admin extends React.Component {
 	}
 
 	updateComp(id, newStatus) {
-		sendEmail();
 		const venue = { ...this.state.venue };
 		venue.comps[id].status = newStatus;
 		this.setState({ venue });
+		sendEmail(id, venue.id, newStatus);
 	}
 
 	changeView = view =>
