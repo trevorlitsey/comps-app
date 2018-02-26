@@ -29,7 +29,10 @@ class EventList extends React.Component {
 
 	render() {
 
-		const events = this.props.events && Object.keys(this.props.events).map(key => this.props.events[key])
+		const events = this.props.events &&
+			Object.keys(this.props.events)
+				.map(key => this.props.events[key])
+				.sort((eventA, eventB) => eventA.date - eventB.date) // sort ascending
 
 		return (
 			<div>

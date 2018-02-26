@@ -1,7 +1,11 @@
 import React from 'react'
+import { Icon } from 'antd';
+import { CSVLink } from 'react-csv';
 
 import CompsListApproved from './CompsListApproved';
 import EventFilterOptions from './EventFilterOptions';
+
+import { prepareCompsForDownload } from '../helpers';
 
 class ApprovedComps extends React.Component {
 
@@ -17,7 +21,7 @@ class ApprovedComps extends React.Component {
 	}
 
 	handleClick = sortState =>
-		this.setState({ sortState })
+		this.setState({ sortState });
 
 	render() {
 
@@ -38,6 +42,12 @@ class ApprovedComps extends React.Component {
 			approved = approved.filter(comp => comp.event === this.state.sortState);
 			denied = denied.filter(comp => comp.event === this.state.sortState);
 		}
+
+		// todo, add download
+		// const compsForDownLoad = prepareCompsForDownload([...approved], { ...this.props.events })
+		// <CSVLink data={compsForDownLoad} target="_blank">
+		// 	<Icon type="download" />
+		// </CSVLink>
 
 		return (
 			<div className="form-container">

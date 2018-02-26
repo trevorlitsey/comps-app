@@ -120,5 +120,21 @@ export async function sendEmail(compId, venueId, status) {
 		method: 'POST',
 		mode: 'no-cors'
 	}
-	const res = fetch(url, options);
+	fetch(url, options);
+}
+
+export function convertObjToArr({ ...obj }) {
+	return Object.keys(obj)
+		.map((key) => obj[key]);
+}
+
+export function prepareCompsForDownload({ ...compsObj }, { ...events }) {
+	const CSVdata = Object.keys(compsObj)
+		.map((key) => {
+			const comp = compsObj[key];
+			comp.date = formatDateFromEpoch(comp.date);
+			comp.event = convertObjToArr(events[comp.event]);
+			return comp;
+		});
+	return CSVdata;
 }

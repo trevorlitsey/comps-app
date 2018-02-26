@@ -48,7 +48,6 @@ class Admin extends React.Component {
 		const snap = await findVenueByOwner(user).once('value');
 		if (snap.val()) {
 			const venue = formatSingleValueFromSnap(snap);
-
 			this.setState({
 				venue,
 				venueLoaded: true
@@ -57,7 +56,7 @@ class Admin extends React.Component {
 	}
 
 	async updateUserState(user) {
-		if (!user) return // don't even bother
+		if (!user) return this.setState({ userLoaded: true, venueLoaded: true }) // don't even bother
 		this.setState({
 			user,
 			userLoaded: true
