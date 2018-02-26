@@ -115,7 +115,7 @@ export function makeNewRandomVenue() {
 }
 
 export async function sendEmail(compId, venueId, status) {
-	const url = `http://localhost:3000/api/email?c=${compId}&v=${venueId}&s=${status}`
+	const url = `${process.env.REACT_APP_DEC_API_URL}?c=${compId}&v=${venueId}&s=${status}`
 	const options = {
 		method: 'POST',
 		mode: 'no-cors'
