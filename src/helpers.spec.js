@@ -11,7 +11,8 @@ import {
 	formatSingleValueFromSnap,
 	formatMultipleValuesFromSnap,
 	makeNewVenue,
-	makeNewRandomVenue
+	makeNewRandomVenue,
+	convertObjToArr
 } from './helpers';
 
 describe('helpers', () => {
@@ -86,6 +87,15 @@ describe('helpers', () => {
 		expect(name).not.toBeFalsy();
 		expect(slug).not.toBeFalsy();
 		expect(passcode).not.toBeFalsy();
+	});
+
+	it('should convert object to array', () => {
+		const obj = {
+			one: 'ya',
+			two: 87686,
+			three: 'some tweet data!'
+		}
+		expect(convertObjToArr(obj).length).toBe(3);
 	});
 
 })

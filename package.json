@@ -8,11 +8,6 @@
     "build": "react-app-rewired build",
     "start": "react-app-rewired start"
   },
-  "jest": {
-    "setupFiles": [
-      "./__setups__/setupTests.js"
-    ]
-  },
   "author": "trevor litsey",
   "license": "ISC",
   "dependencies": {
