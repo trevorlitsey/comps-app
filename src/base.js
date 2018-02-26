@@ -2,12 +2,10 @@ import Rebase from 're-base';
 import firebase from 'firebase';
 
 const config = {
-	apiKey: "AIzaSyC8nTztUR_j5N7s7XuHsGho9b3-i1rLXk8",
-	authDomain: "comps2-2970e.firebaseapp.com",
-	databaseURL: "https://comps2-2970e.firebaseio.com",
-	projectId: "comps2-2970e",
-	storageBucket: "",
-	messagingSenderId: "188721454833"
+	apiKey: process.env.REACT_APP_API_KEY,
+	authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+	databaseURL: process.env.REACT_APP_DATABASE_URL,
+	projectId: process.env.REACT_APP_PROJECT_ID,
 }
 
 const app = firebase.initializeApp(config)

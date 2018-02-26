@@ -76,7 +76,7 @@ PendingComps.propTypes = {
 	updateComp: PropTypes.func,
 	comps: PropTypes.object,
 	events: PropTypes.object,
-	currentTotals: PropTypes.array,
+	currentTotals: PropTypes.object,
 }
 
 export default PendingComps;
