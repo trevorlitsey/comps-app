@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, Button, message } from 'antd';
 
 import { checkNameAvail, findVenueBySlug, confirmSlugFormat } from '../helpers';
@@ -112,5 +113,10 @@ class EventInfo extends React.Component {
 }
 
 EventInfo = Form.create({})(EventInfo);
+
+EventInfo.propTypes = {
+	venue: PropTypes.object,
+	updateVenueInfo: PropTypes.func,
+}
 
 export default EventInfo;

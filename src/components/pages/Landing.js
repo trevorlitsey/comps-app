@@ -14,7 +14,7 @@ class Landing extends React.Component {
 		super();
 
 		this.state = {
-			user: '',
+			user: {},
 			venueId: '',
 		};
 	}

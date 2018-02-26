@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { List, Avatar } from 'antd';
 
 import { formatDateFromEpoch } from '../helpers';
@@ -19,5 +20,11 @@ const CompsList = props =>
 			</List.Item>
 		)}
 	/>
+
+CompsList.propTypes = {
+	comps: PropTypes.array,
+	events: PropTypes.object,
+}
+
 
 export default CompsList;

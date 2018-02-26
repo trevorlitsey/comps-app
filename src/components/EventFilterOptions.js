@@ -1,5 +1,6 @@
 
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Menu, Dropdown, Icon } from 'antd';
 
 import { formatDateFromEpoch } from '../helpers';
@@ -58,6 +59,11 @@ class EventFilterOptions extends React.Component {
 			</div>
 		)
 	}
+}
+
+EventFilterOptions.propTypes = {
+	events: PropTypes.object,
+	handleClick: PropTypes.func,
 }
 
 export default EventFilterOptions;

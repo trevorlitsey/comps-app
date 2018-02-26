@@ -20,7 +20,7 @@ class LogIn extends React.Component {
 		this.updateUserandVenueState = this.updateUserandVenueState.bind(this);
 
 		this.state = {
-			user: '',
+			user: {},
 			fireRedirect: '',
 		}
 	}

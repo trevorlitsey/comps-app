@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
 
@@ -60,5 +61,11 @@ class PasscodeForm extends React.Component {
 }
 
 PasscodeForm = Form.create()(PasscodeForm);
+
+PasscodeForm.propTypes = {
+	venue: PropTypes.object,
+	codeSuccess: PropTypes.func,
+}
+
 
 export default PasscodeForm;

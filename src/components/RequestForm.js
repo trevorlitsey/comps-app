@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import { Form, Input, Select, InputNumber, Button } from 'antd';
 import { insertComp, formatDateFromEpoch } from '../helpers';
@@ -99,5 +100,10 @@ class RequestForm extends React.Component {
 }
 
 RequestForm = Form.create()(RequestForm);
+
+RequestForm.propTypes = {
+	venue: PropTypes.object,
+	formSubmitted: PropTypes.func,
+}
 
 export default RequestForm;

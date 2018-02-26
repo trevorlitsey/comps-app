@@ -14,8 +14,8 @@ class NotFound extends React.Component {
 		this.updateUserState = this.updateUserState.bind(this);
 
 		this.state = {
-			user: '',
-			venue: '',
+			user: {},
+			venue: {},
 		}
 	}
 

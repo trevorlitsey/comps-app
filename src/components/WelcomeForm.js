@@ -1,15 +1,13 @@
-import React from 'react'
-import { Redirect } from 'react-router'
-import createBrowserHistory from 'history/createBrowserHistory'
+import React from 'react';
+import { Redirect } from 'react-router';
+import createBrowserHistory from 'history/createBrowserHistory';
 import { findVenueByName } from '../helpers';
 import { Form, Icon, Button, Input, AutoComplete } from 'antd';
 
 const FormItem = Form.Item;
 const Option = AutoComplete.Option;
 
-const history = createBrowserHistory()
-
-// redirect flow from https://gist.github.com/verticalgrain/195468e69f2ac88f3d9573d285b09764
+const history = createBrowserHistory();
 
 class WelcomeForm extends React.Component {
 
@@ -61,7 +59,6 @@ class WelcomeForm extends React.Component {
 			{venue.name}
 		</Option>
 
-
 	render() {
 		const { venues, fireRedirect } = this.state
 		const { getFieldDecorator } = this.props.form;
@@ -104,11 +101,13 @@ class WelcomeForm extends React.Component {
 						<Redirect to={this.state.fireRedirect || '/'} />
 					)
 				}
-			</div >
+			</div>
 		)
 	}
 }
 
 WelcomeForm = Form.create()(WelcomeForm);
+
+// no props
 
 export default WelcomeForm;

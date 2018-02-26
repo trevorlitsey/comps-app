@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { logOut } from '../helpers'
@@ -19,5 +20,11 @@ const Nav = props =>
 				<li>Login</li>
 			</Link>
 		</ul>
+
+
+Nav.propTypes = {
+	user: PropTypes.object,
+	venueId: PropTypes.string,
+}
 
 export default Nav;

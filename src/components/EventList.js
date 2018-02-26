@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { List, Card } from 'antd';
 
 import EditEventForm from './EditEventForm';
@@ -44,6 +45,14 @@ class EventList extends React.Component {
 			</div>
 		)
 	}
+}
+
+EventList.propTypes = {
+	events: PropTypes.object,
+	eventToEdit: PropTypes.string,
+	updateEventToEdit: PropTypes.func,
+	removeEvent: PropTypes.func,
+	updateEvent: PropTypes.func,
 }
 
 export default EventList;

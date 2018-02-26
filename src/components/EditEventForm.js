@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { DatePicker, Form, Input, InputNumber, Button, Popconfirm, message } from 'antd';
 
 import moment from 'moment';
@@ -79,11 +80,20 @@ class EditEventForm extends React.Component {
 						<Button type="danger">Delete Event</Button>
 					</Popconfirm>
 				</FormItem>
-			</Form >
+			</Form>
 		)
 	}
 }
 
 EditEventForm = Form.create({})(EditEventForm);
+
+EditEventForm.propTypes = {
+	key: PropTypes.string,
+	events: PropTypes.object,
+	eventToEdit: PropTypes.object,
+	updateEventToEdit: PropTypes.func,
+	removeEvent: PropTypes.func,
+	updateEvent: PropTypes.func,
+}
 
 export default EditEventForm;

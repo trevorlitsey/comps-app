@@ -17,7 +17,7 @@ class Request extends React.Component {
 		this.formSubmitted = this.formSubmitted.bind(this);
 
 		this.state = {
-			venue: '',
+			venue: {},
 			passcode: '',
 			submitStatus: false
 		}

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { List, Avatar, message } from 'antd';
 
 import { formatDateFromEpoch } from '../helpers';
@@ -69,6 +70,13 @@ class PendingComps extends React.Component {
 			</div>
 		)
 	}
+}
+
+PendingComps.propTypes = {
+	updateComp: PropTypes.func,
+	comps: PropTypes.object,
+	events: PropTypes.object,
+	currentTotals: PropTypes.array,
 }
 
 export default PendingComps;

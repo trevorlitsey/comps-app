@@ -34,8 +34,8 @@ class Admin extends React.Component {
 		this.changeView = this.changeView.bind(this);
 
 		this.state = {
-			venue: '',
-			user: '',
+			venue: {},
+			user: {},
 			view: 'pending',
 			eventToEdit: '',
 			currentTotals: '',
@@ -68,14 +68,15 @@ class Admin extends React.Component {
 	componentWillMount = () => {
 		auth.onAuthStateChanged(this.updateUserState);
 
-		this.ref = base.syncState(`venues/${this.props.match.params.venueId}`
+		const venueId = this.props.match && this.props.match.params.venueId;
+		this.ref = base.syncState(`venues/${venueId}`
 			, {
 				context: this,
 				state: 'venue'
 			});
 
 		// check page last viewed
-		const localStorageRef = localStorage.getItem(`view-${this.props.match.params.venueId}`);
+		const localStorageRef = localStorage.getItem(`view-${venueId}`);
 
 		if (localStorageRef) {
 			// update app component's order state

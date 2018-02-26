@@ -1,11 +1,8 @@
-import React from 'react'
-import { Icon } from 'antd';
-import { CSVLink } from 'react-csv';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import CompsListApproved from './CompsListApproved';
 import EventFilterOptions from './EventFilterOptions';
-
-import { prepareCompsForDownload } from '../helpers';
 
 class ApprovedComps extends React.Component {
 
@@ -43,20 +40,20 @@ class ApprovedComps extends React.Component {
 			denied = denied.filter(comp => comp.event === this.state.sortState);
 		}
 
-		// todo, add download
-		// const compsForDownLoad = prepareCompsForDownload([...approved], { ...this.props.events })
-		// <CSVLink data={compsForDownLoad} target="_blank">
-		// 	<Icon type="download" />
-		// </CSVLink>
-
 		return (
 			<div className="form-container">
 				<EventFilterOptions handleClick={this.handleClick} events={this.props.events} />
-				<CompsListApproved events={this.props.events} comps={approved} updateComp={this.props.updateComp} header="Approved" currentTotals={this.props.currentTotals} />
-				<CompsListApproved events={this.props.events} comps={denied} updateComp={this.props.updateComp} header="Denied" currentTotals={this.props.currentTotals} />
+				<CompsListApproved events={this.props.events} comps={approved} updateComp={this.props.updateComp} header="Approved" />
+				<CompsListApproved events={this.props.events} comps={denied} updateComp={this.props.updateComp} header="Denied" />
 			</div>
 		)
 	}
+}
+
+ApprovedComps.propTypes = {
+	updateComp: PropTypes.func,
+	comps: PropTypes.object,
+	events: PropTypes.object,
 }
 
 export default ApprovedComps;

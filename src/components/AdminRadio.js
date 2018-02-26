@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import { Radio, Badge } from 'antd'
 
 const RadioButton = Radio.Button;
@@ -14,5 +14,12 @@ const AdminRadio = props =>
 			<RadioButton value="info">Info</RadioButton>
 		</RadioGroup>
 	</div>
+
+
+AdminRadio.propTypes = {
+	defaultValue: PropTypes.string,
+	changeView: PropTypes.func,
+	pendingCount: PropTypes.number,
+}
 
 export default AdminRadio;

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import { Form, Input, Button } from 'antd';
 
@@ -139,5 +140,10 @@ class SignUpForm extends React.Component {
 }
 
 SignUpForm = Form.create()(SignUpForm);
+
+SignUpForm.propTypes = {
+	signUp: PropTypes.func,
+	passUpVenueName: PropTypes.func,
+}
 
 export default SignUpForm;

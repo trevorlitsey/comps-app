@@ -81,4 +81,6 @@ class LogInForm extends React.Component {
 
 LogInForm = Form.create()(LogInForm);
 
+// no props
+
 export default LogInForm;

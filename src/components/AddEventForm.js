@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { DatePicker, Form, Input, InputNumber, Button, message } from 'antd';
 
 const FormItem = Form.Item;
@@ -70,5 +71,9 @@ class AddEventForm extends React.Component {
 }
 
 AddEventForm = Form.create({})(AddEventForm);
+
+AddEventForm.propTypes = {
+	addEvent: PropTypes.func,
+}
 
 export default AddEventForm;
